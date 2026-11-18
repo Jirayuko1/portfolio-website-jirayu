@@ -448,7 +448,7 @@ export default function OfficeScene({
           new THREE.MeshBasicMaterial({ color: 0x92400e })
         );
         pellet.position.set(
-          1.08 + (Math.random() - 0.5) * 0.35,
+          1.05 + (Math.random() - 0.5) * 0.35,
           -0.10,
           0.12 + (Math.random() - 0.5) * 0.25
         );
@@ -462,7 +462,7 @@ export default function OfficeScene({
     const fishColors = [0xf97316, 0xa855f7, 0x06b6d4];
     const aquariumGroup = new THREE.Group();
     const deskSurfaceY = -0.745;
-    aquariumGroup.position.set(1.08, deskSurfaceY, 0.12);
+    aquariumGroup.position.set(1.05, deskSurfaceY, 0.12);
 
     for (let f = 0; f < 3; f++) {
       const fishGroup = new THREE.Group();
@@ -661,7 +661,7 @@ export default function OfficeScene({
           if ((c as THREE.Mesh).isMesh) c.receiveShadow = true;
         });
         const padModel = createNormalizedModel(gltf.scene, { targetWidth: 0.65 });
-        padModel.position.set(0.28, deskSurfaceY, 0.45);
+        padModel.position.set(0.18, deskSurfaceY, 0.45);
         scene.add(padModel);
       },
       undefined,
@@ -679,7 +679,7 @@ export default function OfficeScene({
           }
         });
         const mouseModel = createNormalizedModel(gltf.scene, { targetDepth: 0.17 });
-        mouseModel.position.set(0.28, deskSurfaceY + 0.003, 0.45);
+        mouseModel.position.set(0.18, deskSurfaceY + 0.003, 0.45);
 
         // Ambient RGB glow ring under mouse
         const glow = new THREE.Mesh(
@@ -707,7 +707,7 @@ export default function OfficeScene({
           }
         });
         const phoneStandGroup = new THREE.Group();
-        phoneStandGroup.position.set(-0.02, deskSurfaceY, 0.12);
+        phoneStandGroup.position.set(-0.06, deskSurfaceY, 0.12);
 
         // White stand base
         const standBase = new THREE.Mesh(
@@ -826,7 +826,7 @@ export default function OfficeScene({
           }
         });
         const radioModel = createNormalizedModel(gltf.scene, { targetWidth: 0.38 });
-        radioModel.position.set(0.45, deskSurfaceY, 0.06);
+        radioModel.position.set(0.18, deskSurfaceY, 0.06);
 
         scene.add(radioModel);
         clickableObjects.push({ mesh: radioModel, id: "speaker", name: "Smart Speaker (Click for Lo-Fi Beats)" });
