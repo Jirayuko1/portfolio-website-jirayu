@@ -10,26 +10,32 @@ import {
   Check,
   Copy,
 } from "lucide-react";
+import { Language, translations } from "@/lib/translations";
+import { sound } from "@/lib/soundEffects";
 
 interface OfficeModalsProps {
   activeModal: string | null;
   onClose: () => void;
   discoveredCount: number;
+  language: Language;
 }
 
 export default function OfficeModals({
   activeModal,
   onClose,
+  language,
 }: OfficeModalsProps) {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [catSpeechIdx, setCatSpeechIdx] = useState(0);
 
   const email = "jirayu.dev@example.com";
+  const t = translations[language].modals;
 
   // Handle ESC key to close modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        sound.playClick();
         onClose();
       }
     };
@@ -37,38 +43,41 @@ export default function OfficeModals({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
+  const handleClose = () => {
+    sound.playClick();
+    onClose();
+  };
+
   const handleCopy = () => {
+    sound.playClick();
     navigator.clipboard.writeText(email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
-  const catDialogues = [
-    "Meow! I'm Zuko, head of moral support and bug catching in this office! 🐾",
-    "Did you know? Jirayu always clarifies requirements and edge-cases before touching a single line of code! That saves everyone time.",
-    "He bridges the gap between Mobile apps (iOS & Android) and Web architectures seamlessly!",
-    "He is dedicated, loves learning new frameworks, and never says no to a good challenge!",
-    "Purrr... want to hire him? Click on the pink telephone to get in touch!",
-  ];
+  const handleCatMeow = () => {
+    sound.playCatMeow();
+    setCatSpeechIdx((prev) => (prev + 1) % (t.cat.traits.length));
+  };
 
   if (!activeModal) return null;
 
-  const modalTitles: Record<string, string> = {
-    bookshelf: "Case Studies",
-    phone: "Direct Contact",
-    cat: "Office Companion",
-    corkboard: "Kind Words",
-    globe: "Location & Mode",
-    poster: "Engineering Philosophy",
-    plant: "Pothos Ivy Care",
-    postcard: "Bangkok Postcard",
+  const modalTitles: Record<string, Record<Language, string>> = {
+    bookshelf: { en: "Case Studies", th: "กรณีศึกษาและผลงาน" },
+    phone: { en: "Direct Contact", th: "ข้อมูลติดต่อโดยตรง" },
+    cat: { en: "Office Companion", th: "ผู้ช่วยประจำออฟฟิศ" },
+    corkboard: { en: "Kind Words", th: "คำนิยมและความเห็น" },
+    globe: { en: "Location & Mode", th: "พิกัดและการทำงาน" },
+    poster: { en: "Engineering Philosophy", th: "ปรัชญาการพัฒนา" },
+    plant: { en: "Pothos Ivy Care", th: "การดูแลต้นไม้" },
+    postcard: { en: "Bangkok Postcard", th: "โปสการ์ดกรุงเทพฯ" },
   };
 
   return (
     <AnimatePresence>
       <div
         className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/65 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={handleClose}
         role="dialog"
         aria-modal="true"
       >
@@ -80,14 +89,14 @@ export default function OfficeModals({
           onClick={(e) => e.stopPropagation()}
           className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#271f1a] text-[#f4ebdc] border border-[#f4ebdc]/15 shadow-2xl p-5 sm:p-10 font-karla"
         >
-          {/* Sticky Modal Top Bar with Category & Close Button (Always visible on scroll) */}
+          {/* Sticky Modal Top Bar with Category & Close Button */}
           <div className="sticky top-0 z-30 flex items-center justify-between pb-4 pt-1 bg-[#271f1a]/95 backdrop-blur-md border-b border-[#f4ebdc]/10 -mx-5 px-5 sm:-mx-10 sm:px-10 mb-6">
             <span className="text-[11px] font-mono tracking-widest text-[#f2b705] uppercase">
-              {modalTitles[activeModal] || "Office Artifact"}
+              {modalTitles[activeModal]?.[language] || "Office Artifact"}
             </span>
 
             <button
-              onClick={onClose}
+              onClick={handleClose}
               aria-label="Close modal (Press Escape)"
               className="p-2 rounded-full bg-[#3d312a] hover:bg-[#524239] text-[#f4ebdc] transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
             >
@@ -99,254 +108,211 @@ export default function OfficeModals({
           {activeModal === "bookshelf" && (
             <div className="break-words">
               <span className="font-caveat text-xl text-[#f2b705] block mb-1">
-                From the bookshelf 📚
+                {t.bookshelf.tag}
               </span>
               <h2 className="font-playfair text-2xl sm:text-4xl text-[#f4ebdc] mb-3">
-                Selected Case Studies
+                {t.bookshelf.title}
               </h2>
-              <p className="text-xs sm:text-sm text-[#d4c3b3] mb-6">
-                Detailed breakdowns of products built with an engineering-first mindset.
+              <p className="text-xs sm:text-sm text-[#d4c3b3] mb-6 leading-relaxed">
+                {t.bookshelf.desc}
               </p>
 
               <div className="space-y-6">
-                {/* Project 1 */}
-                <div className="p-5 sm:p-6 rounded-2xl bg-[#342a23] border border-[#f4ebdc]/10">
-                  <div className="flex items-center justify-between text-xs font-mono text-[#f2b705] mb-2">
-                    <span className="flex items-center gap-1.5">
-                      <Smartphone className="w-3.5 h-3.5" /> Mobile App & Cloud
-                    </span>
-                    <span>2026</span>
+                {t.bookshelf.projects.map((proj, idx) => (
+                  <div key={idx} className="p-5 sm:p-6 rounded-2xl bg-[#342a23] border border-[#f4ebdc]/10">
+                    <div className="flex items-center justify-between text-xs font-mono text-[#f2b705] mb-2">
+                      <span className="flex items-center gap-1.5">
+                        {idx === 0 ? <Smartphone className="w-3.5 h-3.5" /> : <Globe className="w-3.5 h-3.5" />}
+                        {proj.type}
+                      </span>
+                      <span>{proj.year}</span>
+                    </div>
+                    <h3 className="font-playfair text-xl sm:text-2xl text-white mb-2">
+                      {proj.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#d4c3b3] leading-relaxed mb-4">
+                      {proj.desc}
+                    </p>
+                    <div className="p-3 rounded-xl bg-[#231a15] text-xs text-[#a3e635] font-mono mb-4 border border-[#a3e635]/20 leading-relaxed">
+                      ★ {proj.solved}
+                    </div>
+                    <div className="flex flex-wrap gap-2 text-[11px] font-mono text-[#f4ebdc]/80">
+                      {proj.stack.map((s) => (
+                        <span key={s} className="px-2 py-0.5 rounded bg-[#231a15]">{s}</span>
+                      ))}
+                    </div>
                   </div>
-                  <h3 className="font-playfair text-xl sm:text-2xl text-white mb-2">
-                    OmniFit — AI Health & Workout Companion
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#d4c3b3] leading-relaxed mb-4">
-                    Cross-platform mobile application engineered with offline-first local SQLite sync and computer vision rep-counting.
-                  </p>
-                  <div className="p-3 rounded-xl bg-[#231a15] text-xs text-[#a3e635] font-mono mb-4 border border-[#a3e635]/20 leading-relaxed">
-                    ★ Key Requirement Solved: Clarified data persistence needs; designed a local sync engine reducing battery usage by 35%.
-                  </div>
-                  <div className="flex flex-wrap gap-2 text-[11px] font-mono text-[#f4ebdc]/80">
-                    <span className="px-2 py-0.5 rounded bg-[#231a15]">React Native</span>
-                    <span className="px-2 py-0.5 rounded bg-[#231a15]">Node.js</span>
-                    <span className="px-2 py-0.5 rounded bg-[#231a15]">PostgreSQL</span>
-                  </div>
-                </div>
-
-                {/* Project 2 */}
-                <div className="p-5 sm:p-6 rounded-2xl bg-[#342a23] border border-[#f4ebdc]/10">
-                  <div className="flex items-center justify-between text-xs font-mono text-[#f2b705] mb-2">
-                    <span className="flex items-center gap-1.5">
-                      <Globe className="w-3.5 h-3.5" /> Full-Stack Platform
-                    </span>
-                    <span>2024</span>
-                  </div>
-                  <h3 className="font-playfair text-xl sm:text-2xl text-white mb-2">
-                    NexFlow — Cloud Logistics & Dispatch System
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#d4c3b3] leading-relaxed mb-4">
-                    High-throughput real-time telemetry and dispatch architecture handling 10,000+ WebSocket events per second with sub-50ms latency.
-                  </p>
-                  <div className="p-3 rounded-xl bg-[#231a15] text-xs text-[#a3e635] font-mono mb-4 border border-[#a3e635]/20 leading-relaxed">
-                    ★ Key Requirement Solved: Re-architected message queue with Kafka and Redis after interviewing operations staff.
-                  </div>
-                  <div className="flex flex-wrap gap-2 text-[11px] font-mono text-[#f4ebdc]/80">
-                    <span className="px-2 py-0.5 rounded bg-[#231a15]">Next.js</span>
-                    <span className="px-2 py-0.5 rounded bg-[#231a15]">NestJS</span>
-                    <span className="px-2 py-0.5 rounded bg-[#231a15]">Kafka</span>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           )}
 
-          {/* 2. PHONE / CONTACT */}
+          {/* 2. PHONE / DIRECT CONTACT */}
           {activeModal === "phone" && (
-            <div className="text-center sm:text-left break-words">
+            <div className="break-words">
               <span className="font-caveat text-xl text-[#f2b705] block mb-1">
-                Ring ring! ☎️
+                {t.phone.tag}
               </span>
               <h2 className="font-playfair text-2xl sm:text-4xl text-[#f4ebdc] mb-3">
-                Let&rsquo;s Connect
+                {t.phone.title}
               </h2>
-              <p className="text-xs sm:text-sm text-[#d4c3b3] mb-6">
-                Available for Full-Stack & Mobile Developer roles, high-impact projects, or engineering consulting.
+              <p className="text-xs sm:text-sm text-[#d4c3b3] mb-6 leading-relaxed">
+                {t.phone.desc}
               </p>
 
-              <div className="p-5 sm:p-6 rounded-2xl bg-[#342a23] border border-[#f4ebdc]/10 space-y-6">
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 rounded-xl bg-[#231a15]">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 shrink-0 rounded-full bg-[#f2b705]/20 flex items-center justify-center text-[#f2b705]">
-                      <Mail className="w-5 h-5" />
-                    </div>
-                    <div className="text-left min-w-0">
-                      <span className="text-xs text-[#d4c3b3] block">Direct Email</span>
-                      <span className="text-xs sm:text-base font-mono font-medium text-white break-all">
+              <div className="p-5 sm:p-6 rounded-2xl bg-[#342a23] border border-[#f4ebdc]/10 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-[#271f1a]">
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <Mail className="w-5 h-5 text-[#f2b705] shrink-0" />
+                    <div className="overflow-hidden">
+                      <span className="text-[10px] font-mono text-[#d4c3b3] block uppercase tracking-wider">
+                        {t.phone.email}
+                      </span>
+                      <span className="text-sm font-mono text-white font-medium break-all">
                         {email}
                       </span>
                     </div>
                   </div>
-
                   <button
                     onClick={handleCopy}
-                    className="shrink-0 flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full bg-[#f2b705] hover:bg-[#d9a514] text-[#1b1a18] font-medium text-xs transition-colors shadow-md"
+                    className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-[#f2b705] hover:bg-[#d9a404] text-[#1c1613] text-xs font-mono font-bold transition-all shadow-md active:scale-95 shrink-0"
                   >
                     {copiedEmail ? (
                       <>
-                        <Check className="w-4 h-4 text-emerald-950" />
+                        <Check className="w-3.5 h-3.5" />
                         <span>Copied!</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-4 h-4" />
-                        <span>Copy Email</span>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>{t.phone.copyBtn}</span>
                       </>
                     )}
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
                   <a
-                    href="https://github.com"
+                    href="https://github.com/Jirayuko1/portfolio-website-jirayu"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-center gap-2 p-3 rounded-xl bg-[#231a15] hover:bg-[#2e231c] text-xs font-mono text-white transition-colors"
+                    className="p-3.5 rounded-xl bg-[#271f1a] hover:bg-[#3d312a] border border-[#f4ebdc]/5 flex items-center justify-between text-[#f4ebdc] transition-colors"
                   >
-                    <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                    </svg>
-                    <span>GitHub</span>
+                    <span>{t.phone.github}</span>
+                    <span className="text-[#f2b705]">github.com/Jirayuko1 ↗</span>
                   </a>
 
                   <a
                     href="https://linkedin.com"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-center gap-2 p-3 rounded-xl bg-[#231a15] hover:bg-[#2e231c] text-xs font-mono text-white transition-colors"
+                    className="p-3.5 rounded-xl bg-[#271f1a] hover:bg-[#3d312a] border border-[#f4ebdc]/5 flex items-center justify-between text-[#f4ebdc] transition-colors"
                   >
-                    <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                    </svg>
-                    <span>LinkedIn</span>
+                    <span>{t.phone.linkedin}</span>
+                    <span className="text-[#f2b705]">linkedin.com/in/jirayu ↗</span>
                   </a>
                 </div>
 
-                <div className="text-center font-caveat text-lg text-[#f2b705]">
-                  &ldquo;Clear communication and verified specs make great software.&rdquo;
+                <div className="text-[11px] font-mono text-[#d4c3b3] flex items-center justify-between pt-2 border-t border-[#f4ebdc]/10">
+                  <span>{t.phone.location}</span>
+                  <span className="text-white">{t.phone.locationVal}</span>
                 </div>
               </div>
             </div>
           )}
 
-          {/* 3. ZUKO THE CAT */}
+          {/* 3. CAT / ZUKO COMPANION */}
           {activeModal === "cat" && (
-            <div>
+            <div className="break-words">
               <span className="font-caveat text-xl text-[#f2b705] block mb-1">
-                Office Intern 🐾
+                {t.cat.tag}
               </span>
-              <h2 className="font-playfair text-2xl sm:text-4xl text-[#f4ebdc] mb-4">
-                Zuko Speaks
+              <h2 className="font-playfair text-2xl sm:text-4xl text-[#f4ebdc] mb-3">
+                {t.cat.title}
               </h2>
+              <p className="text-xs sm:text-sm text-[#d4c3b3] mb-6 leading-relaxed">
+                {t.cat.desc}
+              </p>
 
-              <div className="p-5 sm:p-6 rounded-2xl bg-[#342a23] border border-[#f4ebdc]/10 mb-6">
-                <div className="font-caveat text-2xl text-white leading-relaxed min-h-[90px] flex items-center">
-                  &ldquo;{catDialogues[catSpeechIdx]}&rdquo;
+              {/* Interactive Speech Bubble */}
+              <div
+                onClick={handleCatMeow}
+                className="cursor-pointer select-none p-5 sm:p-6 rounded-2xl bg-[#342a23] border border-[#f2b705]/30 relative mb-6 hover:border-[#f2b705] transition-all group"
+              >
+                <div className="flex items-center justify-between mb-3 text-xs font-mono text-[#f2b705]">
+                  <span>🐾 Zuko says (Click me!):</span>
+                  <span className="group-hover:scale-110 transition-transform">🔊 Meow</span>
                 </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-[#d4c3b3] font-mono">
-                  Quote {catSpeechIdx + 1} of {catDialogues.length}
-                </span>
-                <button
-                  onClick={() =>
-                    setCatSpeechIdx((prev) => (prev + 1) % catDialogues.length)
-                  }
-                  className="px-5 py-2.5 rounded-full bg-[#f2b705] hover:bg-[#d9a514] text-[#1b1a18] text-xs font-bold font-mono tracking-wider transition-all"
-                >
-                  PRESS TALKING BUTTON
-                </button>
+                <p className="font-caveat text-xl sm:text-2xl text-white leading-relaxed">
+                  &ldquo;{t.cat.traits[catSpeechIdx]?.text}&rdquo;
+                </p>
+                <div className="mt-3 text-[11px] font-mono text-[#a3e635]">
+                  ★ Insight: {t.cat.traits[catSpeechIdx]?.label}
+                </div>
               </div>
             </div>
           )}
 
           {/* 4. CORKBOARD / KIND WORDS */}
           {activeModal === "corkboard" && (
-            <div>
+            <div className="break-words">
               <span className="font-caveat text-xl text-[#f2b705] block mb-1">
-                Pinboard 📌
+                {t.corkboard.tag}
               </span>
               <h2 className="font-playfair text-2xl sm:text-4xl text-[#f4ebdc] mb-3">
-                Kind Words & Feedback
+                {t.corkboard.title}
               </h2>
-              <p className="text-xs sm:text-sm text-[#d4c3b3] mb-6">
-                Sticky notes from team leads, engineers, and product managers:
+              <p className="text-xs sm:text-sm text-[#d4c3b3] mb-6 leading-relaxed">
+                {t.corkboard.desc}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-5 rounded-xl bg-[#fef08a] text-[#713f12] sticky-note rotate-[-1deg]">
-                  <span className="text-[10px] font-mono uppercase tracking-wider block opacity-75 mb-1">
-                    Senior Product Manager
-                  </span>
-                  <p className="font-caveat text-lg leading-snug">
-                    &ldquo;Jirayu&rsquo;s habit of clarifying requirements upfront saved our sprint 3 weeks of potential rework. An indispensable problem solver!&rdquo;
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-xl bg-[#bbf7d0] text-[#14532d] sticky-note rotate-[1.5deg]">
-                  <span className="text-[10px] font-mono uppercase tracking-wider block opacity-75 mb-1">
-                    Lead Mobile Engineer
-                  </span>
-                  <p className="font-caveat text-lg leading-snug">
-                    &ldquo;Effortlessly bridges native iOS/Android code and Web APIs. Clean architecture and zero cut corners.&rdquo;
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-xl bg-[#fed7aa] text-[#7c2d12] sticky-note rotate-[-2deg]">
-                  <span className="text-[10px] font-mono uppercase tracking-wider block opacity-75 mb-1">
-                    Tech Director
-                  </span>
-                  <p className="font-caveat text-lg leading-snug">
-                    &ldquo;Dedicated, humble, and has a great growth mindset. Always eager to dive into new tech stacks.&rdquo;
-                  </p>
-                </div>
-
-                <div className="p-5 rounded-xl bg-[#e9d5ff] text-[#581c87] sticky-note rotate-[1deg]">
-                  <span className="text-[10px] font-mono uppercase tracking-wider block opacity-75 mb-1">
-                    Frontend Designer
-                  </span>
-                  <p className="font-caveat text-lg leading-snug">
-                    &ldquo;Has great respect for design details and micro-interactions. A rare engineer who cares as much about UX as code.&rdquo;
-                  </p>
-                </div>
+                {t.corkboard.notes.map((note, idx) => {
+                  const colors = [
+                    "bg-[#fef08a] text-[#713f12]",
+                    "bg-[#bbf7d0] text-[#14532d]",
+                    "bg-[#fed7aa] text-[#7c2d12]",
+                    "bg-[#e9d5ff] text-[#581c87]",
+                  ];
+                  return (
+                    <div key={idx} className={`p-5 rounded-xl ${colors[idx % colors.length]} shadow-md`}>
+                      <span className="text-[10px] font-mono uppercase tracking-wider block opacity-75 mb-1 font-bold">
+                        {note.role}
+                      </span>
+                      <p className="font-caveat text-lg leading-snug">
+                        &ldquo;{note.text}&rdquo;
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
 
-          {/* 5. GLOBE / TRAVELS */}
+          {/* 5. GLOBE / LOCATION */}
           {activeModal === "globe" && (
-            <div>
+            <div className="break-words">
               <span className="font-caveat text-xl text-[#f2b705] block mb-1">
-                World Map 🌍
+                {t.globe.tag}
               </span>
               <h2 className="font-playfair text-2xl sm:text-4xl text-[#f4ebdc] mb-3">
-                Bangkok & Remote Collaboration
+                {t.globe.title}
               </h2>
-              <p className="text-xs sm:text-sm text-[#d4c3b3] mb-6">
-                Based in vibrant Bangkok, Thailand (GMT+7). Experienced in working with remote distributed teams across APAC, Europe, and North America.
+              <p className="text-xs sm:text-sm text-[#d4c3b3] mb-6 leading-relaxed">
+                {t.globe.desc}
               </p>
               <div className="p-5 sm:p-6 rounded-2xl bg-[#342a23] border border-[#f4ebdc]/10 font-mono text-xs space-y-3">
                 <div className="flex items-center justify-between border-b border-[#f4ebdc]/10 pb-2">
-                  <span className="text-[#d4c3b3]">Current Base:</span>
-                  <span className="text-white">Bangkok, Thailand</span>
+                  <span className="text-[#d4c3b3]">{language === "th" ? "ที่ตั้งปัจจุบัน:" : "Current Base:"}</span>
+                  <span className="text-white">{t.globe.base}</span>
                 </div>
                 <div className="flex items-center justify-between border-b border-[#f4ebdc]/10 pb-2">
-                  <span className="text-[#d4c3b3]">Working Mode:</span>
-                  <span className="text-[#a3e635]">Remote / Hybrid Worldwide</span>
+                  <span className="text-[#d4c3b3]">{language === "th" ? "รูปแบบการทำงาน:" : "Working Mode:"}</span>
+                  <span className="text-[#a3e635]">{t.globe.mode}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#d4c3b3]">Languages:</span>
-                  <span className="text-white">Thai (Native), English (Professional)</span>
+                  <span className="text-[#d4c3b3]">{language === "th" ? "ทักษะภาษา:" : "Languages:"}</span>
+                  <span className="text-white">{t.globe.languages}</span>
                 </div>
               </div>
             </div>
@@ -354,50 +320,46 @@ export default function OfficeModals({
 
           {/* 6. POSTER / ABOUT ME */}
           {activeModal === "poster" && (
-            <div>
+            <div className="break-words">
               <span className="font-caveat text-xl text-[#f2b705] block mb-1">
-                The Manifesto 🎸
+                {t.poster.tag}
               </span>
               <h2 className="font-playfair text-2xl sm:text-4xl text-[#f4ebdc] mb-4">
-                Ask First, Code Later
+                {t.poster.title}
               </h2>
               <div className="space-y-4 text-xs sm:text-base text-[#d4c3b3] leading-relaxed font-karla">
-                <p>
-                  Coding is the execution phase. The real engineering happens before the editor opens: in understanding the user&rsquo;s core problem, challenging vague requirements, and clarifying edge-cases.
-                </p>
-                <p>
-                  As a Full-Stack and Mobile Developer, I love the harmony between intuitive frontends and resilient backends. I stay hungry, dedicated to continuous learning, and take pride in work that stands the test of time.
-                </p>
+                <p>{t.poster.p1}</p>
+                <p>{t.poster.p2}</p>
               </div>
             </div>
           )}
 
           {/* 7. PLANT */}
           {activeModal === "plant" && (
-            <div className="text-center py-4">
+            <div className="text-center py-4 break-words">
               <span className="font-caveat text-3xl text-[#a3e635] block mb-2">
-                Pothos Ivy Care 🌿
+                {t.plant.tag}
               </span>
               <p className="font-playfair text-xl sm:text-2xl text-white mb-3">
-                &ldquo;Water regularly, give ample indirect light, and refactor clean code.&rdquo;
+                &ldquo;{t.plant.quote}&rdquo;
               </p>
               <span className="text-xs text-[#d4c3b3] font-mono">
-                Thriving in the office alongside clean Git commits.
+                {t.plant.sub}
               </span>
             </div>
           )}
 
           {/* 8. POSTCARD */}
           {activeModal === "postcard" && (
-            <div className="text-center py-4">
+            <div className="text-center py-4 break-words">
               <span className="font-caveat text-3xl text-[#f2b705] block mb-2">
-                Greetings from Bangkok 💌
+                {t.postcard.tag}
               </span>
               <p className="font-playfair text-lg sm:text-xl text-white mb-2">
-                &ldquo;Where street food meets high-tech product engineering.&rdquo;
+                &ldquo;{t.postcard.quote}&rdquo;
               </p>
               <span className="text-xs text-[#d4c3b3] font-mono">
-                Postmarked Bangkok, 2026.
+                {t.postcard.sub}
               </span>
             </div>
           )}

@@ -31,6 +31,7 @@ const pinyon = Pinyon_Script({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://portfolio-website-jirayu.vercel.app"),
   title: "Jirayu · Senior Full-Stack & Mobile Developer",
   description:
     "Welcome to my office. Click around and explore my shelf, case studies, engineering philosophy and a little about me.",

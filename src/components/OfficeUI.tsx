@@ -2,58 +2,124 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, Sparkles, BookOpen, Phone, Heart, User } from "lucide-react";
+import { Menu, X, Sparkles, BookOpen, Phone, Heart, User, Volume2, VolumeX, Globe } from "lucide-react";
+import { Language, translations } from "@/lib/translations";
+import { sound } from "@/lib/soundEffects";
 
 interface OfficeUIProps {
   discoveredCount: number;
   hoveredObject: string | null;
   onOpenModal: (id: string) => void;
+  language: Language;
+  onToggleLanguage: () => void;
+  isMuted: boolean;
+  onToggleSound: () => void;
 }
 
 export default function OfficeUI({
   discoveredCount,
   hoveredObject,
   onOpenModal,
+  language,
+  onToggleLanguage,
+  isMuted,
+  onToggleSound,
 }: OfficeUIProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const t = translations[language];
 
   const quickLinks = [
-    { label: "Case Studies & Works", id: "bookshelf", icon: BookOpen },
-    { label: "Get in Touch (Phone)", id: "phone", icon: Phone },
-    { label: "Kind Words & Feedback", id: "corkboard", icon: Heart },
-    { label: "Engineering Philosophy", id: "poster", icon: User },
-    { label: "Talk to Zuko the Cat", id: "cat", icon: Sparkles },
+    { label: t.nav.bookshelf, id: "bookshelf", icon: BookOpen },
+    { label: t.nav.phone, id: "phone", icon: Phone },
+    { label: t.nav.corkboard, id: "corkboard", icon: Heart },
+    { label: t.nav.poster, id: "poster", icon: User },
+    { label: t.nav.cat, id: "cat", icon: Sparkles },
+    { label: t.nav.globe, id: "globe", icon: Globe },
   ];
+
+  const handleMenuOpen = () => {
+    sound.playClick();
+    setMenuOpen(true);
+  };
+
+  const handleMenuClose = () => {
+    sound.playClick();
+    setMenuOpen(false);
+  };
+
+  const handleNavClick = (id: string) => {
+    sound.playClick();
+    setMenuOpen(false);
+    onOpenModal(id);
+  };
+
+  const handleSoundBtn = () => {
+    onToggleSound();
+    if (isMuted) {
+      setTimeout(() => sound.playClick(), 50);
+    }
+  };
+
+  const handleLangBtn = () => {
+    sound.playClick();
+    onToggleLanguage();
+  };
 
   return (
     <>
-      {/* 1. TOP RIGHT: Menu Button */}
-      <div className="fixed top-5 right-5 sm:top-8 sm:right-8 z-40">
+      {/* 1. TOP RIGHT: Sound Toggle + Language Toggle + Menu Button */}
+      <div className="fixed top-5 right-5 sm:top-8 sm:right-8 z-40 flex items-center gap-2 sm:gap-3">
+        {/* Sound Toggle */}
         <button
-          onClick={() => setMenuOpen(true)}
+          onClick={handleSoundBtn}
+          aria-label={isMuted ? t.ui.soundUnmuted : t.ui.soundMuted}
+          title={isMuted ? t.ui.soundUnmuted : t.ui.soundMuted}
+          className="flex items-center justify-center w-11 h-11 rounded-full bg-[#271f1a]/85 hover:bg-[#382b24] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95"
+        >
+          {isMuted ? (
+            <VolumeX className="w-4 h-4 text-[#c8b7a6]" />
+          ) : (
+            <Volume2 className="w-4 h-4 text-[#f2b705]" />
+          )}
+        </button>
+
+        {/* Language Switcher */}
+        <button
+          onClick={handleLangBtn}
+          aria-label="Switch Language (TH / EN)"
+          title="Switch Language (TH / EN)"
+          className="flex items-center gap-1.5 px-3.5 h-11 rounded-full bg-[#271f1a]/85 hover:bg-[#382b24] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl text-xs font-mono font-bold tracking-wider transition-all hover:scale-105 active:scale-95"
+        >
+          <span className={language === "th" ? "text-[#f2b705] font-black" : "text-[#c8b7a6]"}>TH</span>
+          <span className="text-[#c8b7a6]/50">/</span>
+          <span className={language === "en" ? "text-[#f2b705] font-black" : "text-[#c8b7a6]"}>EN</span>
+        </button>
+
+        {/* Menu Button */}
+        <button
+          onClick={handleMenuOpen}
           aria-label="Open navigation menu"
-          className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-[#f4ebdc] text-[#2e2620] hover:bg-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-xl hover:scale-105 active:scale-95 min-h-[44px]"
+          className="flex items-center gap-2 px-4 h-11 sm:px-5 rounded-full bg-[#f4ebdc] text-[#2e2620] hover:bg-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-xl hover:scale-105 active:scale-95"
         >
           <Menu className="w-3.5 h-3.5" />
-          <span>Menu</span>
+          <span>{t.ui.menu}</span>
         </button>
       </div>
 
-      {/* 2. BOTTOM LEFT: Main Headline & Discovery Tracker (Calibrated for small screens) */}
+      {/* 2. BOTTOM LEFT: Main Headline & Discovery Tracker */}
       <div className="fixed bottom-5 left-5 sm:bottom-10 sm:left-10 z-30 max-w-[calc(100vw-2.5rem)] sm:max-w-md pointer-events-none select-none">
-        <h1 className="font-playfair text-2xl sm:text-4xl lg:text-5xl text-[#f4ebdc] leading-[1.08] tracking-tight mb-2 sm:mb-3">
-          Welcome to <br />
-          my office
+        <h1 className="font-playfair text-2xl sm:text-4xl lg:text-5xl text-[#f4ebdc] leading-[1.12] tracking-tight mb-2 sm:mb-3 whitespace-pre-line">
+          {t.ui.headline}
         </h1>
         <p className="font-karla text-xs sm:text-sm text-[#c8b7a6] leading-relaxed mb-3 sm:mb-4 max-w-xs sm:max-w-sm">
-          Click around and see what you find — or use the menu for a quicker way through.
+          {t.ui.subheadline}
         </p>
 
-        {/* Discovery Progress (Honest static badge without artificial decorative pulse) */}
+        {/* Discovery Progress */}
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#271f1a]/85 border border-[#f4ebdc]/15 backdrop-blur-md">
           <span className="w-2 h-2 rounded-full bg-[#f2b705]" />
           <span className="font-mono text-[10px] sm:text-[11px] tracking-widest text-[#f4ebdc]/90 uppercase">
-            {discoveredCount} of 17 discovered
+            {t.ui.discoveredBadge.replace("{count}", String(discoveredCount))}
           </span>
         </div>
       </div>
@@ -70,7 +136,7 @@ export default function OfficeUI({
           >
             <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-[#f2b705]" />
             <span className="font-caveat text-base sm:text-lg text-[#f2b705] whitespace-nowrap">
-              Click to explore:
+              {t.ui.clickToExplore}
             </span>
             <span className="font-karla text-xs font-semibold text-white tracking-wide truncate">
               {hoveredObject}
@@ -84,7 +150,7 @@ export default function OfficeUI({
         {menuOpen && (
           <div
             className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm"
-            onClick={() => setMenuOpen(false)}
+            onClick={handleMenuClose}
           >
             <motion.div
               initial={{ x: "100%" }}
@@ -99,10 +165,10 @@ export default function OfficeUI({
                 <div className="flex items-center justify-between pb-6 border-b border-[#f4ebdc]/10 mb-6">
                   <div>
                     <h2 className="font-playfair text-2xl text-white">Jirayu</h2>
-                    <span className="text-xs text-[#c8b7a6]">Full-Stack & Mobile Developer</span>
+                    <span className="text-xs text-[#c8b7a6]">Senior Full-Stack & Mobile Developer</span>
                   </div>
                   <button
-                    onClick={() => setMenuOpen(false)}
+                    onClick={handleMenuClose}
                     aria-label="Close menu"
                     className="p-2 rounded-full bg-[#342a23] hover:bg-[#453830] text-[#f4ebdc] transition-colors"
                   >
@@ -113,17 +179,14 @@ export default function OfficeUI({
                 {/* Nav Links */}
                 <div className="space-y-3">
                   <span className="text-[10px] font-mono tracking-widest text-[#f2b705] uppercase">
-                    Direct Navigation
+                    {t.ui.directNav}
                   </span>
                   {quickLinks.map((item) => {
                     const Icon = item.icon;
                     return (
                       <button
                         key={item.id}
-                        onClick={() => {
-                          setMenuOpen(false);
-                          onOpenModal(item.id);
-                        }}
+                        onClick={() => handleNavClick(item.id)}
                         className="w-full flex items-center justify-between p-4 rounded-xl bg-[#2e231c] hover:bg-[#3d3027] text-left transition-all group min-h-[48px]"
                       >
                         <div className="flex items-center gap-3">
@@ -144,15 +207,15 @@ export default function OfficeUI({
               {/* Footer info in menu */}
               <div className="pt-6 border-t border-[#f4ebdc]/10 text-xs text-[#c8b7a6] space-y-2">
                 <div className="flex items-center justify-between">
-                  <span>Base:</span>
-                  <span className="text-white">Bangkok, Thailand</span>
+                  <span>{t.ui.baseLabel}</span>
+                  <span className="text-white">{t.ui.baseValue}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span>Status:</span>
-                  <span className="text-[#a3e635]">Open for opportunities</span>
+                  <span>{t.ui.statusLabel}</span>
+                  <span className="text-[#a3e635]">{t.ui.statusValue}</span>
                 </div>
                 <div className="pt-2 text-[10px] text-center font-mono opacity-60">
-                  © 2026 Jirayu · Inspired by Júlia Moresco
+                  {t.ui.credits}
                 </div>
               </div>
             </motion.div>

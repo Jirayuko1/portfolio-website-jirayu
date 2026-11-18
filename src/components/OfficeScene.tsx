@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
+import { sound } from "@/lib/soundEffects";
+import { Language, translations } from "@/lib/translations";
 
 interface OfficeSceneProps {
   onSelectObject: (objectId: string) => void;
@@ -12,6 +14,7 @@ interface OfficeSceneProps {
   onLoaded?: () => void;
   onProgress?: (percent: number) => void;
   isModalOpen?: boolean;
+  language: Language;
 }
 
 export default function OfficeScene({
@@ -20,10 +23,13 @@ export default function OfficeScene({
   onLoaded,
   onProgress,
   isModalOpen = false,
+  language,
 }: OfficeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Stable callback refs to prevent Three.js scene remounting
+  const languageRef = useRef(language);
+  languageRef.current = language;
   const onSelectRef = useRef(onSelectObject);
   onSelectRef.current = onSelectObject;
 
@@ -494,9 +500,11 @@ export default function OfficeScene({
         }
 
         if (matched) {
-          if (currentHoveredName !== matched.name) {
-            currentHoveredName = matched.name;
-            onHoverRef.current(matched.name);
+          if (currentHoveredName !== matched.id) {
+            currentHoveredName = matched.id;
+            sound.playHover();
+            const localized = translations[languageRef.current]?.objects[matched.id as keyof typeof translations["en"]["objects"]] || matched.name;
+            onHoverRef.current(localized);
           }
           container.style.cursor = "pointer";
           return;
@@ -534,6 +542,7 @@ export default function OfficeScene({
           }
         }
         if (matched) {
+          sound.playObjectSound(matched.id);
           onSelectRef.current(matched.id);
         }
       }
