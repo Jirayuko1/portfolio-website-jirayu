@@ -102,7 +102,7 @@ export default function OfficeScene({
     container.appendChild(renderer.domElement);
 
     // 3. Lighting Setup
-    const ambientLight = new THREE.AmbientLight(0xfff8ee, 1.0);
+    const ambientLight = new THREE.AmbientLight(0xfff8ee, 1.05);
     scene.add(ambientLight);
 
     const sunLight = new THREE.DirectionalLight(0xffeedd, 1.45);
@@ -399,7 +399,7 @@ export default function OfficeScene({
     scene.add(cardsBlueGroup);
     clickableObjects.push({ mesh: cardsBlueGroup, id: "cards_blue", name: "Engineering Articles (Blue Pinboard)" });
 
-    // 6. Interactive Systems (Snow, Fish, Food)
+    // 6. Interactive Systems (Snow, Fish Food)
     // 6.1 Snow Particle System
     const snowCount = 280;
     const snowGeo = new THREE.BufferGeometry();
@@ -457,54 +457,22 @@ export default function OfficeScene({
       }
     };
 
-    // 6.3 3D Swimming Fish inside Aquarium
-    const fishList: { mesh: THREE.Group; speed: number; angle: number; baseY: number }[] = [];
-    const fishColors = [0xf97316, 0xa855f7, 0x06b6d4];
+    // 6.3 Aquarium Group & 3D Animated Fish System
+    interface FishAgent {
+      mesh: THREE.Object3D;
+      speed: number;
+      angle: number;
+      baseY: number;
+      rX: number;
+      rZ: number;
+      dir: number;
+    }
+    const fishList: FishAgent[] = [];
+    const mixers: THREE.AnimationMixer[] = [];
+
     const aquariumGroup = new THREE.Group();
     const deskSurfaceY = -0.745;
     aquariumGroup.position.set(1.05, deskSurfaceY, 0.12);
-
-    for (let f = 0; f < 3; f++) {
-      const fishGroup = new THREE.Group();
-      const fishBody = new THREE.Mesh(
-        new THREE.ConeGeometry(0.028, 0.08, 8),
-        new THREE.MeshStandardMaterial({ color: fishColors[f], roughness: 0.3 })
-      );
-      fishBody.rotation.z = -Math.PI / 2;
-      fishGroup.add(fishBody);
-
-      const tailGeo = new THREE.BufferGeometry();
-      const tailVertices = new Float32Array([
-        -0.04, 0, 0,
-        -0.08, 0.025, 0,
-        -0.08, -0.025, 0,
-      ]);
-      tailGeo.setAttribute("position", new THREE.BufferAttribute(tailVertices, 3));
-      const fishTail = new THREE.Mesh(
-        tailGeo,
-        new THREE.MeshBasicMaterial({ color: fishColors[f], side: THREE.DoubleSide })
-      );
-      fishGroup.add(fishTail);
-
-      const baseY = 0.25 + f * 0.12;
-      fishGroup.position.set(0, baseY, 0);
-      aquariumGroup.add(fishGroup);
-
-      fishList.push({
-        mesh: fishGroup,
-        speed: 0.012 + Math.random() * 0.008,
-        angle: (f / 3) * Math.PI * 2,
-        baseY: baseY,
-      });
-    }
-
-    // Glowing water volume inside aquarium
-    const waterMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(1.05, 0.55, 0.65),
-      new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.22 })
-    );
-    waterMesh.position.y = 0.38;
-    aquariumGroup.add(waterMesh);
     scene.add(aquariumGroup);
 
     // 7. GLTF 3D Model Loading Helper
@@ -779,9 +747,41 @@ export default function OfficeScene({
       (err) => console.warn("christmas tree.glb", err)
     );
 
-    // 8.9 Aquarium Tank (Fish Tank.glb - Inward from right edge)
+    // 8.9 New Aquarium Tank (Fish Tank new.glb)
     loader.load(
-      "/models/Fish Tank.glb",
+      "/models/Fish Tank new.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+            const mesh = c as THREE.Mesh;
+            // Ensure Glass material is beautifully translucent
+            if (mesh.material && (mesh.material as THREE.Material).name === "Glass") {
+              const m = mesh.material as THREE.MeshStandardMaterial;
+              m.transparent = true;
+              m.opacity = 0.35;
+              m.roughness = 0.05;
+              m.metalness = 0.1;
+            }
+          }
+        });
+        // Rotated by PI/2 so long panoramic side faces forward
+        const tankModel = createNormalizedModel(gltf.scene, {
+          targetWidth: 1.15,
+          rotationY: Math.PI / 2,
+        });
+        aquariumGroup.add(tankModel);
+        clickableObjects.push({ mesh: aquariumGroup, id: "aquarium", name: "Aquarium (Click to Feed the Fish!)" });
+      },
+      undefined,
+      (err) => console.warn("Fish Tank new.glb", err)
+    );
+
+    // 8.10 3D Animated Fish Models: Betta, Clownfish, Goldfish
+    // Betta Fish with Skeletal Swimming Animation
+    loader.load(
+      "/models/Betta.glb",
       (gltf) => {
         gltf.scene.traverse((c) => {
           if ((c as THREE.Mesh).isMesh) {
@@ -789,15 +789,94 @@ export default function OfficeScene({
             c.receiveShadow = true;
           }
         });
-        const tankModel = createNormalizedModel(gltf.scene, { targetWidth: 1.15 });
-        aquariumGroup.add(tankModel);
-        clickableObjects.push({ mesh: aquariumGroup, id: "aquarium", name: "Aquarium (Click to Feed the Fish!)" });
+        const bettaModel = createNormalizedModel(gltf.scene, { targetDepth: 0.15, centerOrigin: true });
+        aquariumGroup.add(bettaModel);
+
+        if (gltf.animations.length > 0) {
+          const mixer = new THREE.AnimationMixer(gltf.scene);
+          const clip = gltf.animations.find((a) => a.name.includes("Swimming_Normal")) || gltf.animations[0];
+          const action = mixer.clipAction(clip);
+          action.play();
+          mixers.push(mixer);
+        }
+
+        fishList.push({
+          mesh: bettaModel,
+          speed: 0.010,
+          angle: 0.2,
+          baseY: 0.42,
+          rX: 0.36,
+          rZ: 0.16,
+          dir: 1,
+        });
       },
       undefined,
-      (err) => console.warn("Fish Tank.glb", err)
+      (err) => console.warn("Betta.glb", err)
     );
 
-    // 8.10 Lush Fern on top of Aquarium (Fern.glb)
+    // Clownfish with Skeletal Swimming Animation
+    loader.load(
+      "/models/Clownfish.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const clownModel = createNormalizedModel(gltf.scene, { targetDepth: 0.13, centerOrigin: true });
+        aquariumGroup.add(clownModel);
+
+        if (gltf.animations.length > 0) {
+          const mixer = new THREE.AnimationMixer(gltf.scene);
+          const clip = gltf.animations.find((a) => a.name.includes("Swimming_Normal")) || gltf.animations[0];
+          const action = mixer.clipAction(clip);
+          action.play();
+          mixers.push(mixer);
+        }
+
+        fishList.push({
+          mesh: clownModel,
+          speed: 0.013,
+          angle: Math.PI * 0.75,
+          baseY: 0.28,
+          rX: 0.32,
+          rZ: 0.14,
+          dir: -1,
+        });
+      },
+      undefined,
+      (err) => console.warn("Clownfish.glb", err)
+    );
+
+    // Goldfish
+    loader.load(
+      "/models/Goldfish.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const goldModel = createNormalizedModel(gltf.scene, { targetDepth: 0.14, centerOrigin: true });
+        aquariumGroup.add(goldModel);
+
+        fishList.push({
+          mesh: goldModel,
+          speed: 0.008,
+          angle: Math.PI * 1.4,
+          baseY: 0.18,
+          rX: 0.30,
+          rZ: 0.13,
+          dir: 1,
+        });
+      },
+      undefined,
+      (err) => console.warn("Goldfish.glb", err)
+    );
+
+    // 8.11 Lush Fern on top of Aquarium (Fern.glb)
     loader.load(
       "/models/Fern.glb",
       (gltf) => {
@@ -808,14 +887,14 @@ export default function OfficeScene({
           }
         });
         const fernModel = createNormalizedModel(gltf.scene, { targetWidth: 1.12 });
-        fernModel.position.set(0, 0.78, 0); // Sits right on top lid of the Fish Tank
+        fernModel.position.set(0, 0.71, 0); // Sits right on top lid of the new Fish Tank
         aquariumGroup.add(fernModel);
       },
       undefined,
       (err) => console.warn("Fern.glb", err)
     );
 
-    // 8.11 Retro Radio / Smart Speaker (Radio.glb)
+    // 8.12 Retro Radio / Smart Speaker (Radio.glb - Facing forward towards user)
     loader.load(
       "/models/Radio.glb",
       (gltf) => {
@@ -825,6 +904,7 @@ export default function OfficeScene({
             c.receiveShadow = true;
           }
         });
+        // Rotated 180° so the front face with dials and speaker grille faces forward
         const radioModel = createNormalizedModel(gltf.scene, {
           targetWidth: 0.38,
           rotationY: Math.PI,
@@ -838,7 +918,7 @@ export default function OfficeScene({
       (err) => console.warn("Radio.glb", err)
     );
 
-    // 8.12 Large Floor Plant (Monstera Plant.glb)
+    // 8.13 Large Floor Plant (Monstera Plant.glb)
     loader.load(
       "/models/Monstera Plant.glb",
       (gltf) => {
@@ -856,7 +936,7 @@ export default function OfficeScene({
       (err) => console.warn("Monstera Plant.glb", err)
     );
 
-    // 8.13 Wall Power Socket (Wall Socket.glb)
+    // 8.14 Wall Power Socket (Wall Socket.glb)
     loader.load(
       "/models/Wall Socket.glb",
       (gltf) => {
@@ -874,7 +954,7 @@ export default function OfficeScene({
       (err) => console.warn("Wall Socket.glb", err)
     );
 
-    // 8.14 Yellow Sticky Note (Yellow Post-it.glb)
+    // 8.15 Yellow Sticky Note (Yellow Post-it.glb)
     loader.load(
       "/models/Yellow Post-it.glb",
       (gltf) => {
@@ -1020,7 +1100,11 @@ export default function OfficeScene({
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
+      const delta = clock.getDelta();
       const elapsedTime = clock.getElapsedTime();
+
+      // Update skeletal swimming animations for Betta and Clownfish
+      mixers.forEach((m) => m.update(delta));
 
       // Mouse Parallax Damping towards target
       if (!isModalOpenRef.current) {
@@ -1029,13 +1113,17 @@ export default function OfficeScene({
         camera.lookAt(0, -0.12, 0);
       }
 
-      // Animate Swimming Fish strictly inside local aquarium space
-      fishList.forEach((f, idx) => {
-        f.angle += f.speed * (idx % 2 === 0 ? 1 : -1);
-        f.mesh.position.x = Math.cos(f.angle) * 0.38;
-        f.mesh.position.z = Math.sin(f.angle) * 0.20;
-        f.mesh.position.y = f.baseY + Math.sin(f.angle * 2.5) * 0.04;
-        f.mesh.rotation.y = -f.angle + (idx % 2 === 0 ? Math.PI / 2 : -Math.PI / 2);
+      // Animate 3D Fish Swimming smoothly in tangent direction
+      fishList.forEach((f) => {
+        f.angle += f.speed * f.dir;
+        f.mesh.position.x = Math.cos(f.angle) * f.rX;
+        f.mesh.position.z = Math.sin(f.angle) * f.rZ;
+        f.mesh.position.y = f.baseY + Math.sin(f.angle * 2.2) * 0.03;
+
+        // Tangent heading angle
+        const dx = -Math.sin(f.angle) * f.rX * f.dir;
+        const dz = Math.cos(f.angle) * f.rZ * f.dir;
+        f.mesh.rotation.y = Math.atan2(dx, dz);
       });
 
       // Animate Falling Snow
