@@ -96,10 +96,10 @@ export default function OfficeScene({
     container.appendChild(renderer.domElement);
 
     // 3. Lighting (Atmospheric Sunlight + Warm Fill)
-    const ambientLight = new THREE.AmbientLight(0xffeedd, 0.65);
+    const ambientLight = new THREE.AmbientLight(0xffeedd, 0.8);
     scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xfff6eb, 1.8);
+    const sunLight = new THREE.DirectionalLight(0xfff6eb, 1.5);
     sunLight.position.set(-6, 7, 5);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 2048;
@@ -113,7 +113,7 @@ export default function OfficeScene({
     sunLight.shadow.bias = -0.0003;
     scene.add(sunLight);
 
-    const warmFill = new THREE.DirectionalLight(0xe8b931, 0.45);
+    const warmFill = new THREE.DirectionalLight(0xe8b931, 0.5);
     warmFill.position.set(4, 2, 4);
     scene.add(warmFill);
 
@@ -411,8 +411,8 @@ export default function OfficeScene({
       "/models/wall-shelf.glb",
       (gltf) => {
         const model = gltf.scene;
-        model.position.set(-2.2, 1.6, -0.5);
-        model.scale.set(1.35, 1.35, 1.35);
+        model.position.set(-2.1, 1.05, -0.8);
+        model.scale.set(1.15, 1.15, 1.15);
 
         model.traverse((child) => {
           if ((child as THREE.Mesh).isMesh) {
