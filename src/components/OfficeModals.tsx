@@ -24,6 +24,10 @@ import {
   QrCode,
   ShieldCheck,
   Zap,
+  Calendar,
+  FileText,
+  Download,
+  RotateCcw,
 } from "lucide-react";
 import { Language, translations } from "@/lib/translations";
 import { sound } from "@/lib/soundEffects";
@@ -43,7 +47,44 @@ export default function OfficeModals({
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [copiedLine, setCopiedLine] = useState(false);
-  const [phoneTab, setPhoneTab] = useState<"apps" | "contact">("apps");
+  const [phoneTab, setPhoneTab] = useState<"apps" | "contact" | "game">("apps");
+  const [bugScore, setBugScore] = useState(0);
+  const [bugs, setBugs] = useState<{ id: number; x: number; y: number; icon: string }[]>([
+    { id: 1, x: 25, y: 35, icon: "🐛" },
+    { id: 2, x: 70, y: 55, icon: "🪲" },
+    { id: 3, x: 45, y: 75, icon: "🐜" },
+  ]);
+
+  const handleWhackBug = (bugId: number) => {
+    sound.playGameTap();
+    const nextScore = bugScore + 1;
+    setBugScore(nextScore);
+    if (nextScore >= 10) {
+      sound.playGameSuccess();
+    }
+    setBugs((prev) =>
+      prev.map((b) =>
+        b.id === bugId
+          ? {
+              ...b,
+              x: 12 + Math.floor(Math.random() * 72),
+              y: 20 + Math.floor(Math.random() * 60),
+            }
+          : b
+      )
+    );
+  };
+
+  const handleResetGame = () => {
+    sound.playClick();
+    setBugScore(0);
+    setBugs([
+      { id: 1, x: 25, y: 35, icon: "🐛" },
+      { id: 2, x: 70, y: 55, icon: "🪲" },
+      { id: 3, x: 45, y: 75, icon: "🐜" },
+    ]);
+  };
+
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const email = "jirayu.dev@example.com";
@@ -207,35 +248,49 @@ export default function OfficeModals({
                   </p>
                 </div>
 
-                {/* Device Tab Switcher: Apps vs Contact */}
-                <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-[#231b16] border border-[#f4ebdc]/10 mb-4 text-xs font-mono">
+                {/* Device Tab Switcher: Apps vs Contact vs Bug Hunter Game */}
+                <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-[#231b16] border border-[#f4ebdc]/10 mb-4 text-xs font-mono">
                   <button
                     onClick={() => {
                       sound.playClick();
                       setPhoneTab("apps");
                     }}
-                    className={`py-2 px-3 rounded-lg text-center transition-all min-h-[40px] flex items-center justify-center gap-1.5 font-bold ${
+                    className={`py-2 px-2 rounded-lg text-center transition-all min-h-[40px] flex items-center justify-center gap-1 font-bold ${
                       phoneTab === "apps"
                         ? "bg-[#f2b705] text-[#140e0b] shadow-md"
                         : "text-[#d4c3b3] hover:text-white"
                     }`}
                   >
                     <Smartphone className="w-3.5 h-3.5" />
-                    <span>{language === "th" ? "แอปมือถือ (3)" : "Mobile Apps (3)"}</span>
+                    <span>{language === "th" ? "แอป (3)" : "Apps (3)"}</span>
                   </button>
                   <button
                     onClick={() => {
                       sound.playClick();
                       setPhoneTab("contact");
                     }}
-                    className={`py-2 px-3 rounded-lg text-center transition-all min-h-[40px] flex items-center justify-center gap-1.5 font-bold ${
+                    className={`py-2 px-2 rounded-lg text-center transition-all min-h-[40px] flex items-center justify-center gap-1 font-bold ${
                       phoneTab === "contact"
                         ? "bg-[#f2b705] text-[#140e0b] shadow-md"
                         : "text-[#d4c3b3] hover:text-white"
                     }`}
                   >
                     <PhoneCall className="w-3.5 h-3.5" />
-                    <span>{language === "th" ? "ติดต่อด่วน" : "Direct Contact"}</span>
+                    <span>{language === "th" ? "ติดต่อด่วน" : "Contact"}</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      sound.playClick();
+                      setPhoneTab("game");
+                    }}
+                    className={`py-2 px-2 rounded-lg text-center transition-all min-h-[40px] flex items-center justify-center gap-1 font-bold ${
+                      phoneTab === "game"
+                        ? "bg-[#10b981] text-[#140e0b] shadow-md"
+                        : "text-[#a3e635] hover:text-white"
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>{language === "th" ? "มินิเกม 🎮" : "Game 🎮"}</span>
                   </button>
                 </div>
 
@@ -358,6 +413,87 @@ export default function OfficeModals({
                         </div>
                         <span className="text-[10px] text-[#f2b705]">Visit ↗</span>
                       </a>
+                    </div>
+
+                    {/* High-Impact Conversion CTAs */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+                      <a
+                        href="mailto:jirayu.dev@example.com?subject=Schedule%20a%2015-minute%20Chat%20with%20Jirayu&body=Hi%20Jirayu,%0D%0A%0D%0AI'd%20love%20to%20schedule%20a%2015-min%20call%20to%20discuss%20an%20opportunity."
+                        onClick={() => sound.playClick()}
+                        className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#60a5fa] hover:bg-[#93c5fd] text-[#0f172a] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+                      >
+                        <Calendar className="w-4 h-4" />
+                        <span>{t.phone.scheduleCallBtn || (language === "th" ? "นัดคุยงาน 15 นาที" : "Schedule 15-min Chat")}</span>
+                      </a>
+
+                      <a
+                        href="/resume"
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() => sound.playClick()}
+                        className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>{t.phone.downloadResumeBtn || (language === "th" ? "ดาวน์โหลดเรซูเม่ (PDF)" : "Download Resume (PDF)")}</span>
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB 3: Retro Bug Hunter Mini-Game */}
+                {phoneTab === "game" && (
+                  <div className="space-y-3 px-1">
+                    <div className="p-3.5 rounded-2xl bg-[#090d0b] border border-[#10b981]/30 text-center">
+                      <div className="flex items-center justify-between text-xs font-mono text-[#a3e635] mb-2 px-1">
+                        <span className="flex items-center gap-1.5 font-bold">
+                          <Zap className="w-3.5 h-3.5 text-[#10b981]" />
+                          {t.phone.miniGameTitle || "Bug Hunter"}
+                        </span>
+                        <span className="bg-[#10b981]/20 px-2 py-0.5 rounded-full text-white font-bold border border-[#10b981]/40">
+                          {t.phone.scoreLabel || "Bugs Fixed:"} {bugScore}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-[#9ca3af] mb-3">
+                        {bugScore >= 10
+                          ? (t.phone.gameDone || "🎉 Senior Debugger Level Unlocked! Production is safe!")
+                          : (t.phone.gameInstruction || "Bugs are invading production! Tap them to debug!")}
+                      </p>
+
+                      {/* Interactive Game Arena */}
+                      <div className="relative w-full h-56 rounded-xl bg-[#131b17] border border-[#10b981]/20 overflow-hidden select-none cursor-crosshair">
+                        <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b9810d_1px,transparent_1px),linear-gradient(to_bottom,#10b9810d_1px,transparent_1px)] bg-[size:16px_16px]" />
+
+                        {bugScore < 10 ? (
+                          bugs.map((bug) => (
+                            <button
+                              key={bug.id}
+                              onClick={() => handleWhackBug(bug.id)}
+                              style={{ left: `${bug.x}%`, top: `${bug.y}%` }}
+                              className="absolute -translate-x-1/2 -translate-y-1/2 text-2xl p-2 rounded-full hover:scale-125 active:scale-75 transition-transform duration-150 animate-bounce"
+                              aria-label="Squash bug"
+                            >
+                              {bug.icon}
+                            </button>
+                          ))
+                        ) : (
+                          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+                            <span className="text-4xl mb-2">🏆</span>
+                            <span className="text-sm font-bold text-[#a3e635] font-mono mb-1">
+                              {language === "th" ? "เคลียร์บั๊กสำเร็จ 100%!" : "All Production Bugs Squashed!"}
+                            </span>
+                            <span className="text-xs text-[#d1d5db] font-mono mb-3">
+                              {language === "th" ? "ระบบเสถียร 99.99% Uptime พร้อมขึ้นโปรดักชัน" : "System 99.99% stable & ready for deploy."}
+                            </span>
+                            <button
+                              onClick={handleResetGame}
+                              className="px-4 py-2 rounded-xl bg-[#10b981] hover:bg-[#34d399] text-[#090d0b] text-xs font-mono font-bold flex items-center gap-1.5 shadow-lg active:scale-95 transition-all"
+                            >
+                              <RotateCcw className="w-3.5 h-3.5" />
+                              <span>{language === "th" ? "เล่นใหม่อีกรอบ" : "Play Again"}</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -542,6 +678,29 @@ export default function OfficeModals({
                   ))}
                 </div>
               </div>
+
+              {/* Quick Conversion CTAs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <a
+                  href="mailto:jirayu.dev@example.com?subject=Schedule%20a%2015-minute%20Chat%20with%20Jirayu"
+                  onClick={() => sound.playClick()}
+                  className="min-h-[44px] px-4 py-3 rounded-xl bg-[#60a5fa] hover:bg-[#93c5fd] text-[#0f172a] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+                >
+                  <Calendar className="w-4 h-4" />
+                  <span>{language === "th" ? "นัดคุยงาน 15 นาที" : "Schedule 15-min Chat"}</span>
+                </a>
+
+                <a
+                  href="/resume"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => sound.playClick()}
+                  className="min-h-[44px] px-4 py-3 rounded-xl bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>{language === "th" ? "ดาวน์โหลดเรซูเม่ (PDF)" : "Download Resume (PDF)"}</span>
+                </a>
+              </div>
             </div>
           )}
 
@@ -714,49 +873,7 @@ export default function OfficeModals({
           )}
 
           {/* ============================================================ */}
-          {/* 7. AQUARIUM INFO (Accessible from Menu)                       */}
-          {/* ============================================================ */}
-          {activeModal === "aquarium" && (
-            <div className="break-words text-center py-4 space-y-4">
-              <span className="text-xs font-mono tracking-wider text-[#38bdf8] uppercase block mb-1">
-                {t.aquarium.tag.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, "").trim()}
-              </span>
-              <h2 className="font-playfair text-2xl sm:text-3xl text-white">
-                {t.aquarium.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-[#d4c3b3] max-w-md mx-auto leading-relaxed">
-                {t.aquarium.desc}
-              </p>
-              <div className="p-4 rounded-2xl bg-[#0369a1]/20 border border-[#38bdf8]/40 text-xs text-[#38bdf8] font-mono leading-relaxed max-w-sm mx-auto">
-                <Fish className="w-5 h-5 mx-auto mb-2 text-[#38bdf8]" />
-                {t.aquarium.instruction}
-              </div>
-            </div>
-          )}
-
-          {/* ============================================================ */}
-          {/* 8. SPEAKER LO-FI MUSIC (Accessible from Menu)                */}
-          {/* ============================================================ */}
-          {activeModal === "speaker" && (
-            <div className="break-words text-center py-4 space-y-4">
-              <span className="text-xs font-mono tracking-wider text-[#f2b705] uppercase block mb-1">
-                {t.speaker.tag.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, "").trim()}
-              </span>
-              <h2 className="font-playfair text-2xl sm:text-3xl text-white">
-                {t.speaker.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-[#d4c3b3] max-w-md mx-auto leading-relaxed">
-                {t.speaker.desc}
-              </p>
-              <div className="p-4 rounded-2xl bg-[#f2b705]/10 border border-[#f2b705]/30 text-xs text-[#f2b705] font-mono leading-relaxed max-w-sm mx-auto flex items-center justify-center gap-2">
-                <Music className="w-4 h-4 text-[#f2b705] animate-pulse" />
-                <span>Click speaker on desk to toggle music</span>
-              </div>
-            </div>
-          )}
-
-          {/* ============================================================ */}
-          {/* 9. POST-IT NOTE                                              */}
+          {/* 7. POST-IT NOTE                                              */}
           {/* ============================================================ */}
           {activeModal === "postit" && (
             <div className="break-words text-center py-6">

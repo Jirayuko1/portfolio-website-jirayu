@@ -14,7 +14,13 @@ interface OfficeSceneProps {
   onLoaded?: () => void;
   onProgress?: (percent: number) => void;
   isModalOpen?: boolean;
+  activeModal?: string | null;
   language: Language;
+  isNightMode?: boolean;
+  onCoffeeClick?: () => void;
+  triggerFeedFishRef?: React.MutableRefObject<(() => void) | null>;
+  triggerSnowfallRef?: React.MutableRefObject<(() => void) | null>;
+  triggerToggleLampRef?: React.MutableRefObject<(() => void) | null>;
 }
 
 export default function OfficeScene({
@@ -24,7 +30,13 @@ export default function OfficeScene({
   onLoaded,
   onProgress,
   isModalOpen = false,
+  activeModal = null,
   language,
+  isNightMode = false,
+  onCoffeeClick,
+  triggerFeedFishRef,
+  triggerSnowfallRef,
+  triggerToggleLampRef,
 }: OfficeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -47,6 +59,15 @@ export default function OfficeScene({
   const isModalOpenRef = useRef(isModalOpen);
   isModalOpenRef.current = isModalOpen;
 
+  const activeModalRef = useRef(activeModal);
+  activeModalRef.current = activeModal;
+
+  const isNightModeRef = useRef(isNightMode);
+  isNightModeRef.current = isNightMode;
+
+  const onCoffeeClickRef = useRef(onCoffeeClick);
+  onCoffeeClickRef.current = onCoffeeClick;
+
   const languageRef = useRef(language);
   languageRef.current = language;
 
@@ -63,6 +84,9 @@ export default function OfficeScene({
     let aspect = width / height;
 
     const camera = new THREE.PerspectiveCamera(35, aspect, 0.1, 50);
+
+    let defaultCameraZ = 4.8;
+    let defaultCameraY = 0.08;
 
     // Dynamic Camera Framing ensuring room is closer and wall canvas has exact clean headroom
     const updateCameraFraming = (cam: THREE.PerspectiveCamera, w: number, h: number) => {
@@ -87,6 +111,8 @@ export default function OfficeScene({
         cam.position.set(0.0, 0.08, 4.8);
       }
 
+      defaultCameraZ = cam.position.z;
+      defaultCameraY = cam.position.y;
       cam.updateProjectionMatrix();
     };
 
@@ -131,6 +157,15 @@ export default function OfficeScene({
     lampLight.target.position.set(-0.60, -0.74, 0.35);
     scene.add(lampLight);
     scene.add(lampLight.target);
+
+    // Night Mode Glowing Point Lights
+    const laptopGlow = new THREE.PointLight(0x60a5fa, 0, 1.8);
+    laptopGlow.position.set(-0.55, -0.42, 0.18);
+    scene.add(laptopGlow);
+
+    const aquariumGlow = new THREE.PointLight(0x38bdf8, 0, 2.2);
+    aquariumGlow.position.set(1.05, -0.45, 0.15);
+    scene.add(aquariumGlow);
 
     // Clickable interactive registry
     const clickableObjects: { mesh: THREE.Object3D; id: string; name: string }[] = [];
@@ -212,36 +247,75 @@ export default function OfficeScene({
       return tex;
     }
 
+    let laptopCanvas: HTMLCanvasElement | null = null;
+    let laptopCtx: CanvasRenderingContext2D | null = null;
+    let laptopTexture: THREE.CanvasTexture | null = null;
+    let dynamicSnippetIndex = 0;
+
+    const dynamicCodeLines = [
+      { text: "// Mindset: Ask First, Code Later", color: "#9ca3af" },
+      { text: "const app = await engineer.buildNextGenMobileApp();", color: "#38bdf8" },
+      { text: "export function deployResilientSystem() {", color: "#facc15" },
+      { text: "  return { uptime: '99.99%', latency: '<40ms' };", color: "#4ade80" },
+      { text: "}", color: "#facc15" },
+      { text: "console.log('🚀 Ready to ship high-impact software!');", color: "#fb923c" },
+      { text: "await syncLocalSQLiteDatabase({ encrypted: true });", color: "#a3e635" },
+      { text: "render60fpsSmoothInteractions(userTouch);", color: "#c084fc" },
+      { text: "export const passion = 'Infinite';", color: "#f43f5e" },
+    ];
+
+    const typeNextCodeSnippet = () => {
+      sound.playKeyboardClack();
+      if (!laptopCtx || !laptopCanvas || !laptopTexture) return;
+
+      const snippet = dynamicCodeLines[dynamicSnippetIndex % dynamicCodeLines.length];
+      dynamicSnippetIndex++;
+
+      const yPos = 80 + ((dynamicSnippetIndex % 14) * 34);
+      laptopCtx.fillStyle = "#18181b";
+      laptopCtx.fillRect(20, yPos - 22, 980, 32);
+
+      laptopCtx.fillStyle = "#52525b";
+      laptopCtx.font = "15px monospace";
+      laptopCtx.fillText(String((dynamicSnippetIndex % 99) + 1).padStart(2, "0"), 25, yPos);
+
+      laptopCtx.fillStyle = snippet.color;
+      laptopCtx.font = "16px monospace";
+      laptopCtx.fillText(snippet.text + " █", 65, yPos);
+
+      laptopTexture.needsUpdate = true;
+    };
+
     function createLaptopScreenTexture(): THREE.CanvasTexture {
-      const c = document.createElement("canvas");
-      c.width = 1024;
-      c.height = 640;
-      const ctx = c.getContext("2d")!;
+      laptopCanvas = document.createElement("canvas");
+      laptopCanvas.width = 1024;
+      laptopCanvas.height = 640;
+      laptopCtx = laptopCanvas.getContext("2d")!;
 
-      ctx.fillStyle = "#18181b";
-      ctx.fillRect(0, 0, c.width, c.height);
+      laptopCtx.fillStyle = "#18181b";
+      laptopCtx.fillRect(0, 0, laptopCanvas.width, laptopCanvas.height);
 
-      ctx.fillStyle = "#27272a";
-      ctx.fillRect(0, 0, c.width, 36);
+      laptopCtx.fillStyle = "#27272a";
+      laptopCtx.fillRect(0, 0, laptopCanvas.width, 36);
 
-      ctx.fillStyle = "#ef4444";
-      ctx.beginPath();
-      ctx.arc(20, 18, 6, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "#f59e0b";
-      ctx.beginPath();
-      ctx.arc(38, 18, 6, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "#10b981";
-      ctx.beginPath();
-      ctx.arc(56, 18, 6, 0, Math.PI * 2);
-      ctx.fill();
+      laptopCtx.fillStyle = "#ef4444";
+      laptopCtx.beginPath();
+      laptopCtx.arc(20, 18, 6, 0, Math.PI * 2);
+      laptopCtx.fill();
+      laptopCtx.fillStyle = "#f59e0b";
+      laptopCtx.beginPath();
+      laptopCtx.arc(38, 18, 6, 0, Math.PI * 2);
+      laptopCtx.fill();
+      laptopCtx.fillStyle = "#10b981";
+      laptopCtx.beginPath();
+      laptopCtx.arc(56, 18, 6, 0, Math.PI * 2);
+      laptopCtx.fill();
 
-      ctx.fillStyle = "#18181b";
-      ctx.fillRect(80, 6, 170, 30);
-      ctx.fillStyle = "#a1a1aa";
-      ctx.font = "14px monospace";
-      ctx.fillText("JirayuWorkspace.tsx", 95, 26);
+      laptopCtx.fillStyle = "#18181b";
+      laptopCtx.fillRect(80, 6, 170, 30);
+      laptopCtx.fillStyle = "#a1a1aa";
+      laptopCtx.font = "14px monospace";
+      laptopCtx.fillText("JirayuWorkspace.tsx", 95, 26);
 
       const codeLines = [
         { text: "import { FullStack, Mobile } from '@jirayu/core';", color: "#c084fc" },
@@ -262,19 +336,19 @@ export default function OfficeScene({
 
       let yPos = 80;
       codeLines.forEach((line, index) => {
-        ctx.fillStyle = "#52525b";
-        ctx.font = "15px monospace";
-        ctx.fillText(String(index + 1).padStart(2, "0"), 25, yPos);
+        laptopCtx!.fillStyle = "#52525b";
+        laptopCtx!.font = "15px monospace";
+        laptopCtx!.fillText(String(index + 1).padStart(2, "0"), 25, yPos);
 
-        ctx.fillStyle = line.color;
-        ctx.font = "16px monospace";
-        ctx.fillText(line.text, 65, yPos);
+        laptopCtx!.fillStyle = line.color;
+        laptopCtx!.font = "16px monospace";
+        laptopCtx!.fillText(line.text, 65, yPos);
         yPos += 34;
       });
 
-      const tex = new THREE.CanvasTexture(c);
-      tex.colorSpace = THREE.SRGBColorSpace;
-      return tex;
+      laptopTexture = new THREE.CanvasTexture(laptopCanvas);
+      laptopTexture.colorSpace = THREE.SRGBColorSpace;
+      return laptopTexture;
     }
 
     // 4. Room Wall & Floor
@@ -480,6 +554,67 @@ export default function OfficeScene({
     aquariumGroup.position.set(1.05, deskSurfaceY, 0.12);
     scene.add(aquariumGroup);
 
+    // 6.4 Ceramic Coffee Mug & Animated Rising Steam Particles
+    const coffeeGroup = new THREE.Group();
+    coffeeGroup.position.set(-0.16, deskSurfaceY, 0.22);
+
+    const mugMat = new THREE.MeshStandardMaterial({
+      color: 0xede0d4,
+      roughness: 0.65,
+      metalness: 0.05,
+    });
+    const mugMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.042, 0.038, 0.085, 24),
+      mugMat
+    );
+    mugMesh.position.y = 0.0425;
+    mugMesh.castShadow = true;
+    mugMesh.receiveShadow = true;
+    coffeeGroup.add(mugMesh);
+
+    const coffeeLiquid = new THREE.Mesh(
+      new THREE.CircleGeometry(0.038, 24),
+      new THREE.MeshStandardMaterial({ color: 0x1f1209, roughness: 0.15 })
+    );
+    coffeeLiquid.rotation.x = -Math.PI / 2;
+    coffeeLiquid.position.y = 0.078;
+    coffeeGroup.add(coffeeLiquid);
+
+    const handleMesh = new THREE.Mesh(
+      new THREE.TorusGeometry(0.022, 0.006, 8, 16, Math.PI),
+      mugMat
+    );
+    handleMesh.rotation.z = -Math.PI / 2;
+    handleMesh.position.set(0.044, 0.045, 0);
+    coffeeGroup.add(handleMesh);
+
+    // Rising Animated Steam Particles
+    const steamCount = 18;
+    const steamGeo = new THREE.BufferGeometry();
+    const steamPositions = new Float32Array(steamCount * 3);
+    const steamSpeeds = new Float32Array(steamCount);
+    const steamPhases = new Float32Array(steamCount);
+
+    for (let i = 0; i < steamCount; i++) {
+      steamPositions[i * 3] = (Math.random() - 0.5) * 0.035;
+      steamPositions[i * 3 + 1] = 0.08 + Math.random() * 0.16;
+      steamPositions[i * 3 + 2] = (Math.random() - 0.5) * 0.035;
+      steamSpeeds[i] = 0.0006 + Math.random() * 0.0008;
+      steamPhases[i] = Math.random() * Math.PI * 2;
+    }
+    steamGeo.setAttribute("position", new THREE.BufferAttribute(steamPositions, 3));
+    const steamMat = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.025,
+      transparent: true,
+      opacity: 0.35,
+    });
+    const steamParticles = new THREE.Points(steamGeo, steamMat);
+    coffeeGroup.add(steamParticles);
+
+    scene.add(coffeeGroup);
+    clickableObjects.push({ mesh: coffeeGroup, id: "coffee", name: "Coffee Mug (Take a Sip!)" });
+
     // 7. GLTF 3D Model Loading Helper
     function createNormalizedModel(
       gltfScene: THREE.Group,
@@ -620,7 +755,7 @@ export default function OfficeScene({
         const keyboardModel = createNormalizedModel(gltf.scene, { targetWidth: 0.82 });
         keyboardModel.position.set(-0.55, deskSurfaceY, 0.45);
         scene.add(keyboardModel);
-        clickableObjects.push({ mesh: keyboardModel, id: "laptop", name: "Mechanical Keyboard (Case Studies)" });
+        clickableObjects.push({ mesh: keyboardModel, id: "keyboard", name: "Mechanical Keyboard (Click to Type Code!)" });
       },
       undefined,
       (err) => console.warn("mechanical keyboard.glb", err)
@@ -1063,7 +1198,7 @@ export default function OfficeScene({
         if (matched) {
           if (matched.id === "lamp") {
             lampIsOn = !lampIsOn;
-            lampLight.intensity = lampIsOn ? 3.4 : 0.0;
+            lampLight.intensity = lampIsOn ? (isNightModeRef.current ? 4.8 : 3.4) : 0.0;
             sound.playLampSwitch(lampIsOn);
             onDiscoverRef.current?.("lamp");
             return;
@@ -1087,14 +1222,46 @@ export default function OfficeScene({
             return;
           }
 
+          if (matched.id === "coffee") {
+            sound.playCoffeeSip();
+            onDiscoverRef.current?.("coffee");
+            onCoffeeClickRef.current?.();
+            return;
+          }
+
+          if (matched.id === "keyboard") {
+            typeNextCodeSnippet();
+            onDiscoverRef.current?.("keyboard");
+            return;
+          }
+
           sound.playObjectSound(matched.id);
           onSelectRef.current(matched.id);
         }
       }
     };
 
+    const handlePhysicalKeyDown = (e: KeyboardEvent) => {
+      if (isModalOpenRef.current) return;
+      if (e.key === "Escape" || e.key === "Tab" || e.key.startsWith("F") || e.metaKey || e.ctrlKey) return;
+      typeNextCodeSnippet();
+    };
+
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("click", handleClick);
+    window.addEventListener("keydown", handlePhysicalKeyDown);
+
+    // Imperative triggers for UI drawer
+    if (triggerFeedFishRef) triggerFeedFishRef.current = feedFish;
+    if (triggerSnowfallRef) triggerSnowfallRef.current = triggerSnowfall;
+    if (triggerToggleLampRef) {
+      triggerToggleLampRef.current = () => {
+        lampIsOn = !lampIsOn;
+        lampLight.intensity = lampIsOn ? (isNightModeRef.current ? 4.8 : 3.4) : 0.0;
+        sound.playLampSwitch(lampIsOn);
+        onDiscoverRef.current?.("lamp");
+      };
+    }
 
     // 10. Window Resize
     const handleResize = () => {
@@ -1110,6 +1277,45 @@ export default function OfficeScene({
     let animId: number;
     let clock = new THREE.Clock();
 
+    const cameraFoci: Record<string, { pos: THREE.Vector3; lookAt: THREE.Vector3 }> = {
+      laptop: {
+        pos: new THREE.Vector3(-0.55, -0.32, 2.3),
+        lookAt: new THREE.Vector3(-0.55, -0.42, 0.1),
+      },
+      phone: {
+        pos: new THREE.Vector3(0.52, -0.35, 2.3),
+        lookAt: new THREE.Vector3(0.52, -0.45, 0.25),
+      },
+      green_art: {
+        pos: new THREE.Vector3(-0.5, 0.45, 2.5),
+        lookAt: new THREE.Vector3(-0.5, 0.45, -1.25),
+      },
+      yellow_vase: {
+        pos: new THREE.Vector3(0.5, 0.45, 2.5),
+        lookAt: new THREE.Vector3(0.5, 0.45, -1.25),
+      },
+      cards_red: {
+        pos: new THREE.Vector3(0.9, 0.35, 2.6),
+        lookAt: new THREE.Vector3(0.95, 0.4, -1.25),
+      },
+      cards_green: {
+        pos: new THREE.Vector3(1.1, 0.55, 2.6),
+        lookAt: new THREE.Vector3(1.1, 0.6, -1.25),
+      },
+      cards_blue: {
+        pos: new THREE.Vector3(1.4, 0.45, 2.6),
+        lookAt: new THREE.Vector3(1.45, 0.45, -1.25),
+      },
+      postit: {
+        pos: new THREE.Vector3(0.65, 0.0, 2.5),
+        lookAt: new THREE.Vector3(0.7, -0.1, -1.25),
+      },
+    };
+
+    const currentLookAt = new THREE.Vector3(0, -0.12, 0);
+    const targetLookAt = new THREE.Vector3(0, -0.12, 0);
+    const targetCameraPos = new THREE.Vector3(0, 0.08, 4.8);
+
     const animate = () => {
       animId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
@@ -1118,12 +1324,48 @@ export default function OfficeScene({
       // Update skeletal swimming animations for Betta and Clownfish
       mixers.forEach((m) => m.update(delta));
 
-      // Mouse Parallax Damping towards target
-      if (!isModalOpenRef.current) {
-        camera.position.x += (targetCameraX - camera.position.x) * 0.05;
-        camera.position.y += (targetCameraY - camera.position.y) * 0.05;
-        camera.lookAt(0, -0.12, 0);
+      // Day & Night Lighting Transitions
+      const night = isNightModeRef.current;
+      const targetBg = night ? new THREE.Color("#131118") : new THREE.Color("#ede4d4");
+      (scene.background as THREE.Color).lerp(targetBg, 0.04);
+
+      const targetAmb = night ? 0.30 : 1.05;
+      ambientLight.intensity += (targetAmb - ambientLight.intensity) * 0.04;
+
+      const targetSun = night ? 0.18 : 1.45;
+      sunLight.intensity += (targetSun - sunLight.intensity) * 0.04;
+
+      const targetSunCol = night ? new THREE.Color(0x64748b) : new THREE.Color(0xffeedd);
+      sunLight.color.lerp(targetSunCol, 0.04);
+
+      // Spot light desk lamp
+      if (lampIsOn) {
+        const targetLamp = night ? 4.8 : 3.4;
+        lampLight.intensity += (targetLamp - lampLight.intensity) * 0.05;
+      } else {
+        lampLight.intensity += (0 - lampLight.intensity) * 0.08;
       }
+
+      // Laptop & Aquarium Glow
+      const targetLapGlow = night ? 1.3 : 0.0;
+      laptopGlow.intensity += (targetLapGlow - laptopGlow.intensity) * 0.04;
+
+      const targetAquaGlow = night ? 2.2 : 0.0;
+      aquariumGlow.intensity += (targetAquaGlow - aquariumGlow.intensity) * 0.04;
+
+      // Cinematic Camera Focus Zoom
+      const currentActive = activeModalRef.current;
+      if (currentActive && cameraFoci[currentActive]) {
+        targetCameraPos.copy(cameraFoci[currentActive].pos);
+        targetLookAt.copy(cameraFoci[currentActive].lookAt);
+      } else {
+        targetCameraPos.set(targetCameraX, targetCameraY, defaultCameraZ);
+        targetLookAt.set(0, -0.12, 0);
+      }
+
+      camera.position.lerp(targetCameraPos, 0.045);
+      currentLookAt.lerp(targetLookAt, 0.045);
+      camera.lookAt(currentLookAt);
 
       // Animate 3D Fish Swimming smoothly in tangent direction
       fishList.forEach((f) => {
@@ -1137,6 +1379,19 @@ export default function OfficeScene({
         const dz = Math.cos(f.angle) * f.rZ * f.dir;
         f.mesh.rotation.y = Math.atan2(dx, dz);
       });
+
+      // Update Rising Coffee Steam Wisps
+      const steamPos = steamGeo.attributes.position.array as Float32Array;
+      for (let i = 0; i < steamCount; i++) {
+        steamPos[i * 3 + 1] += steamSpeeds[i];
+        steamPos[i * 3] += Math.sin(elapsedTime * 2 + steamPhases[i]) * 0.0003;
+        if (steamPos[i * 3 + 1] > 0.26) {
+          steamPos[i * 3 + 1] = 0.08;
+          steamPos[i * 3] = (Math.random() - 0.5) * 0.035;
+          steamPos[i * 3 + 2] = (Math.random() - 0.5) * 0.035;
+        }
+      }
+      steamGeo.attributes.position.needsUpdate = true;
 
       // Animate Falling Snow
       if (isSnowing) {
@@ -1170,7 +1425,11 @@ export default function OfficeScene({
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("click", handleClick);
+      window.removeEventListener("keydown", handlePhysicalKeyDown);
       window.removeEventListener("resize", handleResize);
+      if (triggerFeedFishRef) triggerFeedFishRef.current = null;
+      if (triggerSnowfallRef) triggerSnowfallRef.current = null;
+      if (triggerToggleLampRef) triggerToggleLampRef.current = null;
       cancelAnimationFrame(animId);
       if (snowTimer) clearTimeout(snowTimer);
       clearTimeout(fallbackTimer);
