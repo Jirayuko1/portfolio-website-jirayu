@@ -57,29 +57,29 @@ export default function OfficeScene({
     let height = container.clientHeight;
     let aspect = width / height;
 
-    const camera = new THREE.PerspectiveCamera(34, aspect, 0.1, 50);
+    const camera = new THREE.PerspectiveCamera(35, aspect, 0.1, 50);
 
-    // Dynamic Camera Framing ensuring all wall art and desk items fit comfortably
+    // Dynamic Camera Framing ensuring room is closer and wall canvas has exact clean headroom
     const updateCameraFraming = (cam: THREE.PerspectiveCamera, w: number, h: number) => {
       const asp = w / h;
       cam.aspect = asp;
 
       if (asp < 0.65) {
         // Tall smartphone (iPhone portrait)
-        cam.fov = 40;
-        cam.position.set(0.05, 0.35, 8.4);
+        cam.fov = 42;
+        cam.position.set(0.0, 0.18, 6.8);
       } else if (asp < 1.0) {
         // Tablet portrait
-        cam.fov = 37;
-        cam.position.set(0.0, 0.3, 7.2);
+        cam.fov = 38;
+        cam.position.set(0.0, 0.14, 5.8);
       } else if (asp < 1.4) {
         // Tablet landscape / small laptop
-        cam.fov = 35;
-        cam.position.set(0.0, 0.25, 6.4);
+        cam.fov = 36;
+        cam.position.set(0.0, 0.10, 5.2);
       } else {
-        // Standard Desktop: Centered view with ample space above wall art
-        cam.fov = 34;
-        cam.position.set(0.0, 0.22, 5.8);
+        // Standard Desktop: Zoomed closer to desk (~4.8) with canvas art nicely framed with padding
+        cam.fov = 35;
+        cam.position.set(0.0, 0.08, 4.8);
       }
 
       cam.updateProjectionMatrix();
@@ -122,8 +122,8 @@ export default function OfficeScene({
     // Desk Lamp SpotLight (Positioned at lamp head pointing right toward laptop/keyboard)
     let lampIsOn = true;
     const lampLight = new THREE.SpotLight(0xffeedd, 3.4, 5.0, Math.PI / 3.8, 0.45, 1.2);
-    lampLight.position.set(-1.40, -0.05, 0.25);
-    lampLight.target.position.set(-0.85, -0.74, 0.35);
+    lampLight.position.set(-1.10, -0.05, 0.20);
+    lampLight.target.position.set(-0.60, -0.74, 0.35);
     scene.add(lampLight);
     scene.add(lampLight.target);
 
@@ -448,9 +448,9 @@ export default function OfficeScene({
           new THREE.MeshBasicMaterial({ color: 0x92400e })
         );
         pellet.position.set(
-          1.25 + (Math.random() - 0.5) * 0.35,
+          1.08 + (Math.random() - 0.5) * 0.35,
           -0.10,
-          0.15 + (Math.random() - 0.5) * 0.25
+          0.12 + (Math.random() - 0.5) * 0.25
         );
         scene.add(pellet);
         foodPellets.push({ mesh: pellet, vy: 0.005 + Math.random() * 0.004 });
@@ -462,7 +462,7 @@ export default function OfficeScene({
     const fishColors = [0xf97316, 0xa855f7, 0x06b6d4];
     const aquariumGroup = new THREE.Group();
     const deskSurfaceY = -0.745;
-    aquariumGroup.position.set(1.25, deskSurfaceY, 0.15);
+    aquariumGroup.position.set(1.08, deskSurfaceY, 0.12);
 
     for (let f = 0; f < 3; f++) {
       const fishGroup = new THREE.Group();
@@ -625,7 +625,7 @@ export default function OfficeScene({
           targetWidth: 0.95,
           rotationY: Math.PI / 2,
         });
-        laptopModel.position.set(-0.75, deskSurfaceY, 0.05);
+        laptopModel.position.set(-0.55, deskSurfaceY, 0.05);
 
         scene.add(laptopModel);
         clickableObjects.push({ mesh: laptopModel, id: "laptop", name: "Laptop (Featured Case Studies)" });
@@ -645,7 +645,7 @@ export default function OfficeScene({
           }
         });
         const keyboardModel = createNormalizedModel(gltf.scene, { targetWidth: 0.82 });
-        keyboardModel.position.set(-0.75, deskSurfaceY, 0.46);
+        keyboardModel.position.set(-0.55, deskSurfaceY, 0.45);
         scene.add(keyboardModel);
         clickableObjects.push({ mesh: keyboardModel, id: "laptop", name: "Mechanical Keyboard (Case Studies)" });
       },
@@ -661,7 +661,7 @@ export default function OfficeScene({
           if ((c as THREE.Mesh).isMesh) c.receiveShadow = true;
         });
         const padModel = createNormalizedModel(gltf.scene, { targetWidth: 0.65 });
-        padModel.position.set(0.12, deskSurfaceY, 0.44);
+        padModel.position.set(0.28, deskSurfaceY, 0.45);
         scene.add(padModel);
       },
       undefined,
@@ -679,7 +679,7 @@ export default function OfficeScene({
           }
         });
         const mouseModel = createNormalizedModel(gltf.scene, { targetDepth: 0.17 });
-        mouseModel.position.set(0.12, deskSurfaceY + 0.003, 0.44);
+        mouseModel.position.set(0.28, deskSurfaceY + 0.003, 0.45);
 
         // Ambient RGB glow ring under mouse
         const glow = new THREE.Mesh(
@@ -707,7 +707,7 @@ export default function OfficeScene({
           }
         });
         const phoneStandGroup = new THREE.Group();
-        phoneStandGroup.position.set(-0.22, deskSurfaceY, 0.14);
+        phoneStandGroup.position.set(-0.02, deskSurfaceY, 0.12);
 
         // White stand base
         const standBase = new THREE.Mesh(
@@ -736,7 +736,7 @@ export default function OfficeScene({
       (err) => console.warn("Phone.glb", err)
     );
 
-    // 8.7 Desk Lamp (Desk lamp.glb - Rotated to face right toward desk/laptop)
+    // 8.7 Desk Lamp (Desk lamp.glb - Inward from edge, facing right toward center desk)
     loader.load(
       "/models/Desk lamp.glb",
       (gltf) => {
@@ -746,12 +746,12 @@ export default function OfficeScene({
             c.receiveShadow = true;
           }
         });
-        // Rotated by ~105° (Math.PI / 2 + 0.25) so lamp neck and shade face RIGHT toward center desk
+        // Rotated by ~105° so lamp neck and shade face right toward laptop & keyboard
         const lampModel = createNormalizedModel(gltf.scene, {
           targetHeight: 0.85,
-          rotationY: Math.PI / 2 + 0.25,
+          rotationY: Math.PI / 2 + 0.20,
         });
-        lampModel.position.set(-1.65, deskSurfaceY, 0.08);
+        lampModel.position.set(-1.35, deskSurfaceY, 0.05);
 
         scene.add(lampModel);
         clickableObjects.push({ mesh: lampModel, id: "lamp", name: "Desk Lamp (Click to Toggle Light)" });
@@ -760,7 +760,7 @@ export default function OfficeScene({
       (err) => console.warn("Desk lamp.glb", err)
     );
 
-    // 8.8 Knitted Christmas Tree (christmas tree.glb)
+    // 8.8 Knitted Christmas Tree (christmas tree.glb - Inward from left edge)
     loader.load(
       "/models/christmas tree.glb",
       (gltf) => {
@@ -771,7 +771,7 @@ export default function OfficeScene({
           }
         });
         const treeModel = createNormalizedModel(gltf.scene, { targetHeight: 0.65 });
-        treeModel.position.set(-1.75, deskSurfaceY, 0.48);
+        treeModel.position.set(-1.45, deskSurfaceY, 0.42);
         scene.add(treeModel);
         clickableObjects.push({ mesh: treeModel, id: "tree", name: "Christmas Tree (Click for Snowfall!)" });
       },
@@ -779,7 +779,7 @@ export default function OfficeScene({
       (err) => console.warn("christmas tree.glb", err)
     );
 
-    // 8.9 Aquarium Tank (Fish Tank.glb)
+    // 8.9 Aquarium Tank (Fish Tank.glb - Inward from right edge)
     loader.load(
       "/models/Fish Tank.glb",
       (gltf) => {
@@ -826,7 +826,7 @@ export default function OfficeScene({
           }
         });
         const radioModel = createNormalizedModel(gltf.scene, { targetWidth: 0.38 });
-        radioModel.position.set(0.52, deskSurfaceY, 0.05);
+        radioModel.position.set(0.45, deskSurfaceY, 0.06);
 
         scene.add(radioModel);
         clickableObjects.push({ mesh: radioModel, id: "speaker", name: "Smart Speaker (Click for Lo-Fi Beats)" });
@@ -891,7 +891,7 @@ export default function OfficeScene({
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     let targetCameraX = 0;
-    let targetCameraY = 0.22;
+    let targetCameraY = 0.08;
     let currentHoveredId: string | null = null;
 
     const handlePointerMove = (e: MouseEvent) => {
@@ -901,8 +901,8 @@ export default function OfficeScene({
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
-      targetCameraX = mouse.x * 0.25;
-      targetCameraY = 0.22 + mouse.y * 0.12;
+      targetCameraX = mouse.x * 0.18;
+      targetCameraY = 0.08 + mouse.y * 0.06;
 
       raycaster.setFromCamera(mouse, camera);
       const meshesToTest = clickableObjects.map((o) => o.mesh);
@@ -1023,7 +1023,7 @@ export default function OfficeScene({
       if (!isModalOpenRef.current) {
         camera.position.x += (targetCameraX - camera.position.x) * 0.05;
         camera.position.y += (targetCameraY - camera.position.y) * 0.05;
-        camera.lookAt(0, 0.08, 0);
+        camera.lookAt(0, -0.12, 0);
       }
 
       // Animate Swimming Fish strictly inside local aquarium space
