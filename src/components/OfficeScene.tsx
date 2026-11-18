@@ -559,8 +559,8 @@ export default function OfficeScene({
 
     // 6.4 Ceramic Coffee Mug & Animated Rising Steam Particles
     const coffeeGroup = new THREE.Group();
-    // Positioned neatly to the right of the mousepad, before the aquarium, unobstructed!
-    coffeeGroup.position.set(0.62, deskSurfaceY, 0.38);
+    // Positioned forward on the desk to the right of the mousepad, completely clear of the aquarium!
+    coffeeGroup.position.set(0.57, deskSurfaceY, 0.52);
 
     // Warm cork coaster
     const coaster = new THREE.Mesh(
