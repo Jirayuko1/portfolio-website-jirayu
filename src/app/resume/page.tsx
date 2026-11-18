@@ -9,7 +9,7 @@ export default function ResumePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-[#2d2522] font-sans antialiased selection:bg-[#f2b705] selection:text-black">
+    <div className="min-h-screen w-full overflow-y-auto bg-[#faf8f5] text-[#2d2522] font-sans antialiased select-text selection:bg-[#f2b705] selection:text-black">
       {/* Top Floating Action Bar (Hidden when printing) */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e5ded4] py-3.5 px-4 sm:px-8 print:hidden shadow-xs">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">

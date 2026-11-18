@@ -1107,10 +1107,11 @@ export default function OfficeScene({
           }
         });
         const socketModel = createNormalizedModel(gltf.scene, {
-          targetHeight: 0.22,
+          targetHeight: 0.17,
           rotationY: -Math.PI / 2, // Front faceplate faces forward directly toward camera
         });
-        socketModel.position.set(0.22, 0.05, -1.26);
+        // Positioned neatly lower down above the radio, completely clear of post-it and aquarium!
+        socketModel.position.set(0.24, -0.22, -1.26);
         scene.add(socketModel);
       },
       undefined,
@@ -1125,7 +1126,8 @@ export default function OfficeScene({
           if ((c as THREE.Mesh).isMesh) c.receiveShadow = true;
         });
         const postitModel = createNormalizedModel(gltf.scene, { targetWidth: 0.18, rotationZ: -0.04 });
-        postitModel.position.set(-0.04, -0.03, -1.27);
+        // Positioned higher up above phone and to the left, well-spaced with zero overlap!
+        postitModel.position.set(-0.08, 0.18, -1.27);
         scene.add(postitModel);
         clickableObjects.push({ mesh: postitModel, id: "postit", name: "Sticky Note (Rule #1)" });
       },
@@ -1326,8 +1328,8 @@ export default function OfficeScene({
         lookAt: new THREE.Vector3(1.45, 0.45, -1.25),
       },
       postit: {
-        pos: new THREE.Vector3(0.16, 0.20, 2.3),
-        lookAt: new THREE.Vector3(0.16, 0.20, -1.27),
+        pos: new THREE.Vector3(-0.08, 0.18, 2.3),
+        lookAt: new THREE.Vector3(-0.08, 0.18, -1.27),
       },
     };
 
@@ -1343,19 +1345,19 @@ export default function OfficeScene({
       // Update skeletal swimming animations for Betta and Clownfish
       mixers.forEach((m) => m.update(delta));
 
-      // Day & Night Lighting Transitions
+      // Day & Night Lighting Transitions (Cozy visible midnight slate, never pitch black)
       const night = isNightModeRef.current;
-      const targetBg = night ? new THREE.Color("#131118") : new THREE.Color("#baa792");
+      const targetBg = night ? new THREE.Color("#2a2536") : new THREE.Color("#baa792");
       (scene.background as THREE.Color).lerp(targetBg, 0.04);
       wallMat.color.lerp(targetBg, 0.04);
 
-      const targetAmb = night ? 0.30 : 1.05;
+      const targetAmb = night ? 0.52 : 1.05;
       ambientLight.intensity += (targetAmb - ambientLight.intensity) * 0.04;
 
-      const targetSun = night ? 0.18 : 1.45;
+      const targetSun = night ? 0.38 : 1.45;
       sunLight.intensity += (targetSun - sunLight.intensity) * 0.04;
 
-      const targetSunCol = night ? new THREE.Color(0x64748b) : new THREE.Color(0xffeedd);
+      const targetSunCol = night ? new THREE.Color(0x93c5fd) : new THREE.Color(0xffeedd);
       sunLight.color.lerp(targetSunCol, 0.04);
 
       // Spot light desk lamp
