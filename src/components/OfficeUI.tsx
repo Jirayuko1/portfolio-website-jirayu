@@ -10,6 +10,7 @@ import {
   ChevronDown,
   ChevronUp,
   Laptop,
+  Smartphone,
   Palette,
   User,
   Heart,
@@ -48,6 +49,7 @@ export default function OfficeUI({
 
   const quickLinks = [
     { label: t.nav.laptop, id: "laptop", icon: Laptop },
+    { label: t.nav.phone, id: "phone", icon: Smartphone },
     { label: t.nav.green_art, id: "green_art", icon: Palette },
     { label: t.nav.yellow_vase, id: "yellow_vase", icon: User },
     { label: t.nav.cards_green, id: "cards_green", icon: Heart },

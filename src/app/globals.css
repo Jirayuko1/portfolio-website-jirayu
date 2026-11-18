@@ -65,3 +65,15 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(244, 235, 220, 0.4);
 }
+
+/* Palette-themed text selection */
+::selection {
+  background: #f2b705;
+  color: #140e0b;
+}
+
+/* Accessible, themed keyboard focus indicators */
+*:focus-visible {
+  outline: 2px solid #f2b705;
+  outline-offset: 2px;
+}

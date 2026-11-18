@@ -704,6 +704,11 @@ export default function OfficeScene({
         phoneStandGroup.add(phoneModel);
 
         scene.add(phoneStandGroup);
+        clickableObjects.push({
+          mesh: phoneStandGroup,
+          id: "phone",
+          name: "Smartphone (Mobile Apps & Direct Line)",
+        });
       },
       undefined,
       (err) => console.warn("Phone.glb", err)
