@@ -9,20 +9,35 @@ interface OfficeSceneProps {
   onSelectObject: (objectId: string) => void;
   hoveredObject: string | null;
   setHoveredObject: (name: string | null) => void;
+  onLoaded?: () => void;
+  onProgress?: (percent: number) => void;
+  isModalOpen?: boolean;
 }
 
 export default function OfficeScene({
   onSelectObject,
   setHoveredObject,
+  onLoaded,
+  onProgress,
+  isModalOpen = false,
 }: OfficeSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Keep stable refs to avoid recreating the entire Three.js scene on state change
+  // Stable callback refs to prevent Three.js scene remounting
   const onSelectRef = useRef(onSelectObject);
   onSelectRef.current = onSelectObject;
 
   const onHoverRef = useRef(setHoveredObject);
   onHoverRef.current = setHoveredObject;
+
+  const onLoadedRef = useRef(onLoaded);
+  onLoadedRef.current = onLoaded;
+
+  const onProgressRef = useRef(onProgress);
+  onProgressRef.current = onProgress;
+
+  const isModalOpenRef = useRef(isModalOpen);
+  isModalOpenRef.current = isModalOpen;
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -37,7 +52,34 @@ export default function OfficeScene({
     let aspect = width / height;
 
     const camera = new THREE.PerspectiveCamera(30, aspect, 0.1, 50);
-    camera.position.set(0, 0.15, 7.8);
+
+    // Dynamic Camera Framing for Mobile / Tablet / Desktop
+    const updateCameraFraming = (cam: THREE.PerspectiveCamera, w: number, h: number) => {
+      const asp = w / h;
+      cam.aspect = asp;
+
+      if (asp < 0.65) {
+        // Tall smartphone (e.g. iPhone 390x844, Android 360x780)
+        cam.fov = 34;
+        cam.position.set(0.4, 0.2, 14.5);
+      } else if (asp < 1.0) {
+        // Tablet portrait or squarish foldable
+        cam.fov = 32;
+        cam.position.set(0.2, 0.15, 11.8);
+      } else if (asp < 1.4) {
+        // Tablet landscape / small laptop
+        cam.fov = 30;
+        cam.position.set(0.1, 0.15, 9.2);
+      } else {
+        // Standard wide desktop
+        cam.fov = 30;
+        cam.position.set(0, 0.15, 7.8);
+      }
+
+      cam.updateProjectionMatrix();
+    };
+
+    updateCameraFraming(camera, width, height);
 
     // 2. Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -99,7 +141,7 @@ export default function OfficeScene({
     wall.receiveShadow = true;
     scene.add(wall);
 
-    // Interactive clickable meshes registry
+    // Clickable objects registry
     const clickableObjects: { mesh: THREE.Object3D; id: string; name: string }[] = [];
 
     // Helper functions for wall textures
@@ -109,29 +151,24 @@ export default function OfficeScene({
       c.height = 680;
       const ctx = c.getContext("2d")!;
 
-      // Cork base
       ctx.fillStyle = "#9b724c";
       ctx.fillRect(0, 0, c.width, c.height);
 
-      // Noise grains
       for (let i = 0; i < 20000; i++) {
         ctx.fillStyle = Math.random() > 0.5 ? "#7d5836" : "#b0855d";
         ctx.fillRect(Math.random() * c.width, Math.random() * c.height, 2, 2);
       }
 
-      // Wooden border
       ctx.strokeStyle = "#5a3a1f";
       ctx.lineWidth = 14;
       ctx.strokeRect(7, 7, c.width - 14, c.height - 14);
 
-      // Label: Kind words
       ctx.fillStyle = "#fffdf7";
       ctx.fillRect(70, 45, 170, 42);
       ctx.fillStyle = "#2e211c";
       ctx.font = "bold 22px sans-serif";
       ctx.fillText("Kind words", 92, 75);
 
-      // Sticky notes
       const notes = [
         { x: 70, y: 115, w: 250, h: 210, color: "#fef08a", rot: -0.04, text: "Clarifying specs upfront saved our team 3 weeks of rework!" },
         { x: 380, y: 110, w: 250, h: 210, color: "#bbf7d0", rot: 0.03, text: "Bridges Web and Mobile with pure craftsmanship." },
@@ -152,13 +189,11 @@ export default function OfficeScene({
         ctx.fillStyle = note.color;
         ctx.fillRect(-note.w / 2, -note.h / 2, note.w, note.h);
 
-        // Pin
         ctx.beginPath();
         ctx.arc(0, -note.h / 2 + 16, 7, 0, Math.PI * 2);
         ctx.fillStyle = "#ef4444";
         ctx.fill();
 
-        // Handwritten text
         ctx.fillStyle = "#2d2015";
         ctx.font = "italic 20px cursive, sans-serif";
         const words = note.text.split(" ");
@@ -207,7 +242,6 @@ export default function OfficeScene({
       ctx.lineTo(c.width - 35, 135);
       ctx.stroke();
 
-      // Silhouette figure
       ctx.fillStyle = "#111";
       ctx.beginPath();
       ctx.arc(c.width / 2, 320, 28, 0, Math.PI * 2);
@@ -224,7 +258,6 @@ export default function OfficeScene({
       ctx.fillRect(c.width / 2 - 42, 530, 28, 110);
       ctx.fillRect(c.width / 2 + 14, 530, 28, 110);
 
-      // Guitar case
       ctx.beginPath();
       ctx.roundRect(c.width / 2 - 82, 420, 36, 150, 14);
       ctx.fill();
@@ -250,11 +283,9 @@ export default function OfficeScene({
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, c.width, c.height);
 
-      // Top tape
       ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
       ctx.fillRect(c.width / 2 - 50, 0, 100, 24);
 
-      // Skyline
       ctx.fillStyle = "#1e1b4b";
       ctx.beginPath();
       ctx.moveTo(0, c.height);
@@ -318,9 +349,24 @@ export default function OfficeScene({
     scene.add(postcardMesh);
     clickableObjects.push({ mesh: postcardMesh, id: "postcard", name: "Bangkok Postcard" });
 
-    // 6. Configure GLTF Loader with MeshoptDecoder
+    // 6. Configure GLTF Loader with MeshoptDecoder & Progress Tracker
     const gltfLoader = new GLTFLoader();
     gltfLoader.setMeshoptDecoder(MeshoptDecoder);
+
+    const totalModels = 3;
+    let loadedModelsCount = 0;
+
+    const checkAllLoaded = () => {
+      loadedModelsCount++;
+      const percent = Math.min(100, (loadedModelsCount / totalModels) * 100);
+      onProgressRef.current?.(percent);
+
+      if (loadedModelsCount >= totalModels) {
+        setTimeout(() => {
+          onLoadedRef.current?.();
+        }, 300);
+      }
+    };
 
     // 7. Load Yellow Bookshelf
     gltfLoader.load(
@@ -351,9 +397,13 @@ export default function OfficeScene({
 
         scene.add(model);
         clickableObjects.push({ mesh: model, id: "bookshelf", name: "Case Studies Bookshelf" });
+        checkAllLoaded();
       },
       undefined,
-      (err) => console.error("Error loading bookshelf.glb:", err)
+      (err) => {
+        console.error("Error loading bookshelf.glb:", err);
+        checkAllLoaded();
+      }
     );
 
     // 8. Load Wall Shelf with Plant
@@ -373,12 +423,16 @@ export default function OfficeScene({
 
         scene.add(model);
         clickableObjects.push({ mesh: model, id: "plant", name: "Hanging Pothos Plant" });
+        checkAllLoaded();
       },
       undefined,
-      (err) => console.error("Error loading wall-shelf.glb:", err)
+      (err) => {
+        console.error("Error loading wall-shelf.glb:", err);
+        checkAllLoaded();
+      }
     );
 
-    // 9. Load Sitting Cat (Compressed with Meshopt)
+    // 9. Load Sitting Cat (Meshopt compressed)
     gltfLoader.load(
       "/models/cat.glb",
       (gltf) => {
@@ -395,12 +449,16 @@ export default function OfficeScene({
 
         scene.add(model);
         clickableObjects.push({ mesh: model, id: "cat", name: "Zuko the Office Cat" });
+        checkAllLoaded();
       },
       undefined,
-      (err) => console.error("Error loading cat.glb:", err)
+      (err) => {
+        console.error("Error loading cat.glb:", err);
+        checkAllLoaded();
+      }
     );
 
-    // 10. Mouse Interaction & Raycasting (With Debounce / Hover Lock to avoid flickering)
+    // 10. Mouse Interaction & Raycasting (No flicker)
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     let targetCameraX = 0;
@@ -408,6 +466,9 @@ export default function OfficeScene({
     let currentHoveredName: string | null = null;
 
     const handlePointerMove = (e: MouseEvent) => {
+      // Skip raycasting calculations if modal is open
+      if (isModalOpenRef.current) return;
+
       const rect = container.getBoundingClientRect();
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -450,6 +511,8 @@ export default function OfficeScene({
     };
 
     const handleClick = (e: MouseEvent) => {
+      if (isModalOpenRef.current) return;
+
       const rect = container.getBoundingClientRect();
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -479,32 +542,34 @@ export default function OfficeScene({
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("click", handleClick);
 
-    // 11. Window Resize
+    // 11. Window Resize with Dynamic Camera Framing
     const handleResize = () => {
       width = container.clientWidth;
       height = container.clientHeight;
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
+      updateCameraFraming(camera, width, height);
       renderer.setSize(width, height);
     };
 
     window.addEventListener("resize", handleResize);
 
-    // 12. Main Animation Loop
+    // 12. Main Animation Loop (Throttled when modal is open)
     let animId: number;
     const animate = () => {
       animId = requestAnimationFrame(animate);
 
-      camera.position.x += (targetCameraX - camera.position.x) * 0.05;
-      camera.position.y += (targetCameraY - camera.position.y) * 0.05;
-      camera.lookAt(0, -0.15, 0);
+      // Damp camera position towards mouse parallax target
+      if (!isModalOpenRef.current) {
+        camera.position.x += (targetCameraX - camera.position.x) * 0.05;
+        camera.position.y += (targetCameraY - camera.position.y) * 0.05;
+        camera.lookAt(0, -0.15, 0);
+      }
 
       renderer.render(scene, camera);
     };
 
     animate();
 
-    // 13. Cleanup on unmount
+    // 13. Cleanup
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("click", handleClick);
@@ -515,7 +580,7 @@ export default function OfficeScene({
       }
       renderer.dispose();
     };
-  }, []); // Run ONCE on mount, NEVER unmount/remount on hover state changes!
+  }, []);
 
   return <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden" />;
 }

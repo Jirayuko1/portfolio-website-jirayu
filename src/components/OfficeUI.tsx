@@ -28,30 +28,31 @@ export default function OfficeUI({
   return (
     <>
       {/* 1. TOP RIGHT: Menu Button */}
-      <div className="fixed top-6 right-6 sm:top-8 sm:right-8 z-40">
+      <div className="fixed top-5 right-5 sm:top-8 sm:right-8 z-40">
         <button
           onClick={() => setMenuOpen(true)}
-          className="flex items-center gap-2 px-5 py-2 rounded-full bg-[#f4ebdc] text-[#2e2620] hover:bg-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-xl hover:scale-105 active:scale-95"
+          aria-label="Open navigation menu"
+          className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-[#f4ebdc] text-[#2e2620] hover:bg-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-xl hover:scale-105 active:scale-95 min-h-[44px]"
         >
           <Menu className="w-3.5 h-3.5" />
           <span>Menu</span>
         </button>
       </div>
 
-      {/* 2. BOTTOM LEFT: Main Headline & Discovery Tracker */}
-      <div className="fixed bottom-6 left-6 sm:bottom-10 sm:left-10 z-30 max-w-md pointer-events-none select-none">
-        <h1 className="font-playfair text-3xl sm:text-5xl lg:text-6xl text-[#f4ebdc] leading-[1.05] tracking-tight mb-3">
+      {/* 2. BOTTOM LEFT: Main Headline & Discovery Tracker (Calibrated for small screens) */}
+      <div className="fixed bottom-5 left-5 sm:bottom-10 sm:left-10 z-30 max-w-[calc(100vw-2.5rem)] sm:max-w-md pointer-events-none select-none">
+        <h1 className="font-playfair text-2xl sm:text-4xl lg:text-5xl text-[#f4ebdc] leading-[1.08] tracking-tight mb-2 sm:mb-3">
           Welcome to <br />
           my office
         </h1>
-        <p className="font-karla text-xs sm:text-sm text-[#c8b7a6] leading-relaxed mb-4 max-w-sm">
+        <p className="font-karla text-xs sm:text-sm text-[#c8b7a6] leading-relaxed mb-3 sm:mb-4 max-w-xs sm:max-w-sm">
           Click around and see what you find — or use the menu for a quicker way through.
         </p>
 
-        {/* Discovery Progress */}
-        <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#271f1a]/80 border border-[#f4ebdc]/15 backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-[#f2b705] animate-pulse" />
-          <span className="font-mono text-[11px] tracking-widest text-[#f4ebdc]/90 uppercase">
+        {/* Discovery Progress (Honest static badge without artificial decorative pulse) */}
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#271f1a]/85 border border-[#f4ebdc]/15 backdrop-blur-md">
+          <span className="w-2 h-2 rounded-full bg-[#f2b705]" />
+          <span className="font-mono text-[10px] sm:text-[11px] tracking-widest text-[#f4ebdc]/90 uppercase">
             {discoveredCount} of 17 discovered
           </span>
         </div>
@@ -65,11 +66,13 @@ export default function OfficeUI({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="fixed top-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none px-4 py-1.5 rounded-full bg-[#271f1a]/90 text-[#f4ebdc] border border-[#f2b705]/40 backdrop-blur-md shadow-2xl flex items-center gap-2"
+            className="fixed top-6 sm:top-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none px-4 py-1.5 rounded-full bg-[#271f1a]/90 text-[#f4ebdc] border border-[#f2b705]/40 backdrop-blur-md shadow-2xl flex items-center gap-2 max-w-[90vw]"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#f2b705]" />
-            <span className="font-caveat text-lg text-[#f2b705]">Click to explore:</span>
-            <span className="font-karla text-xs font-semibold text-white tracking-wide">
+            <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-[#f2b705]" />
+            <span className="font-caveat text-base sm:text-lg text-[#f2b705] whitespace-nowrap">
+              Click to explore:
+            </span>
+            <span className="font-karla text-xs font-semibold text-white tracking-wide truncate">
               {hoveredObject}
             </span>
           </motion.div>
@@ -79,23 +82,28 @@ export default function OfficeUI({
       {/* 4. QUICK NAVIGATION MENU (DRAWER) */}
       <AnimatePresence>
         {menuOpen && (
-          <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm">
+          <div
+            className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm"
+            onClick={() => setMenuOpen(false)}
+          >
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="w-full max-w-md h-full bg-[#231a15] text-[#f4ebdc] border-l border-[#f4ebdc]/10 p-8 flex flex-col justify-between font-karla shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-md h-full bg-[#231a15] text-[#f4ebdc] border-l border-[#f4ebdc]/10 p-6 sm:p-8 flex flex-col justify-between font-karla shadow-2xl overflow-y-auto"
             >
               {/* Header */}
               <div>
-                <div className="flex items-center justify-between pb-6 border-b border-[#f4ebdc]/10 mb-8">
+                <div className="flex items-center justify-between pb-6 border-b border-[#f4ebdc]/10 mb-6">
                   <div>
                     <h2 className="font-playfair text-2xl text-white">Jirayu</h2>
-                    <span className="text-xs text-[#9c897a]">Full-Stack & Mobile Developer</span>
+                    <span className="text-xs text-[#c8b7a6]">Full-Stack & Mobile Developer</span>
                   </div>
                   <button
                     onClick={() => setMenuOpen(false)}
+                    aria-label="Close menu"
                     className="p-2 rounded-full bg-[#342a23] hover:bg-[#453830] text-[#f4ebdc] transition-colors"
                   >
                     <X className="w-5 h-5" />
@@ -116,7 +124,7 @@ export default function OfficeUI({
                           setMenuOpen(false);
                           onOpenModal(item.id);
                         }}
-                        className="w-full flex items-center justify-between p-4 rounded-xl bg-[#2e231c] hover:bg-[#3d3027] text-left transition-all group"
+                        className="w-full flex items-center justify-between p-4 rounded-xl bg-[#2e231c] hover:bg-[#3d3027] text-left transition-all group min-h-[48px]"
                       >
                         <div className="flex items-center gap-3">
                           <Icon className="w-4 h-4 text-[#f2b705]" />
@@ -124,7 +132,7 @@ export default function OfficeUI({
                             {item.label}
                           </span>
                         </div>
-                        <span className="text-xs font-mono text-[#9c897a] group-hover:translate-x-1 transition-transform">
+                        <span className="text-xs font-mono text-[#c8b7a6] group-hover:translate-x-1 transition-transform">
                           →
                         </span>
                       </button>
@@ -134,7 +142,7 @@ export default function OfficeUI({
               </div>
 
               {/* Footer info in menu */}
-              <div className="pt-6 border-t border-[#f4ebdc]/10 text-xs text-[#9c897a] space-y-2">
+              <div className="pt-6 border-t border-[#f4ebdc]/10 text-xs text-[#c8b7a6] space-y-2">
                 <div className="flex items-center justify-between">
                   <span>Base:</span>
                   <span className="text-white">Bangkok, Thailand</span>
