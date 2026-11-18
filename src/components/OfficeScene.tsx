@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { sound } from "@/lib/soundEffects";
 import { Language, translations } from "@/lib/translations";
 
@@ -97,14 +98,14 @@ export default function OfficeScene({
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
+    renderer.toneMappingExposure = 1.08;
     container.appendChild(renderer.domElement);
 
     // 3. Lighting Setup
-    const ambientLight = new THREE.AmbientLight(0xfff8ee, 0.9);
+    const ambientLight = new THREE.AmbientLight(0xfff8ee, 0.95);
     scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xffeedd, 1.35);
+    const sunLight = new THREE.DirectionalLight(0xffeedd, 1.4);
     sunLight.position.set(-3.2, 5.2, 4.0);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 2048;
@@ -121,8 +122,8 @@ export default function OfficeScene({
     // Desk Lamp SpotLight (Interactive toggle)
     let lampIsOn = true;
     const lampLight = new THREE.SpotLight(0xffeedd, 3.2, 5.0, Math.PI / 4, 0.45, 1.2);
-    lampLight.position.set(-1.75, 0.1, 0.1);
-    lampLight.target.position.set(-1.1, -0.75, 0.3);
+    lampLight.position.set(-1.65, 0.1, 0.1);
+    lampLight.target.position.set(-1.0, -0.78, 0.3);
     scene.add(lampLight);
     scene.add(lampLight.target);
 
@@ -271,37 +272,6 @@ export default function OfficeScene({
       return tex;
     }
 
-    function createKeyboardTexture(): THREE.CanvasTexture {
-      const c = document.createElement("canvas");
-      c.width = 512;
-      c.height = 256;
-      const ctx = c.getContext("2d")!;
-
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, c.width, c.height);
-
-      const rows = 5;
-      const cols = 14;
-      const kw = c.width / cols - 4;
-      const kh = c.height / rows - 4;
-
-      const pastelKeyColors = ["#fed7aa", "#bbf7d0", "#bae6fd", "#e9d5ff", "#fef08a", "#fbcfe8", "#ffffff"];
-
-      for (let r = 0; r < rows; r++) {
-        for (let k = 0; k < cols; k++) {
-          const color = pastelKeyColors[(r * cols + k) % pastelKeyColors.length];
-          ctx.fillStyle = color;
-          ctx.beginPath();
-          ctx.roundRect(k * (kw + 4) + 2, r * (kh + 4) + 2, kw, kh, 3);
-          ctx.fill();
-        }
-      }
-
-      const tex = new THREE.CanvasTexture(c);
-      tex.colorSpace = THREE.SRGBColorSpace;
-      return tex;
-    }
-
     // 4. Room Wall & Desk
     // Back Wall
     const wallGeo = new THREE.PlaneGeometry(16, 12);
@@ -327,7 +297,7 @@ export default function OfficeScene({
     floor.receiveShadow = true;
     scene.add(floor);
 
-    // Main Desk with Black Tablecloth
+    // Desk Setup (Table with Black Cloth matching real photo)
     const deskGroup = new THREE.Group();
     const deskTop = new THREE.Mesh(
       new THREE.BoxGeometry(4.4, 0.12, 2.2),
@@ -347,10 +317,9 @@ export default function OfficeScene({
     drapeFront.castShadow = true;
     drapeFront.receiveShadow = true;
     deskGroup.add(drapeFront);
-
     scene.add(deskGroup);
 
-    // 5. Wall Artworks (Positioned comfortably below screen top)
+    // 5. Wall Artworks (Existing Canvas Frames kept as requested)
     // 5.1 Green Foliage Painting (Hard & Soft Skills)
     const greenArt = new THREE.Mesh(
       new THREE.BoxGeometry(0.58, 0.72, 0.04),
@@ -373,26 +342,7 @@ export default function OfficeScene({
     scene.add(yellowArt);
     clickableObjects.push({ mesh: yellowArt, id: "yellow_vase", name: "Contact & Bio (Yellow Vase)" });
 
-    // 5.3 Wall Power Socket & Post-It Note
-    const socketGroup = new THREE.Group();
-    const socketPlate = new THREE.Mesh(
-      new THREE.BoxGeometry(0.3, 0.2, 0.02),
-      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5 })
-    );
-    socketPlate.position.set(0.18, -0.05, -1.28);
-    socketGroup.add(socketPlate);
-
-    const postitMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.18, 0.18),
-      new THREE.MeshStandardMaterial({ color: 0xfef08a, roughness: 0.8 })
-    );
-    postitMesh.position.set(-0.06, -0.03, -1.27);
-    postitMesh.rotation.z = -0.04;
-    socketGroup.add(postitMesh);
-    scene.add(socketGroup);
-    clickableObjects.push({ mesh: postitMesh, id: "postit", name: "Sticky Note (Rule #1)" });
-
-    // 5.4 Collage of Aesthetic Cards on Wall (Red, Green, Blue Clusters)
+    // 5.3 Collage of Aesthetic Cards on Wall (Red, Green, Blue Clusters)
     // Red Cluster (Top Right, work life)
     const cardsRedGroup = new THREE.Group();
     const redCardCoords = [
@@ -471,374 +421,8 @@ export default function OfficeScene({
     scene.add(cardsBlueGroup);
     clickableObjects.push({ mesh: cardsBlueGroup, id: "cards_blue", name: "Engineering Articles (Blue Pinboard)" });
 
-    // 6. Desk Items
-    // 6.1 White Desk Lamp (Dome/bell shade)
-    const lampGroup = new THREE.Group();
-    lampGroup.position.set(-1.75, -0.72, 0.1);
-
-    const lampBase = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.16, 0.18, 0.03, 24),
-      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.4, metalness: 0.1 })
-    );
-    lampBase.castShadow = true;
-    lampGroup.add(lampBase);
-
-    const lampStem = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.018, 0.018, 0.6, 12),
-      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.4 })
-    );
-    lampStem.position.set(0, 0.3, 0);
-    lampStem.rotation.z = -0.15;
-    lampGroup.add(lampStem);
-
-    // Smooth bell/dome shade
-    const lampShade = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.12, 0.17, 0.22, 24, 1, true),
-      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.35, side: THREE.DoubleSide })
-    );
-    lampShade.position.set(0.12, 0.58, 0);
-    lampShade.rotation.z = -Math.PI / 3;
-    lampShade.castShadow = true;
-    lampGroup.add(lampShade);
-
-    const bulbMat = new THREE.MeshBasicMaterial({ color: 0xfffaed });
-    const lampBulb = new THREE.Mesh(new THREE.SphereGeometry(0.065, 16, 16), bulbMat);
-    lampBulb.position.set(0.12, 0.58, 0);
-    lampGroup.add(lampBulb);
-
-    scene.add(lampGroup);
-    clickableObjects.push({ mesh: lampGroup, id: "lamp", name: "Desk Lamp (Click to Toggle Light)" });
-
-    // 6.2 Knitted Christmas Tree
-    const treeGroup = new THREE.Group();
-    treeGroup.position.set(-1.8, -0.72, 0.48);
-
-    const treeTrunk = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.045, 0.055, 0.2, 12),
-      new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.9 })
-    );
-    treeTrunk.position.y = 0.09;
-    treeTrunk.castShadow = true;
-    treeGroup.add(treeTrunk);
-
-    const greenKnittedMat = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.95 });
-    const tier1 = new THREE.Mesh(new THREE.ConeGeometry(0.22, 0.26, 16), greenKnittedMat);
-    tier1.position.y = 0.24;
-    tier1.castShadow = true;
-    treeGroup.add(tier1);
-
-    const tier2 = new THREE.Mesh(new THREE.ConeGeometry(0.17, 0.22, 16), greenKnittedMat);
-    tier2.position.y = 0.38;
-    tier2.castShadow = true;
-    treeGroup.add(tier2);
-
-    const tier3 = new THREE.Mesh(new THREE.ConeGeometry(0.12, 0.18, 16), greenKnittedMat);
-    tier3.position.y = 0.51;
-    tier3.castShadow = true;
-    treeGroup.add(tier3);
-
-    const redBow = new THREE.Mesh(
-      new THREE.SphereGeometry(0.03, 12, 12),
-      new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.6 })
-    );
-    redBow.position.y = 0.62;
-    treeGroup.add(redBow);
-
-    scene.add(treeGroup);
-    clickableObjects.push({ mesh: treeGroup, id: "tree", name: "Christmas Tree (Click for Snowfall!)" });
-
-    // 6.3 Laptop & Mechanical Keyboard & Mouse
-    const laptopGroup = new THREE.Group();
-    laptopGroup.position.set(-0.75, -0.72, 0.1);
-
-    const laptopBase = new THREE.Mesh(
-      new THREE.BoxGeometry(0.95, 0.025, 0.64),
-      new THREE.MeshStandardMaterial({ color: 0x3f3f46, roughness: 0.4, metalness: 0.6 })
-    );
-    laptopBase.position.y = 0.01;
-    laptopBase.castShadow = true;
-    laptopBase.receiveShadow = true;
-    laptopGroup.add(laptopBase);
-
-    const screenGroup = new THREE.Group();
-    screenGroup.position.set(0, 0.02, -0.31);
-    screenGroup.rotation.x = 0.26; // Open angle ~75°
-
-    const lidMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(0.95, 0.62, 0.015),
-      new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.4, metalness: 0.6 })
-    );
-    lidMesh.position.y = 0.31;
-    lidMesh.castShadow = true;
-    screenGroup.add(lidMesh);
-
-    const screenMesh = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.91, 0.58),
-      new THREE.MeshBasicMaterial({ map: createLaptopScreenTexture() })
-    );
-    screenMesh.position.set(0, 0.31, 0.01);
-    screenGroup.add(screenMesh);
-
-    laptopGroup.add(screenGroup);
-
-    // Mechanical Keyboard
-    const keyboardMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(0.85, 0.03, 0.3),
-      new THREE.MeshStandardMaterial({ map: createKeyboardTexture(), roughness: 0.6 })
-    );
-    keyboardMesh.position.set(0, 0.015, 0.52);
-    keyboardMesh.castShadow = true;
-    keyboardMesh.receiveShadow = true;
-    laptopGroup.add(keyboardMesh);
-
-    // Mousepad & RGB Gaming Mouse
-    const mousepad = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.72, 0.58),
-      new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.9 })
-    );
-    mousepad.rotation.x = -Math.PI / 2;
-    mousepad.position.set(0.82, 0.005, 0.48);
-    mousepad.receiveShadow = true;
-    laptopGroup.add(mousepad);
-
-    const mouseMesh = new THREE.Mesh(
-      new THREE.CapsuleGeometry(0.045, 0.085, 8, 12),
-      new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.3, metalness: 0.2 })
-    );
-    mouseMesh.rotation.x = Math.PI / 2;
-    mouseMesh.position.set(0.82, 0.04, 0.5);
-    mouseMesh.castShadow = true;
-    laptopGroup.add(mouseMesh);
-
-    const mouseGlow = new THREE.Mesh(
-      new THREE.TorusGeometry(0.06, 0.007, 8, 24),
-      new THREE.MeshBasicMaterial({ color: 0xf43f5e })
-    );
-    mouseGlow.rotation.x = Math.PI / 2;
-    mouseGlow.position.set(0.82, 0.015, 0.5);
-    laptopGroup.add(mouseGlow);
-
-    // White Phone Stand
-    const phoneStand = new THREE.Mesh(
-      new THREE.BoxGeometry(0.16, 0.26, 0.015),
-      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.4 })
-    );
-    phoneStand.position.set(0.48, 0.12, 0.12);
-    phoneStand.rotation.x = 0.35;
-    phoneStand.castShadow = true;
-    laptopGroup.add(phoneStand);
-
-    scene.add(laptopGroup);
-    clickableObjects.push({ mesh: laptopGroup, id: "laptop", name: "Laptop (Featured Case Studies)" });
-
-    // 6.4 Smart Speaker
-    const speakerGroup = new THREE.Group();
-    speakerGroup.position.set(0.25, -0.64, 0.05);
-
-    const speakerBody = new THREE.Mesh(
-      new THREE.BoxGeometry(0.36, 0.26, 0.12),
-      new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.4, metalness: 0.3 })
-    );
-    speakerBody.castShadow = true;
-    speakerGroup.add(speakerBody);
-
-    const speakerRim = new THREE.Mesh(
-      new THREE.BoxGeometry(0.38, 0.28, 0.01),
-      new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.4 })
-    );
-    speakerRim.position.z = 0.055;
-    speakerGroup.add(speakerRim);
-
-    const ant1 = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.007, 0.007, 0.22, 8),
-      new THREE.MeshStandardMaterial({ color: 0x27272a, metalness: 0.8 })
-    );
-    ant1.position.set(-0.1, 0.21, 0);
-    ant1.rotation.z = -0.15;
-    speakerGroup.add(ant1);
-
-    const ant2 = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.007, 0.007, 0.22, 8),
-      new THREE.MeshStandardMaterial({ color: 0x27272a, metalness: 0.8 })
-    );
-    ant2.position.set(0.1, 0.21, 0);
-    ant2.rotation.z = 0.15;
-    speakerGroup.add(ant2);
-
-    scene.add(speakerGroup);
-    clickableObjects.push({ mesh: speakerGroup, id: "speaker", name: "Smart Speaker (Click for Lo-Fi Beats)" });
-
-    // 6.5 Luminous Aquarium with Fern (FIXED: Fish inside tank + Lush arching fern)
-    const aquariumGroup = new THREE.Group();
-    aquariumGroup.position.set(1.22, -0.42, 0.15);
-
-    const tankWidth = 1.15;
-    const tankHeight = 0.68;
-    const tankDepth = 0.72;
-
-    // Glass Tank Mesh
-    const tankMat = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      transmission: 0.9,
-      opacity: 1,
-      transparent: true,
-      roughness: 0.08,
-      ior: 1.45,
-    });
-    const tankMesh = new THREE.Mesh(new THREE.BoxGeometry(tankWidth, tankHeight, tankDepth), tankMat);
-    aquariumGroup.add(tankMesh);
-
-    // Glowing Water volume
-    const waterMat = new THREE.MeshBasicMaterial({
-      color: 0x38bdf8,
-      transparent: true,
-      opacity: 0.35,
-    });
-    const waterMesh = new THREE.Mesh(
-      new THREE.BoxGeometry(tankWidth - 0.04, tankHeight - 0.08, tankDepth - 0.04),
-      waterMat
-    );
-    waterMesh.position.y = -0.02;
-    aquariumGroup.add(waterMesh);
-
-    // Pebbles & Terracotta pipe at bottom
-    const stoneColors = [0x94a3b8, 0x64748b, 0x475569, 0xd97706, 0xb45309];
-    for (let st = 0; st < 12; st++) {
-      const stone = new THREE.Mesh(
-        new THREE.SphereGeometry(0.05 + Math.random() * 0.03, 8, 8),
-        new THREE.MeshStandardMaterial({ color: stoneColors[st % stoneColors.length], roughness: 0.8 })
-      );
-      stone.position.set(
-        (Math.random() - 0.5) * (tankWidth - 0.2),
-        -tankHeight / 2 + 0.06,
-        (Math.random() - 0.5) * (tankDepth - 0.2)
-      );
-      stone.scale.set(1.4, 0.7, 1.1);
-      aquariumGroup.add(stone);
-    }
-
-    const pipeMesh = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.075, 0.075, 0.22, 16, 1, true),
-      new THREE.MeshStandardMaterial({ color: 0xc2410c, roughness: 0.85, side: THREE.DoubleSide })
-    );
-    pipeMesh.rotation.z = Math.PI / 2;
-    pipeMesh.position.set(-0.25, -tankHeight / 2 + 0.09, 0.05);
-    aquariumGroup.add(pipeMesh);
-
-    // 3 Swimming Fish strictly inside local tank space
-    const fishList: { mesh: THREE.Group; speed: number; angle: number; baseY: number }[] = [];
-    const fishColors = [0xf97316, 0xa855f7, 0x06b6d4];
-
-    for (let f = 0; f < 3; f++) {
-      const fishGroup = new THREE.Group();
-
-      // Fish Body (Torpedo/cone)
-      const fishBody = new THREE.Mesh(
-        new THREE.ConeGeometry(0.028, 0.08, 8),
-        new THREE.MeshStandardMaterial({ color: fishColors[f], roughness: 0.3 })
-      );
-      fishBody.rotation.z = -Math.PI / 2;
-      fishGroup.add(fishBody);
-
-      // Tail fin
-      const tailGeo = new THREE.BufferGeometry();
-      const tailVertices = new Float32Array([
-        -0.04, 0, 0,
-        -0.08, 0.025, 0,
-        -0.08, -0.025, 0,
-      ]);
-      tailGeo.setAttribute("position", new THREE.BufferAttribute(tailVertices, 3));
-      const fishTail = new THREE.Mesh(
-        tailGeo,
-        new THREE.MeshBasicMaterial({ color: fishColors[f], side: THREE.DoubleSide })
-      );
-      fishGroup.add(fishTail);
-
-      const baseY = -0.15 + f * 0.1;
-      fishGroup.position.set(0, baseY, 0);
-      aquariumGroup.add(fishGroup); // Child of aquariumGroup
-
-      fishList.push({
-        mesh: fishGroup,
-        speed: 0.012 + Math.random() * 0.008,
-        angle: (f / 3) * Math.PI * 2,
-        baseY: baseY,
-      });
-    }
-
-    // Lush Fern Plant on Top of Aquarium (Bushy, arching fronds)
-    const fernGroup = new THREE.Group();
-    fernGroup.position.set(0, tankHeight / 2 + 0.02, 0);
-
-    const fernBase = new THREE.Mesh(
-      new THREE.BoxGeometry(tankWidth - 0.15, 0.04, tankDepth - 0.15),
-      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.4 })
-    );
-    fernGroup.add(fernBase);
-
-    // Multi-layered arching fern fronds
-    const fernColors = [0x166534, 0x15803d, 0x14532d, 0x1e3a1e];
-    const totalFronds = 24;
-
-    for (let fr = 0; fr < totalFronds; fr++) {
-      const frondGroup = new THREE.Group();
-      const fAngle = (fr / totalFronds) * Math.PI * 2 + (Math.random() - 0.5) * 0.2;
-      const frondColor = fernColors[fr % fernColors.length];
-      const frondMat = new THREE.MeshStandardMaterial({ color: frondColor, side: THREE.DoubleSide, roughness: 0.6 });
-
-      // Build an arching frond with curved segments
-      const segCount = 6;
-      const frondLength = 0.35 + Math.random() * 0.15;
-      const archAngle = 0.5 + Math.random() * 0.4;
-
-      for (let s = 0; s < segCount; s++) {
-        const t = s / segCount;
-        const width = 0.14 * (1 - t * 0.5);
-        const length = frondLength / segCount;
-
-        const leafSeg = new THREE.Mesh(new THREE.PlaneGeometry(width, length), frondMat);
-        leafSeg.position.set(0, (s + 0.5) * length * 0.65, -(s * s) * 0.035);
-        leafSeg.rotation.x = -t * archAngle;
-        frondGroup.add(leafSeg);
-      }
-
-      frondGroup.position.set(Math.cos(fAngle) * 0.16, 0.02, Math.sin(fAngle) * 0.16);
-      frondGroup.rotation.y = -fAngle;
-      fernGroup.add(frondGroup);
-    }
-    aquariumGroup.add(fernGroup);
-
-    scene.add(aquariumGroup);
-    clickableObjects.push({ mesh: aquariumGroup, id: "aquarium", name: "Aquarium (Click to Feed the Fish!)" });
-
-    // 7. Left Floor Plant (Potted Monstera)
-    const floorPlantGroup = new THREE.Group();
-    floorPlantGroup.position.set(-2.4, -1.8, 0.6);
-
-    const plantPot = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.24, 0.18, 0.45, 16),
-      new THREE.MeshStandardMaterial({ color: 0xc2410c, roughness: 0.85 })
-    );
-    plantPot.castShadow = true;
-    plantPot.receiveShadow = true;
-    floorPlantGroup.add(plantPot);
-
-    const leafMat = new THREE.MeshStandardMaterial({
-      color: 0x166534,
-      roughness: 0.5,
-      side: THREE.DoubleSide,
-    });
-    for (let lp = 0; lp < 8; lp++) {
-      const leaf = new THREE.Mesh(new THREE.PlaneGeometry(0.35, 0.55), leafMat);
-      const lAngle = (lp / 8) * Math.PI * 2;
-      leaf.position.set(Math.cos(lAngle) * 0.22, 0.35 + lp * 0.05, Math.sin(lAngle) * 0.22);
-      leaf.rotation.y = -lAngle;
-      leaf.rotation.x = 0.6;
-      floorPlantGroup.add(leaf);
-    }
-    scene.add(floorPlantGroup);
-
-    // 8. Snow Particle System
+    // 6. Interactive Systems (Snow, Fish, Food)
+    // 6.1 Snow Particle System
     const snowCount = 280;
     const snowGeo = new THREE.BufferGeometry();
     const snowPositions = new Float32Array(snowCount * 3);
@@ -876,7 +460,7 @@ export default function OfficeScene({
       }, 7000);
     };
 
-    // 9. Fish Food Pellets System
+    // 6.2 Sinking Fish Food Pellets System
     const foodPellets: { mesh: THREE.Mesh; vy: number }[] = [];
     const feedFish = () => {
       sound.playFishBubble();
@@ -886,7 +470,7 @@ export default function OfficeScene({
           new THREE.MeshBasicMaterial({ color: 0x92400e })
         );
         pellet.position.set(
-          1.22 + (Math.random() - 0.5) * 0.35,
+          1.25 + (Math.random() - 0.5) * 0.35,
           -0.12,
           0.15 + (Math.random() - 0.5) * 0.25
         );
@@ -895,13 +479,435 @@ export default function OfficeScene({
       }
     };
 
-    // Ready notification
-    setTimeout(() => {
+    // 6.3 3D Swimming Fish inside Aquarium
+    const fishList: { mesh: THREE.Group; speed: number; angle: number; baseY: number }[] = [];
+    const fishColors = [0xf97316, 0xa855f7, 0x06b6d4];
+    const aquariumGroup = new THREE.Group();
+    aquariumGroup.position.set(1.25, -0.78, 0.15);
+
+    for (let f = 0; f < 3; f++) {
+      const fishGroup = new THREE.Group();
+      const fishBody = new THREE.Mesh(
+        new THREE.ConeGeometry(0.028, 0.08, 8),
+        new THREE.MeshStandardMaterial({ color: fishColors[f], roughness: 0.3 })
+      );
+      fishBody.rotation.z = -Math.PI / 2;
+      fishGroup.add(fishBody);
+
+      const tailGeo = new THREE.BufferGeometry();
+      const tailVertices = new Float32Array([
+        -0.04, 0, 0,
+        -0.08, 0.025, 0,
+        -0.08, -0.025, 0,
+      ]);
+      tailGeo.setAttribute("position", new THREE.BufferAttribute(tailVertices, 3));
+      const fishTail = new THREE.Mesh(
+        tailGeo,
+        new THREE.MeshBasicMaterial({ color: fishColors[f], side: THREE.DoubleSide })
+      );
+      fishGroup.add(fishTail);
+
+      const baseY = 0.25 + f * 0.12;
+      fishGroup.position.set(0, baseY, 0);
+      aquariumGroup.add(fishGroup);
+
+      fishList.push({
+        mesh: fishGroup,
+        speed: 0.012 + Math.random() * 0.008,
+        angle: (f / 3) * Math.PI * 2,
+        baseY: baseY,
+      });
+    }
+
+    // Glowing water volume inside aquarium
+    const waterMesh = new THREE.Mesh(
+      new THREE.BoxGeometry(1.05, 0.55, 0.65),
+      new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.25 })
+    );
+    waterMesh.position.y = 0.38;
+    aquariumGroup.add(waterMesh);
+    scene.add(aquariumGroup);
+
+    // 7. GLTF 3D Model Loading Helper
+    function createNormalizedModel(
+      gltfScene: THREE.Group,
+      options: {
+        targetWidth?: number;
+        targetHeight?: number;
+        targetDepth?: number;
+        rotationX?: number;
+        rotationY?: number;
+        rotationZ?: number;
+        centerOrigin?: boolean;
+      }
+    ): THREE.Group {
+      const wrapper = new THREE.Group();
+      const inner = gltfScene;
+
+      if (options.rotationX) inner.rotation.x = options.rotationX;
+      if (options.rotationY) inner.rotation.y = options.rotationY;
+      if (options.rotationZ) inner.rotation.z = options.rotationZ;
+
+      inner.updateMatrixWorld(true);
+
+      const box = new THREE.Box3().setFromObject(inner);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+
+      let scale = 1;
+      if (options.targetWidth) scale = options.targetWidth / size.x;
+      else if (options.targetHeight) scale = options.targetHeight / size.y;
+      else if (options.targetDepth) scale = options.targetDepth / size.z;
+
+      inner.scale.set(scale, scale, scale);
+      inner.updateMatrixWorld(true);
+
+      const scaledBox = new THREE.Box3().setFromObject(inner);
+      const scaledCenter = new THREE.Vector3();
+      scaledBox.getCenter(scaledCenter);
+
+      inner.position.x = -scaledCenter.x;
+      if (options.centerOrigin) {
+        inner.position.y = -scaledCenter.y;
+      } else {
+        inner.position.y = -scaledBox.min.y;
+      }
+      inner.position.z = -scaledCenter.z;
+
+      wrapper.add(inner);
+      return wrapper;
+    }
+
+    // 8. Load All User GLTF Models via LoadingManager
+    const loadingManager = new THREE.LoadingManager();
+    const loader = new GLTFLoader(loadingManager);
+
+    loadingManager.onProgress = (_url, itemsLoaded, itemsTotal) => {
+      const percent = Math.min(100, Math.round((itemsLoaded / itemsTotal) * 100));
+      onProgressRef.current?.(percent);
+    };
+
+    loadingManager.onLoad = () => {
       onProgressRef.current?.(100);
       onLoadedRef.current?.();
-    }, 200);
+    };
 
-    // 10. Mouse Interaction & Raycasting
+    // Fallback load trigger ensuring smooth experience
+    const fallbackTimer = setTimeout(() => {
+      onProgressRef.current?.(100);
+      onLoadedRef.current?.();
+    }, 4500);
+
+    const deskSurfaceY = -0.78;
+
+    // 8.1 Desk Model (Desk.glb)
+    loader.load(
+      "/models/Desk.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const deskModel = createNormalizedModel(gltf.scene, { targetHeight: 1.32 });
+        deskModel.position.set(0, -2.1, 0.2);
+        scene.add(deskModel);
+      },
+      undefined,
+      (err) => console.warn("Desk.glb", err)
+    );
+
+    // 8.2 Workstation Laptop (laptop.glb)
+    loader.load(
+      "/models/laptop.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        // Rotated by PI/2 so screen faces forward toward camera
+        const laptopModel = createNormalizedModel(gltf.scene, {
+          targetWidth: 0.95,
+          rotationY: Math.PI / 2,
+        });
+        laptopModel.position.set(-0.75, deskSurfaceY, 0.1);
+
+        // Display VS Code code screen texture on laptop lid
+        const screenOverlay = new THREE.Mesh(
+          new THREE.PlaneGeometry(0.86, 0.52),
+          new THREE.MeshBasicMaterial({ map: createLaptopScreenTexture() })
+        );
+        screenOverlay.position.set(0, 0.31, -0.32);
+        screenOverlay.rotation.x = 0.24;
+        laptopModel.add(screenOverlay);
+
+        scene.add(laptopModel);
+        clickableObjects.push({ mesh: laptopModel, id: "laptop", name: "Laptop (Featured Case Studies)" });
+      },
+      undefined,
+      (err) => console.warn("laptop.glb", err)
+    );
+
+    // 8.3 Mechanical Keyboard (mechanical keyboard.glb)
+    loader.load(
+      "/models/mechanical keyboard.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const keyboardModel = createNormalizedModel(gltf.scene, { targetWidth: 0.85 });
+        keyboardModel.position.set(-0.75, deskSurfaceY, 0.55);
+        scene.add(keyboardModel);
+        clickableObjects.push({ mesh: keyboardModel, id: "laptop", name: "Mechanical Keyboard (Case Studies)" });
+      },
+      undefined,
+      (err) => console.warn("mechanical keyboard.glb", err)
+    );
+
+    // 8.4 Mousepad (Mousepad.glb)
+    loader.load(
+      "/models/Mousepad.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) c.receiveShadow = true;
+        });
+        const padModel = createNormalizedModel(gltf.scene, { targetWidth: 0.65 });
+        padModel.position.set(0.08, deskSurfaceY, 0.52);
+        scene.add(padModel);
+      },
+      undefined,
+      (err) => console.warn("Mousepad.glb", err)
+    );
+
+    // 8.5 Computer Mouse (Computer mouse.glb)
+    loader.load(
+      "/models/Computer mouse.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const mouseModel = createNormalizedModel(gltf.scene, { targetDepth: 0.17 });
+        mouseModel.position.set(0.08, deskSurfaceY, 0.52);
+
+        // Ambient RGB glow ring under mouse
+        const glow = new THREE.Mesh(
+          new THREE.TorusGeometry(0.06, 0.006, 8, 24),
+          new THREE.MeshBasicMaterial({ color: 0xf43f5e })
+        );
+        glow.rotation.x = Math.PI / 2;
+        glow.position.y = 0.005;
+        mouseModel.add(glow);
+
+        scene.add(mouseModel);
+      },
+      undefined,
+      (err) => console.warn("Computer mouse.glb", err)
+    );
+
+    // 8.6 Smartphone on Stand (Phone.glb)
+    loader.load(
+      "/models/Phone.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const phoneStandGroup = new THREE.Group();
+        phoneStandGroup.position.set(-0.25, deskSurfaceY, 0.18);
+
+        // White stand base
+        const standBase = new THREE.Mesh(
+          new THREE.BoxGeometry(0.14, 0.02, 0.14),
+          new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.4 })
+        );
+        standBase.position.y = 0.01;
+        standBase.castShadow = true;
+        phoneStandGroup.add(standBase);
+
+        const standPole = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.01, 0.01, 0.16, 12),
+          new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.4 })
+        );
+        standPole.position.set(0, 0.09, 0);
+        standPole.castShadow = true;
+        phoneStandGroup.add(standPole);
+
+        const phoneModel = createNormalizedModel(gltf.scene, { targetHeight: 0.24, rotationX: 0.35 });
+        phoneModel.position.set(0, 0.14, 0);
+        phoneStandGroup.add(phoneModel);
+
+        scene.add(phoneStandGroup);
+      },
+      undefined,
+      (err) => console.warn("Phone.glb", err)
+    );
+
+    // 8.7 Desk Lamp (Desk lamp.glb)
+    let lampMeshGroup: THREE.Group | null = null;
+    loader.load(
+      "/models/Desk lamp.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const lampModel = createNormalizedModel(gltf.scene, {
+          targetHeight: 0.85,
+          rotationY: -0.25,
+        });
+        lampModel.position.set(-1.75, deskSurfaceY, 0.1);
+        lampMeshGroup = lampModel;
+
+        scene.add(lampModel);
+        clickableObjects.push({ mesh: lampModel, id: "lamp", name: "Desk Lamp (Click to Toggle Light)" });
+      },
+      undefined,
+      (err) => console.warn("Desk lamp.glb", err)
+    );
+
+    // 8.8 Knitted Christmas Tree (christmas tree.glb)
+    loader.load(
+      "/models/christmas tree.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const treeModel = createNormalizedModel(gltf.scene, { targetHeight: 0.65 });
+        treeModel.position.set(-1.82, deskSurfaceY, 0.52);
+        scene.add(treeModel);
+        clickableObjects.push({ mesh: treeModel, id: "tree", name: "Christmas Tree (Click for Snowfall!)" });
+      },
+      undefined,
+      (err) => console.warn("christmas tree.glb", err)
+    );
+
+    // 8.9 Aquarium Tank (Fish Tank.glb)
+    loader.load(
+      "/models/Fish Tank.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const tankModel = createNormalizedModel(gltf.scene, { targetWidth: 1.15 });
+        aquariumGroup.add(tankModel);
+        clickableObjects.push({ mesh: aquariumGroup, id: "aquarium", name: "Aquarium (Click to Feed the Fish!)" });
+      },
+      undefined,
+      (err) => console.warn("Fish Tank.glb", err)
+    );
+
+    // 8.10 Lush Fern on top of Aquarium (Fern.glb)
+    loader.load(
+      "/models/Fern.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const fernModel = createNormalizedModel(gltf.scene, { targetWidth: 1.12 });
+        fernModel.position.set(0, 0.78, 0); // Sits right on top lid of the Fish Tank
+        aquariumGroup.add(fernModel);
+      },
+      undefined,
+      (err) => console.warn("Fern.glb", err)
+    );
+
+    // 8.11 Retro Radio / Smart Speaker (Radio.glb)
+    let radioGroup: THREE.Group | null = null;
+    loader.load(
+      "/models/Radio.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const radioModel = createNormalizedModel(gltf.scene, { targetWidth: 0.38 });
+        radioModel.position.set(0.48, deskSurfaceY, 0.05);
+        radioGroup = radioModel;
+
+        scene.add(radioModel);
+        clickableObjects.push({ mesh: radioModel, id: "speaker", name: "Smart Speaker (Click for Lo-Fi Beats)" });
+      },
+      undefined,
+      (err) => console.warn("Radio.glb", err)
+    );
+
+    // 8.12 Large Floor Plant (Monstera Plant.glb)
+    loader.load(
+      "/models/Monstera Plant.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) {
+            c.castShadow = true;
+            c.receiveShadow = true;
+          }
+        });
+        const plantModel = createNormalizedModel(gltf.scene, { targetHeight: 1.25 });
+        plantModel.position.set(-2.35, -2.1, 0.6); // Sits on floor
+        scene.add(plantModel);
+      },
+      undefined,
+      (err) => console.warn("Monstera Plant.glb", err)
+    );
+
+    // 8.13 Wall Power Socket (Wall Socket.glb)
+    loader.load(
+      "/models/Wall Socket.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) c.receiveShadow = true;
+        });
+        const socketModel = createNormalizedModel(gltf.scene, {
+          targetHeight: 0.2,
+          rotationY: Math.PI / 2,
+        });
+        socketModel.position.set(0.22, -0.05, -1.27);
+        scene.add(socketModel);
+      },
+      undefined,
+      (err) => console.warn("Wall Socket.glb", err)
+    );
+
+    // 8.14 Yellow Sticky Note (Yellow Post-it.glb)
+    loader.load(
+      "/models/Yellow Post-it.glb",
+      (gltf) => {
+        gltf.scene.traverse((c) => {
+          if ((c as THREE.Mesh).isMesh) c.receiveShadow = true;
+        });
+        const postitModel = createNormalizedModel(gltf.scene, { targetWidth: 0.18, rotationZ: -0.04 });
+        postitModel.position.set(-0.04, -0.03, -1.27);
+        scene.add(postitModel);
+        clickableObjects.push({ mesh: postitModel, id: "postit", name: "Sticky Note (Rule #1)" });
+      },
+      undefined,
+      (err) => console.warn("Yellow Post-it.glb", err)
+    );
+
+    // 9. Mouse Interaction & Raycasting
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     let targetCameraX = 0;
@@ -985,7 +991,6 @@ export default function OfficeScene({
           if (matched.id === "lamp") {
             lampIsOn = !lampIsOn;
             lampLight.intensity = lampIsOn ? 3.2 : 0.0;
-            bulbMat.color.setHex(lampIsOn ? 0xfffaed : 0x475569);
             sound.playLampSwitch(lampIsOn);
             return;
           }
@@ -1003,11 +1008,6 @@ export default function OfficeScene({
 
           if (matched.id === "speaker") {
             const isPlaying = sound.toggleLofiMusic();
-            if (isPlaying) {
-              speakerRim.material = new THREE.MeshStandardMaterial({ color: 0x22c55e });
-            } else {
-              speakerRim.material = new THREE.MeshStandardMaterial({ color: 0xef4444 });
-            }
             onSelectRef.current("speaker");
             return;
           }
@@ -1021,7 +1021,7 @@ export default function OfficeScene({
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("click", handleClick);
 
-    // 11. Window Resize
+    // 10. Window Resize
     const handleResize = () => {
       width = container.clientWidth;
       height = container.clientHeight;
@@ -1031,7 +1031,7 @@ export default function OfficeScene({
 
     window.addEventListener("resize", handleResize);
 
-    // 12. Main Animation Loop
+    // 11. Main Animation Loop
     let animId: number;
     let clock = new THREE.Clock();
 
@@ -1046,7 +1046,7 @@ export default function OfficeScene({
         camera.lookAt(0, 0.08, 0);
       }
 
-      // Animate Swimming Fish strictly inside local tank bounds
+      // Animate Swimming Fish strictly inside local aquarium space
       fishList.forEach((f, idx) => {
         f.angle += f.speed * (idx % 2 === 0 ? 1 : -1);
         f.mesh.position.x = Math.cos(f.angle) * 0.38;
@@ -1083,13 +1083,14 @@ export default function OfficeScene({
 
     animate();
 
-    // 13. Cleanup
+    // 12. Cleanup
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("click", handleClick);
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animId);
       if (snowTimer) clearTimeout(snowTimer);
+      clearTimeout(fallbackTimer);
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
