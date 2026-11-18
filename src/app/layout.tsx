@@ -53,7 +53,7 @@ export default function RootLayout({
       className={`${playfair.variable} ${caveat.variable} ${karla.variable} ${pinyon.variable} antialiased`}
       style={{ background: "#2e2620" }}
     >
-      <body className="bg-[#2e2620] text-[#f4ebdc] font-sans antialiased overflow-hidden w-screen h-screen select-none">
+      <body className="bg-[#2e2620] text-[#f4ebdc] font-sans antialiased min-h-screen">
         {children}
       </body>
     </html>
