@@ -8,6 +8,7 @@ import { Language, translations } from "@/lib/translations";
 
 interface OfficeSceneProps {
   onSelectObject: (objectId: string) => void;
+  onDiscoverObject?: (objectId: string) => void;
   hoveredObject: string | null;
   setHoveredObject: (name: string | null) => void;
   onLoaded?: () => void;
@@ -18,6 +19,7 @@ interface OfficeSceneProps {
 
 export default function OfficeScene({
   onSelectObject,
+  onDiscoverObject,
   setHoveredObject,
   onLoaded,
   onProgress,
@@ -29,6 +31,9 @@ export default function OfficeScene({
   // Stable callback refs
   const onSelectRef = useRef(onSelectObject);
   onSelectRef.current = onSelectObject;
+
+  const onDiscoverRef = useRef(onDiscoverObject);
+  onDiscoverRef.current = onDiscoverObject;
 
   const onHoverRef = useRef(setHoveredObject);
   onHoverRef.current = setHoveredObject;
@@ -1055,23 +1060,25 @@ export default function OfficeScene({
             lampIsOn = !lampIsOn;
             lampLight.intensity = lampIsOn ? 3.4 : 0.0;
             sound.playLampSwitch(lampIsOn);
+            onDiscoverRef.current?.("lamp");
             return;
           }
 
           if (matched.id === "tree") {
             triggerSnowfall();
+            onDiscoverRef.current?.("tree");
             return;
           }
 
           if (matched.id === "aquarium") {
             feedFish();
-            onSelectRef.current("aquarium");
+            onDiscoverRef.current?.("aquarium");
             return;
           }
 
           if (matched.id === "speaker") {
             sound.toggleLofiMusic();
-            onSelectRef.current("speaker");
+            onDiscoverRef.current?.("speaker");
             return;
           }
 

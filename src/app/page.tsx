@@ -50,6 +50,14 @@ export default function Home() {
     });
   }, []);
 
+  const handleDiscoverObject = useCallback((objectId: string) => {
+    setDiscoveredItems((prev) => {
+      const next = new Set(prev);
+      next.add(objectId);
+      return next;
+    });
+  }, []);
+
   const handleCloseModal = useCallback(() => {
     setActiveModal(null);
   }, []);
@@ -72,6 +80,7 @@ export default function Home() {
       {/* 1. 3D Office Environment with Interactive GLTF Models */}
       <OfficeScene
         onSelectObject={handleSelectObject}
+        onDiscoverObject={handleDiscoverObject}
         hoveredObject={hoveredObject}
         setHoveredObject={setHoveredObject}
         onLoaded={handleSceneLoaded}
