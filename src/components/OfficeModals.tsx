@@ -312,7 +312,7 @@ export default function OfficeModals({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 {t.cards_red.cards.map((c, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-[#fed7aa] text-[#7c2d12] shadow-md border-t-4 border-[#ea580c]">
+                  <div key={i} className="p-4 rounded-xl bg-[#fed7aa] text-[#7c2d12] shadow-md border border-[#ea580c]/30">
                     <span className="font-bold text-xs uppercase tracking-wider block mb-1">{c.title}</span>
                     <p className="font-caveat text-base leading-snug">{c.text}</p>
                   </div>
@@ -338,7 +338,7 @@ export default function OfficeModals({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 {t.cards_green.cards.map((c, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-[#bbf7d0] text-[#14532d] shadow-md border-t-4 border-[#16a34a]">
+                  <div key={i} className="p-4 rounded-xl bg-[#bbf7d0] text-[#14532d] shadow-md border border-[#16a34a]/30">
                     <span className="font-bold text-xs uppercase tracking-wider block mb-1">{c.title}</span>
                     <p className="font-caveat text-base leading-snug">{c.text}</p>
                   </div>
@@ -409,7 +409,7 @@ export default function OfficeModals({
                 {t.speaker.desc}
               </p>
               <div className="p-4 rounded-2xl bg-[#f2b705]/10 border border-[#f2b705]/30 text-xs text-[#f2b705] font-mono leading-relaxed max-w-sm mx-auto flex items-center justify-center gap-2">
-                <Music className="w-4 h-4 animate-bounce" />
+                <Music className="w-4 h-4 text-[#f2b705] animate-pulse" />
                 <span>Click speaker on desk to toggle music</span>
               </div>
             </div>
