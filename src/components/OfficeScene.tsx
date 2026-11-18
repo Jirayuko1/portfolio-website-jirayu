@@ -747,9 +747,9 @@ export default function OfficeScene({
       (err) => console.warn("christmas tree.glb", err)
     );
 
-    // 8.9 New Aquarium Tank (Fish Tank new.glb)
+    // 8.9 New Aquarium Tank (FishTankNew.glb)
     loader.load(
-      "/models/Fish Tank new.glb",
+      "/models/FishTankNew.glb?v=2",
       (gltf) => {
         gltf.scene.traverse((c) => {
           if ((c as THREE.Mesh).isMesh) {
@@ -775,13 +775,13 @@ export default function OfficeScene({
         clickableObjects.push({ mesh: aquariumGroup, id: "aquarium", name: "Aquarium (Click to Feed the Fish!)" });
       },
       undefined,
-      (err) => console.warn("Fish Tank new.glb", err)
+      (err) => console.warn("FishTankNew.glb", err)
     );
 
     // 8.10 3D Animated Fish Models: Betta, Clownfish, Goldfish
     // Betta Fish with Skeletal Swimming Animation
     loader.load(
-      "/models/Betta.glb",
+      "/models/Betta.glb?v=2",
       (gltf) => {
         gltf.scene.traverse((c) => {
           if ((c as THREE.Mesh).isMesh) {
@@ -816,7 +816,7 @@ export default function OfficeScene({
 
     // Clownfish with Skeletal Swimming Animation
     loader.load(
-      "/models/Clownfish.glb",
+      "/models/Clownfish.glb?v=2",
       (gltf) => {
         gltf.scene.traverse((c) => {
           if ((c as THREE.Mesh).isMesh) {
@@ -851,7 +851,7 @@ export default function OfficeScene({
 
     // Goldfish
     loader.load(
-      "/models/Goldfish.glb",
+      "/models/Goldfish.glb?v=2",
       (gltf) => {
         gltf.scene.traverse((c) => {
           if ((c as THREE.Mesh).isMesh) {
@@ -896,7 +896,7 @@ export default function OfficeScene({
 
     // 8.12 Retro Radio / Smart Speaker (Radio.glb - Facing forward towards user)
     loader.load(
-      "/models/Radio.glb",
+      "/models/Radio.glb?v=2",
       (gltf) => {
         gltf.scene.traverse((c) => {
           if ((c as THREE.Mesh).isMesh) {
