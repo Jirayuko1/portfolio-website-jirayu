@@ -348,6 +348,8 @@ export default function OfficeScene({
 
       laptopTexture = new THREE.CanvasTexture(laptopCanvas);
       laptopTexture.colorSpace = THREE.SRGBColorSpace;
+      laptopTexture.center.set(0.5, 0.5);
+      laptopTexture.rotation = Math.PI;
       return laptopTexture;
     }
 
@@ -500,6 +502,7 @@ export default function OfficeScene({
       opacity: 0.0,
     });
     const snowParticles = new THREE.Points(snowGeo, snowMat);
+    snowParticles.raycast = () => {}; // Never intercept mouse raycasts
     scene.add(snowParticles);
 
     let isSnowing = false;
@@ -556,7 +559,17 @@ export default function OfficeScene({
 
     // 6.4 Ceramic Coffee Mug & Animated Rising Steam Particles
     const coffeeGroup = new THREE.Group();
-    coffeeGroup.position.set(-0.16, deskSurfaceY, 0.22);
+    // Positioned neatly to the right of the mousepad, before the aquarium, unobstructed!
+    coffeeGroup.position.set(0.62, deskSurfaceY, 0.38);
+
+    // Warm cork coaster
+    const coaster = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.052, 0.052, 0.006, 24),
+      new THREE.MeshStandardMaterial({ color: 0x92400e, roughness: 0.9 })
+    );
+    coaster.position.y = 0.003;
+    coaster.receiveShadow = true;
+    coffeeGroup.add(coaster);
 
     const mugMat = new THREE.MeshStandardMaterial({
       color: 0xede0d4,
@@ -567,7 +580,7 @@ export default function OfficeScene({
       new THREE.CylinderGeometry(0.042, 0.038, 0.085, 24),
       mugMat
     );
-    mugMesh.position.y = 0.0425;
+    mugMesh.position.y = 0.0455;
     mugMesh.castShadow = true;
     mugMesh.receiveShadow = true;
     coffeeGroup.add(mugMesh);
@@ -577,7 +590,7 @@ export default function OfficeScene({
       new THREE.MeshStandardMaterial({ color: 0x1f1209, roughness: 0.15 })
     );
     coffeeLiquid.rotation.x = -Math.PI / 2;
-    coffeeLiquid.position.y = 0.078;
+    coffeeLiquid.position.y = 0.081;
     coffeeGroup.add(coffeeLiquid);
 
     const handleMesh = new THREE.Mesh(
@@ -585,10 +598,10 @@ export default function OfficeScene({
       mugMat
     );
     handleMesh.rotation.z = -Math.PI / 2;
-    handleMesh.position.set(0.044, 0.045, 0);
+    handleMesh.position.set(0.044, 0.048, 0);
     coffeeGroup.add(handleMesh);
 
-    // Rising Animated Steam Particles
+    // Rising Animated Steam Particles (NO raycasting to prevent blocking clicks)
     const steamCount = 18;
     const steamGeo = new THREE.BufferGeometry();
     const steamPositions = new Float32Array(steamCount * 3);
@@ -610,10 +623,12 @@ export default function OfficeScene({
       opacity: 0.35,
     });
     const steamParticles = new THREE.Points(steamGeo, steamMat);
+    steamParticles.raycast = () => {}; // Never intercept mouse raycasts
     coffeeGroup.add(steamParticles);
 
     scene.add(coffeeGroup);
-    clickableObjects.push({ mesh: coffeeGroup, id: "coffee", name: "Coffee Mug (Take a Sip!)" });
+    // ONLY the mugMesh itself is clickable, perfectly bounded without blocking any other items!
+    clickableObjects.push({ mesh: mugMesh, id: "coffee", name: "Coffee Mug (Take a Sip!)" });
 
     // 7. GLTF 3D Model Loading Helper
     function createNormalizedModel(
@@ -1117,6 +1132,7 @@ export default function OfficeScene({
 
     // 9. Mouse Interaction & Raycasting
     const raycaster = new THREE.Raycaster();
+    raycaster.params.Points = { threshold: 0.001 }; // Never let points cloud intercept object clicks
     const mouse = new THREE.Vector2();
     let targetCameraX = 0;
     let targetCameraY = 0.08;
@@ -1283,8 +1299,8 @@ export default function OfficeScene({
         lookAt: new THREE.Vector3(-0.55, -0.42, 0.1),
       },
       phone: {
-        pos: new THREE.Vector3(0.52, -0.35, 2.3),
-        lookAt: new THREE.Vector3(0.52, -0.45, 0.25),
+        pos: new THREE.Vector3(-0.06, -0.35, 2.2),
+        lookAt: new THREE.Vector3(-0.06, -0.45, 0.12),
       },
       green_art: {
         pos: new THREE.Vector3(-0.5, 0.45, 2.5),
@@ -1307,8 +1323,8 @@ export default function OfficeScene({
         lookAt: new THREE.Vector3(1.45, 0.45, -1.25),
       },
       postit: {
-        pos: new THREE.Vector3(0.65, 0.0, 2.5),
-        lookAt: new THREE.Vector3(0.7, -0.1, -1.25),
+        pos: new THREE.Vector3(0.16, 0.20, 2.3),
+        lookAt: new THREE.Vector3(0.16, 0.20, -1.27),
       },
     };
 
