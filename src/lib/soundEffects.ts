@@ -3,6 +3,8 @@
 class SoundEngine {
   private ctx: AudioContext | null = null;
   private isMuted: boolean = false;
+  private lofiInterval: NodeJS.Timeout | null = null;
+  private isLofiPlaying: boolean = false;
 
   constructor() {
     if (typeof window !== "undefined") {
@@ -29,6 +31,9 @@ class SoundEngine {
     this.isMuted = !this.isMuted;
     if (typeof window !== "undefined") {
       localStorage.setItem("portfolio_sound_muted", String(this.isMuted));
+    }
+    if (this.isMuted && this.isLofiPlaying) {
+      this.stopLofiMusic();
     }
     return this.isMuted;
   }
@@ -59,12 +64,10 @@ class SoundEngine {
 
       osc.start();
       osc.stop(ctx.currentTime + 0.04);
-    } catch {
-      // Ignore audio policy errors
-    }
+    } catch {}
   }
 
-  // Tactile wood/typewriter click for modal buttons and general navigation
+  // Tactile wood/switch click
   public playClick() {
     if (this.isMuted) return;
     const ctx = this.initCtx();
@@ -89,36 +92,61 @@ class SoundEngine {
     } catch {}
   }
 
-  // Retro Rotary Telephone Dial / Ring sound for phone
-  public playPhoneDial() {
+  // Lamp switch click
+  public playLampSwitch(isOn: boolean) {
     if (this.isMuted) return;
     const ctx = this.initCtx();
     if (!ctx) return;
 
     try {
-      // Dual tone retro ring
-      [440, 480].forEach((freq) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "square";
+      osc.frequency.setValueAtTime(isOn ? 520 : 380, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.05);
+
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + 0.05);
+    } catch {}
+  }
+
+  // Sparkling snow chime for Christmas Tree
+  public playSnowChime() {
+    if (this.isMuted) return;
+    const ctx = this.initCtx();
+    if (!ctx) return;
+
+    try {
+      const notes = [523.25, 659.25, 783.99, 1046.5, 1318.51, 1567.98]; // C Major arpeggio
+      notes.forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
         osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
 
-        gain.gain.setValueAtTime(0.08, ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.2);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+        gain.gain.setValueAtTime(0.0001, ctx.currentTime + idx * 0.08);
+        gain.gain.linearRampToValueAtTime(0.06, ctx.currentTime + idx * 0.08 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.08 + 0.6);
 
         osc.connect(gain);
         gain.connect(ctx.destination);
 
-        osc.start();
-        osc.stop(ctx.currentTime + 0.45);
+        osc.start(ctx.currentTime + idx * 0.08);
+        osc.stop(ctx.currentTime + idx * 0.08 + 0.6);
       });
     } catch {}
   }
 
-  // Soft cat meow chirp
-  public playCatMeow() {
+  // Water bubble splash for feeding fish
+  public playFishBubble() {
     if (this.isMuted) return;
     const ctx = this.initCtx();
     if (!ctx) return;
@@ -128,26 +156,97 @@ class SoundEngine {
       const gain = ctx.createGain();
 
       osc.type = "sine";
-      const now = ctx.currentTime;
+      osc.frequency.setValueAtTime(350, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(950, ctx.currentTime + 0.12);
 
-      // Frequency envelope simulating friendly cat meow: 520Hz -> 780Hz -> 620Hz
-      osc.frequency.setValueAtTime(480, now);
-      osc.frequency.linearRampToValueAtTime(740, now + 0.15);
-      osc.frequency.exponentialRampToValueAtTime(560, now + 0.35);
-
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(0.09, now + 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      gain.gain.setValueAtTime(0.09, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
-      osc.start(now);
-      osc.stop(now + 0.35);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.12);
     } catch {}
   }
 
-  // Paper rustle sound for corkboard / sticky notes / posters
+  // Lo-Fi warm ambient synthesizer for speaker
+  public toggleLofiMusic(): boolean {
+    if (this.isLofiPlaying) {
+      this.stopLofiMusic();
+      return false;
+    } else {
+      this.startLofiMusic();
+      return true;
+    }
+  }
+
+  public getIsLofiPlaying(): boolean {
+    return this.isLofiPlaying;
+  }
+
+  private startLofiMusic() {
+    if (this.isMuted) {
+      this.toggleMute(); // unmute if user clicks play
+    }
+    const ctx = this.initCtx();
+    if (!ctx) return;
+
+    this.isLofiPlaying = true;
+
+    // Cozy Lo-Fi progression: Fmaj7 -> Em7 -> Dm7 -> Cmaj7
+    const chords = [
+      [174.61, 220.0, 261.63, 329.63], // Fmaj7
+      [164.81, 196.0, 246.94, 293.66], // Em7
+      [146.83, 174.61, 220.0, 261.63], // Dm7
+      [130.81, 164.81, 196.0, 246.94], // Cmaj7
+    ];
+    let chordIdx = 0;
+
+    const playChord = () => {
+      if (!this.isLofiPlaying) return;
+      const current = chords[chordIdx % chords.length];
+      chordIdx++;
+
+      current.forEach((freq) => {
+        try {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const filter = ctx.createBiquadFilter();
+
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+          filter.type = "lowpass";
+          filter.frequency.setValueAtTime(600, ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.02, ctx.currentTime + 0.4);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 2.2);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start();
+          osc.stop(ctx.currentTime + 2.3);
+        } catch {}
+      });
+    };
+
+    playChord();
+    this.lofiInterval = setInterval(playChord, 2400);
+  }
+
+  public stopLofiMusic() {
+    this.isLofiPlaying = false;
+    if (this.lofiInterval) {
+      clearInterval(this.lofiInterval);
+      this.lofiInterval = null;
+    }
+  }
+
+  // Paper rustle sound for postcards & notes
   public playPaperRustle() {
     if (this.isMuted) return;
     const ctx = this.initCtx();
@@ -182,8 +281,8 @@ class SoundEngine {
     } catch {}
   }
 
-  // Deep warm thud when opening bookshelf
-  public playBookOpen() {
+  // Deep warm laptop/device click
+  public playLaptopOpen() {
     if (this.isMuted) return;
     const ctx = this.initCtx();
     if (!ctx) return;
@@ -193,39 +292,45 @@ class SoundEngine {
       const gain = ctx.createGain();
 
       osc.type = "sine";
-      osc.frequency.setValueAtTime(140, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(45, ctx.currentTime + 0.18);
+      osc.frequency.setValueAtTime(180, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.15);
 
-      gain.gain.setValueAtTime(0.15, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+      gain.gain.setValueAtTime(0.14, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start();
-      osc.stop(ctx.currentTime + 0.18);
+      osc.stop(ctx.currentTime + 0.15);
     } catch {}
   }
 
   // Play contextual sound based on object ID
   public playObjectSound(objectId: string) {
     switch (objectId) {
-      case "phone":
-        this.playPhoneDial();
+      case "lamp":
+        // handled dynamically with on/off
         break;
-      case "cat":
-        this.playCatMeow();
+      case "tree":
+        this.playSnowChime();
         break;
-      case "corkboard":
-      case "poster":
-      case "postcard":
+      case "aquarium":
+        this.playFishBubble();
+        break;
+      case "speaker":
+        // handled dynamically in toggle
+        break;
+      case "laptop":
+        this.playLaptopOpen();
+        break;
+      case "green_art":
+      case "yellow_vase":
+      case "cards_red":
+      case "cards_green":
+      case "cards_blue":
+      case "postit":
         this.playPaperRustle();
-        break;
-      case "bookshelf":
-      case "diploma":
-      case "globe":
-      case "chess":
-        this.playBookOpen();
         break;
       default:
         this.playClick();
