@@ -7,6 +7,8 @@ import {
   X,
   Volume2,
   VolumeX,
+  ChevronDown,
+  ChevronUp,
   Laptop,
   Palette,
   User,
@@ -41,6 +43,7 @@ export default function OfficeUI({
   onToggleSound,
 }: OfficeUIProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isIntroCollapsed, setIsIntroCollapsed] = useState(false);
   const t = translations[language];
 
   const quickLinks = [
@@ -84,6 +87,11 @@ export default function OfficeUI({
     onToggleLanguage();
   };
 
+  const handleToggleIntro = () => {
+    sound.playClick();
+    setIsIntroCollapsed((prev) => !prev);
+  };
+
   return (
     <>
       {/* 1. TOP RIGHT: Sound Toggle + Language Toggle + Menu Button */}
@@ -125,24 +133,72 @@ export default function OfficeUI({
         </button>
       </div>
 
-      {/* 2. BOTTOM LEFT: Main Headline & Discovery Tracker */}
-      <div className="fixed bottom-5 left-5 sm:bottom-10 sm:left-10 z-30 max-w-[calc(100vw-2.5rem)] sm:max-w-md pointer-events-none select-none">
-        <div className="p-4 sm:p-5 rounded-3xl bg-[#1c1613]/85 backdrop-blur-md border border-[#f4ebdc]/15 shadow-2xl text-[#f4ebdc]">
-          <h1 className="font-playfair text-2xl sm:text-3xl lg:text-4xl text-[#f4ebdc] leading-[1.15] tracking-tight mb-2 whitespace-pre-line">
-            {t.ui.headline}
-          </h1>
-          <p className="font-karla text-xs sm:text-sm text-[#d4c3b3] leading-relaxed mb-3">
-            {t.ui.subheadline}
-          </p>
+      {/* 2. BOTTOM LEFT: Main Headline & Discovery Tracker (Collapsible) */}
+      <div className="fixed bottom-5 left-5 sm:bottom-10 sm:left-10 z-30 max-w-[calc(100vw-2.5rem)] sm:max-w-md select-none pointer-events-none">
+        <AnimatePresence mode="wait">
+          {!isIntroCollapsed ? (
+            <motion.div
+              key="intro-card-expanded"
+              initial={{ opacity: 0, y: 16, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.96 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+              className="pointer-events-auto p-4 sm:p-5 rounded-3xl bg-[#1c1613]/85 backdrop-blur-md border border-[#f4ebdc]/15 shadow-2xl text-[#f4ebdc]"
+            >
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <h1 className="font-playfair text-2xl sm:text-3xl lg:text-4xl text-[#f4ebdc] leading-[1.15] tracking-tight whitespace-pre-line">
+                  {t.ui.headline}
+                </h1>
+                <button
+                  onClick={handleToggleIntro}
+                  aria-label={t.ui.collapse}
+                  title={t.ui.collapse}
+                  className="p-1.5 sm:p-2 rounded-full bg-[#2a211c] hover:bg-[#3d3027] text-[#c8b7a6] hover:text-[#f4ebdc] transition-all hover:scale-105 active:scale-95 shrink-0 border border-[#f4ebdc]/10 mt-1"
+                >
+                  <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
+                </button>
+              </div>
 
-          {/* Discovery Progress */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2a211c] border border-[#f4ebdc]/15">
-            <span className="w-2 h-2 rounded-full bg-[#f2b705]" />
-            <span className="font-mono text-[10px] sm:text-[11px] tracking-widest text-[#f4ebdc] uppercase">
-              {t.ui.discoveredBadge.replace("{count}", String(discoveredCount))}
-            </span>
-          </div>
-        </div>
+              <p className="font-karla text-xs sm:text-sm text-[#d4c3b3] leading-relaxed mb-3">
+                {t.ui.subheadline}
+              </p>
+
+              {/* Discovery Progress */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2a211c] border border-[#f4ebdc]/15">
+                <span className="w-2 h-2 rounded-full bg-[#f2b705]" />
+                <span className="font-mono text-[10px] sm:text-[11px] tracking-widest text-[#f4ebdc] uppercase">
+                  {t.ui.discoveredBadge.replace("{count}", String(discoveredCount))}
+                </span>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.button
+              key="intro-card-collapsed"
+              initial={{ opacity: 0, y: 12, scale: 0.94 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.94 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              onClick={handleToggleIntro}
+              aria-label={t.ui.expand}
+              title={t.ui.expand}
+              className="pointer-events-auto group flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#1c1613]/90 hover:bg-[#2e231c] text-[#f4ebdc] border border-[#f4ebdc]/20 shadow-2xl backdrop-blur-md transition-all hover:scale-105 active:scale-95"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#f2b705] animate-pulse" />
+                <span className="font-playfair text-sm sm:text-base text-white font-medium">
+                  {t.ui.workspaceTitle}
+                </span>
+                <span className="text-[#c8b7a6]/40">•</span>
+                <span className="font-mono text-xs text-[#f2b705] font-semibold">
+                  {discoveredCount}/10
+                </span>
+              </div>
+              <span className="p-1 rounded-full bg-[#2a211c] text-[#c8b7a6] group-hover:text-white group-hover:bg-[#3d3027] transition-colors">
+                <ChevronUp className="w-3.5 h-3.5" />
+              </span>
+            </motion.button>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* 3. CENTER / FLOATING HOVER TOOLTIP */}
