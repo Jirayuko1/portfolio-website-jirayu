@@ -77,7 +77,7 @@ export default function OfficeScene({
 
     // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#ede4d4"); // Warm cream wall
+    scene.background = new THREE.Color("#baa792"); // Warm cozy sandstone wall
 
     let width = container.clientWidth;
     let height = container.clientHeight;
@@ -357,7 +357,7 @@ export default function OfficeScene({
     // Back Wall
     const wallGeo = new THREE.PlaneGeometry(16, 12);
     const wallMat = new THREE.MeshStandardMaterial({
-      color: 0xede4d4,
+      color: 0xbaa792,
       roughness: 0.95,
       metalness: 0.0,
     });
@@ -1101,13 +1101,16 @@ export default function OfficeScene({
       "/models/Wall Socket.glb",
       (gltf) => {
         gltf.scene.traverse((c) => {
-          if ((c as THREE.Mesh).isMesh) c.receiveShadow = true;
+          if ((c as THREE.Mesh).isMesh) {
+            c.receiveShadow = true;
+            c.castShadow = true;
+          }
         });
         const socketModel = createNormalizedModel(gltf.scene, {
-          targetHeight: 0.2,
-          rotationY: Math.PI / 2,
+          targetHeight: 0.22,
+          rotationY: -Math.PI / 2, // Front faceplate faces forward directly toward camera
         });
-        socketModel.position.set(0.22, -0.05, -1.27);
+        socketModel.position.set(0.22, 0.05, -1.26);
         scene.add(socketModel);
       },
       undefined,
@@ -1342,8 +1345,9 @@ export default function OfficeScene({
 
       // Day & Night Lighting Transitions
       const night = isNightModeRef.current;
-      const targetBg = night ? new THREE.Color("#131118") : new THREE.Color("#ede4d4");
+      const targetBg = night ? new THREE.Color("#131118") : new THREE.Color("#baa792");
       (scene.background as THREE.Color).lerp(targetBg, 0.04);
+      wallMat.color.lerp(targetBg, 0.04);
 
       const targetAmb = night ? 0.30 : 1.05;
       ambientLight.intensity += (targetAmb - ambientLight.intensity) * 0.04;
