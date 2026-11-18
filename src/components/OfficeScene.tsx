@@ -825,7 +825,10 @@ export default function OfficeScene({
             c.receiveShadow = true;
           }
         });
-        const radioModel = createNormalizedModel(gltf.scene, { targetWidth: 0.38 });
+        const radioModel = createNormalizedModel(gltf.scene, {
+          targetWidth: 0.38,
+          rotationY: Math.PI,
+        });
         radioModel.position.set(0.18, deskSurfaceY, 0.06);
 
         scene.add(radioModel);
