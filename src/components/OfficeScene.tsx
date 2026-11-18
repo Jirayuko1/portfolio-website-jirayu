@@ -98,14 +98,14 @@ export default function OfficeScene({
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 1.1;
     container.appendChild(renderer.domElement);
 
     // 3. Lighting Setup
-    const ambientLight = new THREE.AmbientLight(0xfff8ee, 0.95);
+    const ambientLight = new THREE.AmbientLight(0xfff8ee, 1.0);
     scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xffeedd, 1.4);
+    const sunLight = new THREE.DirectionalLight(0xffeedd, 1.45);
     sunLight.position.set(-3.2, 5.2, 4.0);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.width = 2048;
@@ -119,11 +119,11 @@ export default function OfficeScene({
     sunLight.shadow.bias = -0.0004;
     scene.add(sunLight);
 
-    // Desk Lamp SpotLight (Interactive toggle)
+    // Desk Lamp SpotLight (Positioned at lamp head pointing right toward laptop/keyboard)
     let lampIsOn = true;
-    const lampLight = new THREE.SpotLight(0xffeedd, 3.2, 5.0, Math.PI / 4, 0.45, 1.2);
-    lampLight.position.set(-1.65, 0.1, 0.1);
-    lampLight.target.position.set(-1.0, -0.78, 0.3);
+    const lampLight = new THREE.SpotLight(0xffeedd, 3.4, 5.0, Math.PI / 3.8, 0.45, 1.2);
+    lampLight.position.set(-1.40, -0.05, 0.25);
+    lampLight.target.position.set(-0.85, -0.74, 0.35);
     scene.add(lampLight);
     scene.add(lampLight.target);
 
@@ -272,7 +272,7 @@ export default function OfficeScene({
       return tex;
     }
 
-    // 4. Room Wall & Desk
+    // 4. Room Wall & Floor
     // Back Wall
     const wallGeo = new THREE.PlaneGeometry(16, 12);
     const wallMat = new THREE.MeshStandardMaterial({
@@ -296,28 +296,6 @@ export default function OfficeScene({
     floor.position.y = -2.1;
     floor.receiveShadow = true;
     scene.add(floor);
-
-    // Desk Setup (Table with Black Cloth matching real photo)
-    const deskGroup = new THREE.Group();
-    const deskTop = new THREE.Mesh(
-      new THREE.BoxGeometry(4.4, 0.12, 2.2),
-      new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.85, metalness: 0.05 })
-    );
-    deskTop.position.set(0, -0.78, 0.2);
-    deskTop.castShadow = true;
-    deskTop.receiveShadow = true;
-    deskGroup.add(deskTop);
-
-    // Black drape front
-    const drapeFront = new THREE.Mesh(
-      new THREE.BoxGeometry(4.4, 1.25, 0.08),
-      new THREE.MeshStandardMaterial({ color: 0x141416, roughness: 0.9 })
-    );
-    drapeFront.position.set(0, -1.40, 1.25);
-    drapeFront.castShadow = true;
-    drapeFront.receiveShadow = true;
-    deskGroup.add(drapeFront);
-    scene.add(deskGroup);
 
     // 5. Wall Artworks (Existing Canvas Frames kept as requested)
     // 5.1 Green Foliage Painting (Hard & Soft Skills)
@@ -471,7 +449,7 @@ export default function OfficeScene({
         );
         pellet.position.set(
           1.25 + (Math.random() - 0.5) * 0.35,
-          -0.12,
+          -0.10,
           0.15 + (Math.random() - 0.5) * 0.25
         );
         scene.add(pellet);
@@ -483,7 +461,8 @@ export default function OfficeScene({
     const fishList: { mesh: THREE.Group; speed: number; angle: number; baseY: number }[] = [];
     const fishColors = [0xf97316, 0xa855f7, 0x06b6d4];
     const aquariumGroup = new THREE.Group();
-    aquariumGroup.position.set(1.25, -0.78, 0.15);
+    const deskSurfaceY = -0.745;
+    aquariumGroup.position.set(1.25, deskSurfaceY, 0.15);
 
     for (let f = 0; f < 3; f++) {
       const fishGroup = new THREE.Group();
@@ -522,7 +501,7 @@ export default function OfficeScene({
     // Glowing water volume inside aquarium
     const waterMesh = new THREE.Mesh(
       new THREE.BoxGeometry(1.05, 0.55, 0.65),
-      new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.25 })
+      new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.22 })
     );
     waterMesh.position.y = 0.38;
     aquariumGroup.add(waterMesh);
@@ -598,9 +577,7 @@ export default function OfficeScene({
       onLoadedRef.current?.();
     }, 4500);
 
-    const deskSurfaceY = -0.78;
-
-    // 8.1 Desk Model (Desk.glb)
+    // 8.1 Realistic Wooden Desk Model (Desk.glb)
     loader.load(
       "/models/Desk.glb",
       (gltf) => {
@@ -610,9 +587,17 @@ export default function OfficeScene({
             c.receiveShadow = true;
           }
         });
-        const deskModel = createNormalizedModel(gltf.scene, { targetHeight: 1.32 });
-        deskModel.position.set(0, -2.1, 0.2);
-        scene.add(deskModel);
+        const model = gltf.scene;
+        const box = new THREE.Box3().setFromObject(model);
+        const size = new THREE.Vector3();
+        box.getSize(size);
+        const scaleY = 1.35 / size.y;
+        // Proportionally scale desk with width ~3.47m and height 1.35m
+        model.scale.set(scaleY * 1.3, scaleY, scaleY * 1.25);
+        model.updateMatrixWorld(true);
+        const scaledBox = new THREE.Box3().setFromObject(model);
+        model.position.set(0, -2.1 - scaledBox.min.y, 0.15);
+        scene.add(model);
       },
       undefined,
       (err) => console.warn("Desk.glb", err)
@@ -626,23 +611,21 @@ export default function OfficeScene({
           if ((c as THREE.Mesh).isMesh) {
             c.castShadow = true;
             c.receiveShadow = true;
+            const mesh = c as THREE.Mesh;
+            // Map IDE code screen texture directly onto laptop's native screen mesh
+            if (mesh.material && (mesh.material as THREE.Material).name === "02___Default") {
+              mesh.material = new THREE.MeshBasicMaterial({
+                map: createLaptopScreenTexture(),
+              });
+            }
           }
         });
-        // Rotated by PI/2 so screen faces forward toward camera
+        // Rotated by PI/2 so screen is at back and keyboard is in front
         const laptopModel = createNormalizedModel(gltf.scene, {
           targetWidth: 0.95,
           rotationY: Math.PI / 2,
         });
-        laptopModel.position.set(-0.75, deskSurfaceY, 0.1);
-
-        // Display VS Code code screen texture on laptop lid
-        const screenOverlay = new THREE.Mesh(
-          new THREE.PlaneGeometry(0.86, 0.52),
-          new THREE.MeshBasicMaterial({ map: createLaptopScreenTexture() })
-        );
-        screenOverlay.position.set(0, 0.31, -0.32);
-        screenOverlay.rotation.x = 0.24;
-        laptopModel.add(screenOverlay);
+        laptopModel.position.set(-0.75, deskSurfaceY, 0.05);
 
         scene.add(laptopModel);
         clickableObjects.push({ mesh: laptopModel, id: "laptop", name: "Laptop (Featured Case Studies)" });
@@ -661,8 +644,8 @@ export default function OfficeScene({
             c.receiveShadow = true;
           }
         });
-        const keyboardModel = createNormalizedModel(gltf.scene, { targetWidth: 0.85 });
-        keyboardModel.position.set(-0.75, deskSurfaceY, 0.55);
+        const keyboardModel = createNormalizedModel(gltf.scene, { targetWidth: 0.82 });
+        keyboardModel.position.set(-0.75, deskSurfaceY, 0.46);
         scene.add(keyboardModel);
         clickableObjects.push({ mesh: keyboardModel, id: "laptop", name: "Mechanical Keyboard (Case Studies)" });
       },
@@ -678,7 +661,7 @@ export default function OfficeScene({
           if ((c as THREE.Mesh).isMesh) c.receiveShadow = true;
         });
         const padModel = createNormalizedModel(gltf.scene, { targetWidth: 0.65 });
-        padModel.position.set(0.08, deskSurfaceY, 0.52);
+        padModel.position.set(0.12, deskSurfaceY, 0.44);
         scene.add(padModel);
       },
       undefined,
@@ -696,7 +679,7 @@ export default function OfficeScene({
           }
         });
         const mouseModel = createNormalizedModel(gltf.scene, { targetDepth: 0.17 });
-        mouseModel.position.set(0.08, deskSurfaceY, 0.52);
+        mouseModel.position.set(0.12, deskSurfaceY + 0.003, 0.44);
 
         // Ambient RGB glow ring under mouse
         const glow = new THREE.Mesh(
@@ -724,7 +707,7 @@ export default function OfficeScene({
           }
         });
         const phoneStandGroup = new THREE.Group();
-        phoneStandGroup.position.set(-0.25, deskSurfaceY, 0.18);
+        phoneStandGroup.position.set(-0.22, deskSurfaceY, 0.14);
 
         // White stand base
         const standBase = new THREE.Mesh(
@@ -753,8 +736,7 @@ export default function OfficeScene({
       (err) => console.warn("Phone.glb", err)
     );
 
-    // 8.7 Desk Lamp (Desk lamp.glb)
-    let lampMeshGroup: THREE.Group | null = null;
+    // 8.7 Desk Lamp (Desk lamp.glb - Rotated to face right toward desk/laptop)
     loader.load(
       "/models/Desk lamp.glb",
       (gltf) => {
@@ -764,12 +746,12 @@ export default function OfficeScene({
             c.receiveShadow = true;
           }
         });
+        // Rotated by ~105° (Math.PI / 2 + 0.25) so lamp neck and shade face RIGHT toward center desk
         const lampModel = createNormalizedModel(gltf.scene, {
           targetHeight: 0.85,
-          rotationY: -0.25,
+          rotationY: Math.PI / 2 + 0.25,
         });
-        lampModel.position.set(-1.75, deskSurfaceY, 0.1);
-        lampMeshGroup = lampModel;
+        lampModel.position.set(-1.65, deskSurfaceY, 0.08);
 
         scene.add(lampModel);
         clickableObjects.push({ mesh: lampModel, id: "lamp", name: "Desk Lamp (Click to Toggle Light)" });
@@ -789,7 +771,7 @@ export default function OfficeScene({
           }
         });
         const treeModel = createNormalizedModel(gltf.scene, { targetHeight: 0.65 });
-        treeModel.position.set(-1.82, deskSurfaceY, 0.52);
+        treeModel.position.set(-1.75, deskSurfaceY, 0.48);
         scene.add(treeModel);
         clickableObjects.push({ mesh: treeModel, id: "tree", name: "Christmas Tree (Click for Snowfall!)" });
       },
@@ -834,7 +816,6 @@ export default function OfficeScene({
     );
 
     // 8.11 Retro Radio / Smart Speaker (Radio.glb)
-    let radioGroup: THREE.Group | null = null;
     loader.load(
       "/models/Radio.glb",
       (gltf) => {
@@ -845,8 +826,7 @@ export default function OfficeScene({
           }
         });
         const radioModel = createNormalizedModel(gltf.scene, { targetWidth: 0.38 });
-        radioModel.position.set(0.48, deskSurfaceY, 0.05);
-        radioGroup = radioModel;
+        radioModel.position.set(0.52, deskSurfaceY, 0.05);
 
         scene.add(radioModel);
         clickableObjects.push({ mesh: radioModel, id: "speaker", name: "Smart Speaker (Click for Lo-Fi Beats)" });
@@ -990,7 +970,7 @@ export default function OfficeScene({
         if (matched) {
           if (matched.id === "lamp") {
             lampIsOn = !lampIsOn;
-            lampLight.intensity = lampIsOn ? 3.2 : 0.0;
+            lampLight.intensity = lampIsOn ? 3.4 : 0.0;
             sound.playLampSwitch(lampIsOn);
             return;
           }
@@ -1007,7 +987,7 @@ export default function OfficeScene({
           }
 
           if (matched.id === "speaker") {
-            const isPlaying = sound.toggleLofiMusic();
+            sound.toggleLofiMusic();
             onSelectRef.current("speaker");
             return;
           }
