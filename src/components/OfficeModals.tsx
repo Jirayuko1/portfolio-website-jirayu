@@ -28,9 +28,11 @@ import {
   FileText,
   Download,
   RotateCcw,
+  Play,
 } from "lucide-react";
 import { Language, translations } from "@/lib/translations";
 import { sound } from "@/lib/soundEffects";
+import TikTokLiveSimulator from "@/components/TikTokLiveSimulator";
 
 interface OfficeModalsProps {
   activeModal: string | null;
@@ -47,6 +49,7 @@ export default function OfficeModals({
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [copiedLine, setCopiedLine] = useState(false);
+  const [showTikTokSimulator, setShowTikTokSimulator] = useState(false);
   const [phoneTab, setPhoneTab] = useState<"apps" | "contact" | "game">("apps");
   const [bugScore, setBugScore] = useState(0);
   const [bugs, setBugs] = useState<{ id: number; x: number; y: number; icon: string }[]>([
@@ -180,7 +183,8 @@ export default function OfficeModals({
   };
 
   return (
-    <AnimatePresence>
+    <>
+      <AnimatePresence>
       <div
         className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-black/75 backdrop-blur-sm"
         onClick={handleClose}
@@ -770,18 +774,34 @@ export default function OfficeModals({
                         ))}
                       </div>
 
-                      {"github" in proj && proj.github && (
-                        <a
-                          href={proj.github}
-                          target="_blank"
-                          rel="noreferrer"
-                          onClick={() => sound.playClick()}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer ml-auto"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          <span>View on GitHub ↗</span>
-                        </a>
-                      )}
+                      <div className="flex flex-wrap items-center gap-2 ml-auto">
+                        {proj.title.includes("TikTok") && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              sound.playClick();
+                              setShowTikTokSimulator(true);
+                            }}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#ef4444] via-[#f43f5e] to-[#ec4899] hover:from-[#dc2626] hover:to-[#db2777] text-white text-xs font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer ring-2 ring-rose-500/30"
+                          >
+                            <Play className="w-3.5 h-3.5 fill-current" />
+                            <span>{language === "th" ? "🎮 ลองเล่นเกมจำลอง (Live Demo)" : "🎮 Play Live Simulator"}</span>
+                          </button>
+                        )}
+
+                        {"github" in proj && proj.github && (
+                          <a
+                            href={proj.github}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={() => sound.playClick()}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>View on GitHub ↗</span>
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -918,5 +938,13 @@ export default function OfficeModals({
         </motion.div>
       </div>
     </AnimatePresence>
+
+    {/* TikTok Live Interactive Game Simulator Modal */}
+    <TikTokLiveSimulator
+      isOpen={showTikTokSimulator}
+      onClose={() => setShowTikTokSimulator(false)}
+      language={language}
+    />
+  </>
   );
 }
