@@ -97,35 +97,100 @@ export default function ResumePage() {
           </p>
         </div>
 
-        {/* Section: Technical Proficiencies */}
+        {/* Section: Technical Proficiencies & Working Tools */}
         <div className="mb-8">
           <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-[#995511] mb-3 flex items-center gap-2">
             <Code className="w-4 h-4" />
-            Technical Proficiencies
+            Technical Proficiencies & Tools
           </h2>
+
+          {/* Core Tools Badge Row */}
+          <div className="mb-3 p-3.5 rounded-xl border border-[#995511]/20 bg-[#faf6f0]">
+            <span className="text-[11px] font-mono font-bold text-[#995511] uppercase tracking-wider block mb-2">
+              Primary Working Tools & Platforms:
+            </span>
+            <div className="flex flex-wrap gap-2 text-xs font-mono">
+              {["Flutter", "GitHub", "Git Desktop", "Lovable", "Antigravity", "Android Studio", "Figma", "LINE OA"].map((tool) => (
+                <span
+                  key={tool}
+                  className="px-2.5 py-1 rounded-md bg-white border border-[#ecd8c7] text-[#1c1613] font-semibold shadow-xs"
+                >
+                  {tool}
+                </span>
+              ))}
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div className="p-3 rounded-lg border border-[#eee6dc] bg-[#fdfbf9]">
               <span className="font-bold text-[#1c1613] block mb-1">Mobile Development</span>
               <p className="text-[#5c5047] leading-relaxed">
-                React Native, Expo (EAS), Flutter, Swift/iOS Native, Kotlin/Android, Offline-first SQLite Sync, CoreML on-device vision, Push Notifications, App Store & Play Store CI/CD.
+                Flutter, Dart, Android Studio, iOS/Android Cross-Platform, Offline-first SQLite Sync, FCM Push Notifications, Mobile CI/CD, Material Design & Cupertino.
               </p>
             </div>
             <div className="p-3 rounded-lg border border-[#eee6dc] bg-[#fdfbf9]">
-              <span className="font-bold text-[#1c1613] block mb-1">Web & Cloud Architecture</span>
+              <span className="font-bold text-[#1c1613] block mb-1">Full-Stack & Cloud Architecture</span>
               <p className="text-[#5c5047] leading-relaxed">
-                Next.js (App Router), TypeScript, React 19, Node.js, NestJS, Tailwind CSS, PostgreSQL, Redis, Apache Kafka, Docker, Netlify Edge CDN, AWS, WebSockets.
+                React, Next.js (App Router), TypeScript, Node.js, Express, Python, Go, Tailwind CSS, Supabase (PostgreSQL, PostGIS), Firebase (Firestore, Cloud Functions), WebSockets.
               </p>
             </div>
             <div className="p-3 rounded-lg border border-[#eee6dc] bg-[#fdfbf9]">
-              <span className="font-bold text-[#1c1613] block mb-1">3D Graphics & Creative Web</span>
+              <span className="font-bold text-[#1c1613] block mb-1">AI, Chatbots & Multi-Modal</span>
               <p className="text-[#5c5047] leading-relaxed">
-                Three.js, WebGL GLSL Shaders, Web Audio API procedural sound synthesis, Framer Motion, GSAP, Blender 3D model optimization (GLTF/DRACO).
+                Google Gemini AI, Botnoi Chatbot Webhooks, LINE Official Account (LINE OA) & LINE LIFF, WebAvatar SDK Voice AI, State Contract Architecture.
               </p>
             </div>
             <div className="p-3 rounded-lg border border-[#eee6dc] bg-[#fdfbf9]">
-              <span className="font-bold text-[#1c1613] block mb-1">Disciplines & Standards</span>
+              <span className="font-bold text-[#1c1613] block mb-1">Creative Web & Engineering Discipline</span>
               <p className="text-[#5c5047] leading-relaxed">
-                WCAG 2.2 AA Accessibility, Unit & E2E Testing (Jest, Playwright), CI/CD Automation, Semantic HTML, Zero-Slop UX Craftsmanship.
+                Three.js 3D WebGL, Web Audio API sound synthesis, Framer Motion, WCAG 2.2 AA Accessibility, Unit & Integration Testing, Zero-Slop UX Craftsmanship.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Section: Work & Internship Experience */}
+        <div className="mb-8">
+          <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-[#995511] mb-3 flex items-center gap-2">
+            <Briefcase className="w-4 h-4" />
+            Work & Internship Experience
+          </h2>
+          <div className="space-y-3.5">
+            <div className="p-4 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+                <div>
+                  <h3 className="font-bold text-sm sm:text-base text-[#1c1613]">
+                    Mobile Application Developer (Trainee)
+                  </h3>
+                  <span className="text-xs font-semibold text-[#995511]">
+                    Botnoi Group Co., Ltd. (บริษัท ไอบอทน้อย จำกัด)
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-[#995511] bg-[#f9ebe0] px-2.5 py-0.5 rounded shrink-0 self-start sm:self-auto">
+                  March 2026 – November 2026
+                </span>
+              </div>
+              <p className="text-xs text-[#5c5047] leading-relaxed mt-2">
+                Engineered production-grade cross-platform mobile application prototypes with Flutter integrated with Botnoi AI Chatbot webhooks. Spearheaded the Aura Staff mobile hotel operations system with smart room extraction and FCM push notifications. Graduated from the BOTNOI TRAINEE program with distinction.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+                <div>
+                  <h3 className="font-bold text-sm sm:text-base text-[#1c1613]">
+                    Operations & Maintenance Technician
+                  </h3>
+                  <span className="text-xs font-semibold text-[#995511]">
+                    Prompt Techno Service Co., Ltd. — Stationed at NXP Semiconductor Unit
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-[#786b62] bg-[#f3eee7] px-2.5 py-0.5 rounded shrink-0 self-start sm:self-auto">
+                  April 2021 – March 2022
+                </span>
+              </div>
+              <p className="text-xs text-[#5c5047] leading-relaxed mt-2">
+                Managed operations and preventive maintenance for critical facility support and electrical control systems in Section A of NXP Semiconductor plant. Maintained strict compliance with ISO 9001:2015 quality procedures and high-reliability industrial safety standards.
               </p>
             </div>
           </div>
@@ -287,22 +352,86 @@ export default function ResumePage() {
           </div>
         </div>
 
-        {/* Section: Education & Certification */}
-        <div>
+        {/* Section: Education & Academic Background */}
+        <div className="mb-8">
           <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-[#995511] mb-3 flex items-center gap-2">
             <Award className="w-4 h-4" />
-            Education & Certifications
+            Education & Academic Background
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
-              <span className="font-bold text-[#1c1613] block">B.Sc. in Computer Science (Honors)</span>
-              <span className="text-[#786b62] block">Graduated with Academic Distinction</span>
-              <span className="text-[#995511] font-mono text-[11px] mt-1 block">2019 — 2023</span>
+            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1">
+              <span className="font-bold text-[#1c1613] block">
+                Bachelor of Engineering / Science Candidate in Digital & Information Technology (DIT)
+              </span>
+              <span className="text-[#5c5047] block">
+                Panyapiwat Institute of Management (PIM) — Chaengwattana
+              </span>
+              <span className="text-[#786b62] block text-[11px]">
+                Faculty of Engineering and Technology (คณะวิศวกรรมศาสตร์และเทคโนโลยี)
+              </span>
+              <span className="text-[#995511] font-mono text-[11px] mt-1 inline-block bg-[#f9ebe0] px-2 py-0.5 rounded">
+                2023 — Present · Currently Studying (กำลังศึกษาอยู่)
+              </span>
             </div>
-            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
-              <span className="font-bold text-[#1c1613] block">Certified Mobile Application Architect</span>
-              <span className="text-[#786b62] block">Advanced Cross-Platform & Native Systems</span>
-              <span className="text-[#995511] font-mono text-[11px] mt-1 block">Credentialed 2024</span>
+
+            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1">
+              <span className="font-bold text-[#1c1613] block">
+                Technical Education Diploma (ปวส.) in Electrical Engineering
+              </span>
+              <span className="text-[#5c5047] block">
+                Saraburi Technical College (วิทยาลัยเทคนิคสระบุรี)
+              </span>
+              <span className="text-[#786b62] block text-[11px]">
+                Specialization: Electrical Control Devices (สาขางานไฟฟ้าควบคุม) · GPA 3.14 (Project Grade 4.00)
+              </span>
+              <span className="text-[#786b62] font-mono text-[11px] mt-1 inline-block bg-[#f3eee7] px-2 py-0.5 rounded">
+                2020 — 2022 · Graduated March 15, 2022
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Section: Certifications & National Skill Standards */}
+        <div>
+          <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-[#995511] mb-3 flex items-center gap-2">
+            <CheckCircle className="w-4 h-4" />
+            Certifications & National Skill Standards
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1">
+              <span className="font-bold text-[#1c1613] block">
+                National Skill Standard Assessment: On Building Electrician Level 1
+              </span>
+              <span className="text-[#5c5047] block text-[11px]">
+                Department of Skill Development, Ministry of Labour (Score: 89.6 / 100)
+              </span>
+              <span className="text-[#995511] font-mono text-[11px] mt-1 block">
+                Certified March 29, 2021
+              </span>
+            </div>
+
+            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1">
+              <span className="font-bold text-[#1c1613] block">
+                BOTNOI TRAINEE Certificate: Mobile Application Developer
+              </span>
+              <span className="text-[#5c5047] block text-[11px]">
+                Botnoi Group (Signed by Dr. Winn Voravuthikunchai, CEO & Founder)
+              </span>
+              <span className="text-[#995511] font-mono text-[11px] mt-1 block">
+                Certified 2026
+              </span>
+            </div>
+
+            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1">
+              <span className="font-bold text-[#1c1613] block">
+                Professional Operational Training: Teamwork & ISO 9001:2015
+              </span>
+              <span className="text-[#5c5047] block text-[11px]">
+                Prompt Techno Service Co., Ltd. (NXP Semiconductor Facility)
+              </span>
+              <span className="text-[#995511] font-mono text-[11px] mt-1 block">
+                Certified March 20, 2022
+              </span>
             </div>
           </div>
         </div>

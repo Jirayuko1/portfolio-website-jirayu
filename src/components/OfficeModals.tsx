@@ -36,6 +36,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Image as ImageIcon,
+  Briefcase,
+  GraduationCap,
+  Wrench,
 } from "lucide-react";
 import { Language, translations } from "@/lib/translations";
 import { sound } from "@/lib/soundEffects";
@@ -598,6 +601,29 @@ export default function OfficeModals({
                 </div>
               </div>
 
+              {/* Working Tools & Platforms */}
+              {"tools" in t.green_art && (
+                <div className="space-y-3">
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-[#38bdf8] flex items-center gap-2">
+                    <Wrench className="w-3.5 h-3.5 text-[#38bdf8]" />
+                    <span>{"toolsTitle" in t.green_art ? t.green_art.toolsTitle : (language === "th" ? "เครื่องมือที่ใช้ในการทำงาน (Tools & Platforms)" : "Working Tools & Platforms")}</span>
+                  </h3>
+                  <div className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10">
+                    <div className="flex flex-wrap gap-2.5">
+                      {t.green_art.tools.map((tool: string, i: number) => (
+                        <span
+                          key={i}
+                          className="px-3.5 py-1.5 rounded-xl bg-[#1e1511] border border-[#38bdf8]/25 text-xs font-mono font-medium text-[#f4ebdc] flex items-center gap-2 shadow-xs hover:border-[#38bdf8]/60 hover:text-white transition-all select-none"
+                        >
+                          <span className="w-2 h-2 rounded-full bg-[#38bdf8] shadow-[0_0_8px_#38bdf8]" />
+                          <span>{tool}</span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Soft Skills */}
               <div className="space-y-3">
                 <h3 className="font-mono text-xs uppercase tracking-wider text-[#a3e635] flex items-center gap-2">
@@ -712,33 +738,96 @@ export default function OfficeModals({
                 </div>
               </div>
 
+              {/* Work & Internships */}
+              {"experience" in t.yellow_vase && t.yellow_vase.experience && (
+                <div className="space-y-3">
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-[#a3e635] flex items-center gap-1.5">
+                    <Briefcase className="w-3.5 h-3.5 text-[#a3e635]" />
+                    <span>{"experienceTitle" in t.yellow_vase ? t.yellow_vase.experienceTitle : (language === "th" ? "ประวัติการทำงาน / ฝึกงาน (Work & Internships)" : "Work & Internships")}</span>
+                  </h3>
+                  <div className="space-y-3">
+                    {t.yellow_vase.experience.map((exp: any, i: number) => (
+                      <div
+                        key={i}
+                        className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-1.5"
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                          <span className="font-semibold text-sm text-white">
+                            {exp.role}
+                          </span>
+                          <span className="text-[11px] font-mono text-[#a3e635] bg-[#1e1511] px-2.5 py-0.5 rounded-md border border-[#a3e635]/25 self-start sm:self-auto">
+                            {exp.period}
+                          </span>
+                        </div>
+                        <span className="text-xs text-[#f2b705] font-medium block">
+                          {exp.company}
+                        </span>
+                        <p className="text-xs text-[#d4c3b3] leading-relaxed pt-1">
+                          {exp.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Education */}
               <div className="space-y-3">
                 <h3 className="font-mono text-xs uppercase tracking-wider text-[#f2b705] flex items-center gap-1.5">
-                  <Award className="w-3.5 h-3.5" />
+                  <GraduationCap className="w-3.5 h-3.5 text-[#f2b705]" />
                   <span>{t.yellow_vase.educationTitle}</span>
                 </h3>
                 <div className="space-y-2.5">
                   {t.yellow_vase.education.map((edu, i) => (
                     <div
                       key={i}
-                      className="p-4 rounded-xl bg-[#2c2019] border border-[#f4ebdc]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-1"
+                      className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 flex flex-col sm:flex-row sm:items-start justify-between gap-2"
                     >
-                      <div>
+                      <div className="space-y-0.5">
                         <span className="font-semibold text-sm text-white block">
                           {edu.degree}
                         </span>
-                        <span className="text-xs text-[#c8b7a6]">
+                        <span className="text-xs text-[#c8b7a6] block leading-relaxed">
                           {edu.school}
                         </span>
                       </div>
-                      <span className="text-xs font-mono text-[#a3e635]">
+                      <span className="text-xs font-mono text-[#a3e635] shrink-0 bg-[#1e1511] px-2.5 py-0.5 rounded-md border border-[#f4ebdc]/5 self-start sm:self-auto">
                         {edu.year}
                       </span>
                     </div>
                   ))}
                 </div>
               </div>
+
+              {/* Certifications & National Standards */}
+              {"certifications" in t.yellow_vase && t.yellow_vase.certifications && (
+                <div className="space-y-3">
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-[#60a5fa] flex items-center gap-1.5">
+                    <Award className="w-3.5 h-3.5 text-[#60a5fa]" />
+                    <span>{"certsTitle" in t.yellow_vase ? t.yellow_vase.certsTitle : (language === "th" ? "ใบรับรองและมาตรฐานวิชาชีพ (Certificates & Standards)" : "Certifications & Standards")}</span>
+                  </h3>
+                  <div className="space-y-2.5">
+                    {t.yellow_vase.certifications.map((cert: any, i: number) => (
+                      <div
+                        key={i}
+                        className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 flex flex-col sm:flex-row sm:items-start justify-between gap-2"
+                      >
+                        <div className="space-y-0.5">
+                          <span className="font-semibold text-xs sm:text-sm text-white block">
+                            {cert.title}
+                          </span>
+                          <span className="text-[11px] text-[#c8b7a6] block">
+                            {cert.issuer}
+                          </span>
+                        </div>
+                        <span className="text-[11px] font-mono text-[#60a5fa] shrink-0 bg-[#1e1511] px-2.5 py-0.5 rounded-md border border-[#60a5fa]/25 self-start sm:self-auto">
+                          {cert.year}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Quick Conversion CTAs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
