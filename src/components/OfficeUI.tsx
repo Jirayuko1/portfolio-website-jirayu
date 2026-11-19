@@ -254,7 +254,7 @@ export default function OfficeUI({
               className="pointer-events-auto p-4 sm:p-5 rounded-3xl bg-[#1c1613]/85 backdrop-blur-md border border-[#f4ebdc]/15 shadow-2xl text-[#f4ebdc]"
             >
               <div className="flex items-start justify-between gap-3 mb-2">
-                <h1 className="font-playfair text-2xl sm:text-3xl lg:text-4xl text-[#f4ebdc] leading-[1.15] tracking-tight whitespace-pre-line">
+                <h1 className="font-playfair text-2xl sm:text-3xl lg:text-4xl text-[#f4ebdc] leading-snug sm:leading-[1.22] whitespace-pre-line">
                   {t.ui.headline}
                 </h1>
                 <button
@@ -320,7 +320,7 @@ export default function OfficeUI({
             className="fixed top-18 sm:top-22 left-1/2 -translate-x-1/2 z-40 pointer-events-none px-4 py-1.5 rounded-full bg-[#1e1713]/90 text-[#f4ebdc] border border-[#f2b705]/50 backdrop-blur-md shadow-2xl flex items-center gap-2 max-w-[90vw]"
           >
             <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-[#f2b705]" />
-            <span className="font-caveat text-base sm:text-lg text-[#f2b705] whitespace-nowrap">
+            <span className="font-karla text-xs sm:text-sm font-medium text-[#f2b705] whitespace-nowrap">
               {t.ui.clickToExplore}
             </span>
             <span className="font-karla text-xs font-semibold text-white tracking-wide truncate">

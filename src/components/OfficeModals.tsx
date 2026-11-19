@@ -799,7 +799,7 @@ export default function OfficeModals({
                     <span className="font-bold text-xs uppercase tracking-wider block mb-1">
                       {c.title}
                     </span>
-                    <p className="font-caveat text-base leading-snug">{c.text}</p>
+                    <p className="font-karla text-sm sm:text-base leading-relaxed text-[#7c2d12]/95">{c.text}</p>
                   </div>
                 ))}
               </div>
@@ -832,7 +832,7 @@ export default function OfficeModals({
                     <span className="font-bold text-xs uppercase tracking-wider block mb-1">
                       {c.title}
                     </span>
-                    <p className="font-caveat text-base leading-snug">{c.text}</p>
+                    <p className="font-karla text-sm sm:text-base leading-relaxed text-[#14532d]/95">{c.text}</p>
                   </div>
                 ))}
               </div>

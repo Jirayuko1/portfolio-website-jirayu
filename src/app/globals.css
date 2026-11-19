@@ -1,47 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --font-playfair: "Playfair Display", var(--font-anuphan), Georgia, serif;
-  --font-caveat: "Caveat", var(--font-mali), "Comic Sans MS", cursive;
-  --font-karla: "Karla", var(--font-anuphan), sans-serif;
-  --font-pinyon: "Pinyon Script", cursive;
   --bg-office: #2e2620;
   --text-cream: #f4ebdc;
   --shelf-yellow: #f2b705;
 }
 
 body {
-  font-family: var(--font-karla), var(--font-anuphan), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-karla), var(--font-thai), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: var(--text-cream);
   background-color: var(--bg-office);
+  line-height: 1.68;
+  letter-spacing: 0.012em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .font-playfair {
-  font-family: var(--font-playfair), var(--font-anuphan), sans-serif;
+  font-family: var(--font-playfair), var(--font-thai), Georgia, serif;
 }
 
 .font-caveat {
-  font-family: var(--font-caveat), var(--font-mali), "Comic Sans MS", cursive;
+  font-family: var(--font-caveat), var(--font-thai), cursive, sans-serif;
 }
 
 .font-karla {
-  font-family: var(--font-karla), var(--font-anuphan), sans-serif;
+  font-family: var(--font-karla), var(--font-thai), sans-serif;
 }
 
 .font-pinyon {
   font-family: var(--font-pinyon), cursive;
 }
 
-.font-thai-serif {
-  font-family: var(--font-noto-serif-thai), Georgia, serif;
-}
-
-.font-thai-handwriting {
-  font-family: var(--font-mali), cursive;
-}
-
-.font-thai-sans {
-  font-family: var(--font-anuphan), sans-serif;
+.font-thai {
+  font-family: var(--font-thai), sans-serif;
 }
 
 /* Custom modal styling */
