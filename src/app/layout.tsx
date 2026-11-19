@@ -1,5 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Caveat, Karla, Pinyon_Script } from "next/font/google";
+import {
+  Playfair_Display,
+  Caveat,
+  Karla,
+  Pinyon_Script,
+  Anuphan,
+  Noto_Serif_Thai,
+  Mali,
+} from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -27,6 +35,28 @@ const pinyon = Pinyon_Script({
   variable: "--font-pinyon",
   subsets: ["latin"],
   weight: ["400"],
+  display: "swap",
+});
+
+// Thai Typography Trio: Anuphan (Body & UI), Noto Serif Thai (Headings), Mali (Post-it / Handwriting)
+const anuphan = Anuphan({
+  variable: "--font-anuphan",
+  subsets: ["thai", "latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const notoSerifThai = Noto_Serif_Thai({
+  variable: "--font-noto-serif-thai",
+  subsets: ["thai", "latin"],
+  weight: ["400", "600", "700"],
+  display: "swap",
+});
+
+const mali = Mali({
+  variable: "--font-mali",
+  subsets: ["thai", "latin"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -180,7 +210,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${caveat.variable} ${karla.variable} ${pinyon.variable} antialiased`}
+      className={`${playfair.variable} ${caveat.variable} ${karla.variable} ${pinyon.variable} ${anuphan.variable} ${notoSerifThai.variable} ${mali.variable} antialiased`}
       style={{ background: "#2e2620" }}
     >
       <head>
