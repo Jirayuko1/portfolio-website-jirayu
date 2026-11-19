@@ -392,29 +392,37 @@ export default function OfficeScene({
 
     // 5.2 Portrait Canvas Painting on Wall (Jirayu in Black Shirt)
     const textureLoader = new THREE.TextureLoader();
-    const portraitTexture = textureLoader.load("/images/portrait-black-shirt.webp", (tex) => {
-      tex.colorSpace = THREE.SRGBColorSpace;
+    const yellowArtMat = new THREE.MeshStandardMaterial({
+      roughness: 0.5,
+      metalness: 0.05,
     });
 
-    const sideMat = new THREE.MeshStandardMaterial({
-      color: 0x241a14, // Warm dark natural gallery-wrap canvas edge
-      roughness: 0.85,
-    });
-    const frontMat = new THREE.MeshStandardMaterial({
-      map: portraitTexture,
-      roughness: 0.55,
-    });
-
-    // BoxGeometry face indices: 0: right (+X), 1: left (-X), 2: top (+Y), 3: bottom (-Y), 4: front (+Z), 5: back (-Z)
-    const portraitMaterials = [sideMat, sideMat, sideMat, sideMat, frontMat, sideMat];
+    const portraitTexture = textureLoader.load(
+      "/images/portrait-black-shirt.webp",
+      (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.needsUpdate = true;
+        yellowArtMat.map = tex;
+        yellowArtMat.needsUpdate = true;
+      }
+    );
+    yellowArtMat.map = portraitTexture;
 
     const yellowArt = new THREE.Mesh(
-      new THREE.BoxGeometry(0.60, 0.765, 0.04),
-      portraitMaterials
+      new THREE.BoxGeometry(0.58, 0.79, 0.04),
+      yellowArtMat
     );
     yellowArt.position.set(0.45, 1.12, -1.27);
     yellowArt.castShadow = true;
     yellowArt.receiveShadow = true;
+
+    // Dark walnut gallery frame around the portrait
+    const frameGeo = new THREE.BoxGeometry(0.61, 0.82, 0.036);
+    const frameMat = new THREE.MeshStandardMaterial({ color: 0x1f1713, roughness: 0.85 });
+    const frameMesh = new THREE.Mesh(frameGeo, frameMat);
+    frameMesh.position.z = -0.005;
+    yellowArt.add(frameMesh);
+
     scene.add(yellowArt);
     clickableObjects.push({ mesh: yellowArt, id: "yellow_vase", name: "Portrait & Bio (Jirayu)" });
 
