@@ -349,8 +349,10 @@ export default function OfficeUI({
               <div>
                 <div className="flex items-center justify-between pb-5 border-b border-[#f4ebdc]/10 mb-5">
                   <div>
-                    <h2 className="font-playfair text-2xl text-white">Jirayu</h2>
-                    <span className="text-xs text-[#c8b7a6]">Senior Full-Stack & Mobile Developer</span>
+                    <h2 className="font-playfair text-2xl text-white">
+                      {language === "th" ? "จิรายุ โกคูณ" : "Jirayu Kokhoon"}
+                    </h2>
+                    <span className="text-xs text-[#c8b7a6]">Full-Stack & Mobile Developer</span>
                   </div>
                   <button
                     onClick={handleMenuClose}
@@ -374,7 +376,7 @@ export default function OfficeUI({
                     <span>Resume (PDF)</span>
                   </a>
                   <a
-                    href="mailto:jirayu.dev@example.com?subject=Schedule%20a%2015-minute%20Chat%20with%20Jirayu"
+                    href="mailto:jirayukokhoon@gmail.com?subject=Schedule%20a%2015-minute%20Chat%20with%20Jirayu"
                     onClick={() => sound.playClick()}
                     className="p-2.5 rounded-xl bg-[#60a5fa] hover:bg-[#93c5fd] text-[#0f172a] text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95"
                   >

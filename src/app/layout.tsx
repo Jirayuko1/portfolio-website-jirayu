@@ -58,16 +58,18 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Jirayu (จิรายุ) · Senior Full-Stack & Mobile Developer",
-    template: "%s | Jirayu Portfolio",
+    default: "Jirayu Kokhoon (จิรายุ โกคูณ) · Full-Stack & Mobile Developer",
+    template: "%s | Jirayu Kokhoon Portfolio",
   },
   description:
-    "Explore Jirayu's interactive 3D studio office. Senior Full-Stack & Mobile Developer specializing in React Native, Flutter, Next.js, Node.js, and interactive 3D WebGL experiences with an 'Ask First, Code Later' engineering philosophy.",
+    "Explore Jirayu Kokhoon's interactive 3D studio office. Full-Stack & Mobile Developer specializing in React Native, Flutter, Next.js, Node.js, and interactive 3D WebGL experiences with an 'Ask First, Code Later' engineering philosophy.",
   keywords: [
+    "Jirayu Kokhoon",
+    "จิรายุ โกคูณ",
     "Jirayu",
     "จิรายุ",
-    "Senior Full-Stack Developer",
-    "Senior Mobile Developer",
+    "Full-Stack Developer",
+    "Mobile Developer",
     "React Native",
     "Flutter",
     "Next.js",
@@ -81,9 +83,9 @@ export const metadata: Metadata = {
     "Bangkok Developer",
     "Interactive Portfolio",
   ],
-  authors: [{ name: "Jirayu", url: siteUrl }],
-  creator: "Jirayu",
-  publisher: "Jirayu",
+  authors: [{ name: "Jirayu Kokhoon", url: siteUrl }],
+  creator: "Jirayu Kokhoon",
+  publisher: "Jirayu Kokhoon",
   formatDetection: {
     email: false,
     address: false,
@@ -99,29 +101,30 @@ export const metadata: Metadata = {
   openGraph: {
     type: "profile",
     firstName: "Jirayu",
+    lastName: "Kokhoon",
     username: "Jirayuko1",
     locale: "th_TH",
     alternateLocale: ["en_US"],
     url: siteUrl,
-    siteName: "Jirayu · Senior Full-Stack & Mobile Developer",
-    title: "Jirayu (จิรายุ) · Senior Full-Stack & Mobile Developer",
+    siteName: "Jirayu Kokhoon · Full-Stack & Mobile Developer",
+    title: "Jirayu Kokhoon (จิรายุ โกคูณ) · Full-Stack & Mobile Developer",
     description:
-      "Step into my interactive 3D workspace. Explore mobile apps, high-throughput cloud architectures, and interactive 3D case studies.",
+      "Step into Jirayu Kokhoon's interactive 3D workspace. Explore mobile apps, high-throughput cloud architectures, and interactive 3D case studies.",
     images: [
       {
         url: "/images/office-og.jpg",
         width: 1200,
         height: 630,
-        alt: "Jirayu's Interactive 3D Studio Desk Portfolio",
+        alt: "Jirayu Kokhoon's Interactive 3D Studio Desk Portfolio",
         type: "image/jpeg",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jirayu (จิรายุ) · Senior Full-Stack & Mobile Developer",
+    title: "Jirayu Kokhoon (จิรายุ โกคูณ) · Full-Stack & Mobile Developer",
     description:
-      "Step into my interactive 3D workspace. Explore mobile apps, high-throughput cloud architectures, and interactive 3D case studies.",
+      "Step into Jirayu Kokhoon's interactive 3D workspace. Explore mobile apps, high-throughput cloud architectures, and interactive 3D case studies.",
     images: ["/images/office-og.jpg"],
     creator: "@jirayu_dev",
   },
@@ -147,11 +150,12 @@ export default function RootLayout({
   const jsonLdPerson = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Jirayu",
-    alternateName: "จิรายุ",
-    jobTitle: "Senior Full-Stack & Mobile Developer",
+    name: "Jirayu Kokhoon (จิรายุ โกคูณ)",
+    alternateName: ["Jirayu Kokhoon", "จิรายุ โกคูณ", "Jirayu"],
+    jobTitle: "Full-Stack & Mobile Developer",
     url: siteUrl,
-    image: `${siteUrl}/images/portrait.webp`,
+    email: "mailto:jirayukokhoon@gmail.com",
+    image: `${siteUrl}/images/portrait-tarot.webp`,
     sameAs: [
       "https://github.com/Jirayuko1",
       "https://portfolio-website-jirayu.vercel.app",
@@ -169,7 +173,7 @@ export default function RootLayout({
       "UI/UX Design Systems",
     ],
     description:
-      "Senior Full-Stack & Mobile Developer with an 'Ask First, Code Later' engineering mindset. Specialized in cross-platform mobile apps, cloud backends, and creative 3D web experiences.",
+      "Full-Stack & Mobile Developer with an 'Ask First, Code Later' engineering mindset. Specialized in cross-platform mobile apps, cloud backends, and creative 3D web experiences.",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Bangkok",
@@ -180,7 +184,7 @@ export default function RootLayout({
   const jsonLdWebSite = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Jirayu Portfolio",
+    name: "Jirayu Kokhoon Portfolio",
     url: siteUrl,
     description:
       "Interactive 3D studio office portfolio of Jirayu, showcasing full-stack web and mobile engineering work.",

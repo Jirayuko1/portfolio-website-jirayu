@@ -30,7 +30,7 @@ export default function ResumePage() {
               <span>Print / Save as PDF</span>
             </button>
             <a
-              href="mailto:jirayu.dev@example.com?subject=Opportunity%20Discussion"
+              href="mailto:jirayukokhoon@gmail.com?subject=Opportunity%20Discussion"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#f2b705] hover:bg-[#d9a404] text-[#1c1613] text-xs sm:text-sm font-mono font-bold shadow-md transition-all active:scale-95"
             >
               <Mail className="w-4 h-4" />
@@ -47,10 +47,10 @@ export default function ResumePage() {
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div>
               <h1 className="text-3xl sm:text-4xl font-serif font-bold text-[#1c1613] tracking-tight">
-                Jirayu (จิรายุ)
+                Jirayu Kokhoon (จิรายุ โกคูณ)
               </h1>
               <p className="text-base sm:text-lg font-mono text-[#995511] font-semibold mt-1">
-                Senior Full-Stack & Mobile Developer
+                Full-Stack & Mobile Developer
               </p>
               <p className="text-xs sm:text-sm text-[#786b62] mt-2 max-w-xl leading-relaxed">
                 Pragmatic software engineer with high ownership and an &ldquo;Ask First, Code Later&rdquo; mindset. 
@@ -64,18 +64,23 @@ export default function ResumePage() {
                 <MapPin className="w-3.5 h-3.5 text-[#995511]" />
                 Bangkok, Thailand (Remote / Hybrid)
               </span>
-              <a href="mailto:jirayu.dev@example.com" className="flex items-center sm:justify-end gap-1.5 hover:underline text-[#2d2522]">
+              <a href="mailto:jirayukokhoon@gmail.com" className="flex items-center sm:justify-end gap-1.5 hover:underline text-[#2d2522]">
                 <Mail className="w-3.5 h-3.5 text-[#995511]" />
-                jirayu.dev@example.com
+                jirayukokhoon@gmail.com
               </a>
               <span className="flex items-center sm:justify-end gap-1.5">
                 <Phone className="w-3.5 h-3.5 text-[#995511]" />
                 +66 81 234 5678
               </span>
-              <span className="flex items-center sm:justify-end gap-1.5">
+              <a
+                href="https://github.com/Jirayuko1"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center sm:justify-end gap-1.5 hover:underline text-[#2d2522]"
+              >
                 <Code className="w-3.5 h-3.5 text-[#995511]" />
                 github.com/Jirayuko1
-              </span>
+              </a>
             </div>
           </div>
         </div>
@@ -212,7 +217,7 @@ export default function ResumePage() {
 
       {/* Footer */}
       <footer className="max-w-4xl mx-auto py-8 text-center text-xs font-mono text-[#a39487] print:hidden">
-        © 2026 Jirayu · Available for High-Impact Full-Stack & Mobile Roles · Bangkok, Thailand
+        © 2026 Jirayu Kokhoon (จิรายุ โกคูณ) · Available for High-Impact Full-Stack & Mobile Roles · Bangkok, Thailand
       </footer>
     </div>
   );

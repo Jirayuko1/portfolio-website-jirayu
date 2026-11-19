@@ -87,7 +87,7 @@ export default function OfficeModals({
 
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  const email = "jirayu.dev@example.com";
+  const email = "jirayukokhoon@gmail.com";
   const rawPhone = "+66 81 234 5678";
   const lineId = "@jirayu.dev";
   const t = translations[language].modals;
@@ -418,7 +418,7 @@ export default function OfficeModals({
                     {/* High-Impact Conversion CTAs */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
                       <a
-                        href="mailto:jirayu.dev@example.com?subject=Schedule%20a%2015-minute%20Chat%20with%20Jirayu&body=Hi%20Jirayu,%0D%0A%0D%0AI'd%20love%20to%20schedule%20a%2015-min%20call%20to%20discuss%20an%20opportunity."
+                        href="mailto:jirayukokhoon@gmail.com?subject=Schedule%20a%2015-minute%20Chat%20with%20Jirayu&body=Hi%20Jirayu,%0D%0A%0D%0AI'd%20love%20to%20schedule%20a%2015-min%20call%20to%20discuss%20an%20opportunity."
                         onClick={() => sound.playClick()}
                         className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#60a5fa] hover:bg-[#93c5fd] text-[#0f172a] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
                       >
@@ -634,7 +634,7 @@ export default function OfficeModals({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
                   <a
-                    href="https://github.com/Jirayuko1/portfolio-website-jirayu"
+                    href="https://github.com/Jirayuko1"
                     target="_blank"
                     rel="noreferrer"
                     className="min-h-[44px] p-3 rounded-xl bg-[#1e1511] hover:bg-[#382b24] border border-[#f4ebdc]/10 flex items-center justify-between text-[#f4ebdc] transition-colors"
@@ -691,7 +691,7 @@ export default function OfficeModals({
               {/* Quick Conversion CTAs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <a
-                  href="mailto:jirayu.dev@example.com?subject=Schedule%20a%2015-minute%20Chat%20with%20Jirayu"
+                  href="mailto:jirayukokhoon@gmail.com?subject=Schedule%20a%2015-minute%20Chat%20with%20Jirayu"
                   onClick={() => sound.playClick()}
                   className="min-h-[44px] px-4 py-3 rounded-xl bg-[#60a5fa] hover:bg-[#93c5fd] text-[#0f172a] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
                 >

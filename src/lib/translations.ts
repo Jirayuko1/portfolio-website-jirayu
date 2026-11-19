@@ -3,7 +3,7 @@ export type Language = "en" | "th";
 export const translations = {
   en: {
     meta: {
-      title: "Jirayu — Senior Full-Stack & Mobile Developer Desk",
+      title: "Jirayu Kokhoon — Full-Stack & Mobile Developer Desk",
       description: "Interactive 3D real workstation showcasing high-impact engineering, 'Ask First, Code Later' mindset, mini-games, and soundscapes.",
     },
     ui: {
@@ -17,7 +17,7 @@ export const translations = {
       baseValue: "Bangkok, Thailand",
       statusLabel: "Status:",
       statusValue: "Open for opportunities",
-      credits: "© 2026 Jirayu · 3D Real Desk Experience",
+      credits: "© 2026 Jirayu Kokhoon · 3D Real Desk Experience",
       soundMuted: "Sound Off",
       soundUnmuted: "Sound On",
       close: "Close",
@@ -44,7 +44,7 @@ export const translations = {
       coffee: "Coffee Mug (Take a Sip!)",
       green_art: "Hard & Soft Skills (Canvas)",
       yellow_vase: "Contact & Profile (Portrait)",
-      cards_green: "Why Hire Jirayu (Value Pitch)",
+      cards_green: "Why Hire Jirayu Kokhoon (Value Pitch)",
       cards_red: "Work Life & Snapshots",
       cards_blue: "Engineering Articles & Insights",
       aquarium: "Aquarium (Feed the Fish!)",
@@ -89,8 +89,8 @@ export const translations = {
       },
       yellow_vase: {
         tag: "About Me & Direct Contact 🌻",
-        title: "Jirayu — Bio & Contact",
-        desc: "Senior Full-Stack & Mobile Developer based in Bangkok (GMT+7). Passionate about building purposeful, resilient digital products with zero drama.",
+        title: "Jirayu Kokhoon — Bio & Contact",
+        desc: "Full-Stack & Mobile Developer based in Bangkok (GMT+7). Passionate about building purposeful, resilient digital products with zero drama.",
         educationTitle: "Education & Certifications",
         education: [
           { degree: "B.Sc. in Computer Science", school: "Graduated with Honors", year: "2019 - 2023" },
@@ -140,7 +140,7 @@ export const translations = {
       },
       cards_green: {
         tag: "Value Proposition 🌟",
-        title: "Why Hire Jirayu",
+        title: "Why Hire Jirayu Kokhoon",
         desc: "Four key reasons teams love working with me:",
         cards: [
           { title: "1. The Clarifier Mindset", text: "I clarify specs, edge cases, and business goals before writing code — eliminating weeks of wasted iterations." },
@@ -219,7 +219,7 @@ export const translations = {
   },
   th: {
     meta: {
-      title: "จิรายุ — โต๊ะทำงานจำลอง 3D ของนักพัฒนา Full-Stack & Mobile",
+      title: "จิรายุ โกคูณ (Jirayu Kokhoon) — โต๊ะทำงานจำลอง 3D ของนักพัฒนา Full-Stack & Mobile",
       description: "สัมผัสโต๊ะทำงานจริงในรูปแบบ 3D แบบอินเทอร์แอคทีฟ พร้อมปรัชญา 'Ask First, Code Later', มินิเกมให้อาหารปลา, เอฟเฟกต์หิมะตก และเสียงดนตรี Lo-Fi",
     },
     ui: {
@@ -233,7 +233,7 @@ export const translations = {
       baseValue: "กรุงเทพฯ, ประเทศไทย",
       statusLabel: "สถานะ:",
       statusValue: "พร้อมรับโอกาสร่วมงานใหม่",
-      credits: "© 2026 Jirayu · ถ่ายทอดจากโต๊ะทำงานจริง 3D",
+      credits: "© 2026 จิรายุ โกคูณ (Jirayu Kokhoon) · ถ่ายทอดจากโต๊ะทำงานจริง 3D",
       soundMuted: "ปิดเสียง",
       soundUnmuted: "เปิดเสียง",
       close: "ปิด",
@@ -260,7 +260,7 @@ export const translations = {
       coffee: "แก้วกาแฟสด (จิบกาแฟ)",
       green_art: "ทักษะ Hard & Soft Skills (ภาพวาดสีเขียว)",
       yellow_vase: "ข้อมูลติดต่อ & ประวัติ (ภาพพอร์ตเทรต)",
-      cards_green: "จุดเด่นและเหตุผลที่ควรเลือกผม (การ์ดกรอบเขียว)",
+      cards_green: "จุดเด่นและเหตุผลที่ควรเลือก จิรายุ โกคูณ (การ์ดกรอบเขียว)",
       cards_red: "ภาพบรรยากาศการทำงาน (การ์ดกรอบแดง)",
       cards_blue: "บทความและแนวคิดเชิงเทคนิค (การ์ดกรอบน้ำเงิน)",
       aquarium: "ตู้ปลาเรืองแสง (มินิเกมให้อาหารปลา)",
@@ -305,8 +305,8 @@ export const translations = {
       },
       yellow_vase: {
         tag: "ประวัติส่วนตัวและข้อมูลติดต่อ 🌻",
-        title: "จิรายุ (Jirayu) — Bio & Contact",
-        desc: "Senior Full-Stack & Mobile Developer ประจำกรุงเทพมหานคร มุ่งมั่นสร้างสรรค์ผลิตภัณฑ์ดิจิทัลที่มีคุณภาพสูง รวดเร็ว และตอบโจทย์ธุรกิจอย่างแท้จริง",
+        title: "จิรายุ โกคูณ (Jirayu Kokhoon) — Bio & Contact",
+        desc: "Full-Stack & Mobile Developer ประจำกรุงเทพมหานคร มุ่งมั่นสร้างสรรค์ผลิตภัณฑ์ดิจิทัลที่มีคุณภาพสูง รวดเร็ว และตอบโจทย์ธุรกิจอย่างแท้จริง",
         educationTitle: "ประวัติการศึกษาและใบรับรอง (Education & Certifications)",
         education: [
           { degree: "วิทยาศาสตรบัณฑิต สาขาวิทยาการคอมพิวเตอร์ (เกียรตินิยม)", school: "Computer Science", year: "2019 - 2023" },
@@ -356,7 +356,7 @@ export const translations = {
       },
       cards_green: {
         tag: "จุดเด่นที่คุ้มค่า 🌟",
-        title: "ทำไมคุณถึงควรเลือกจิรายุร่วมทีม (Value Pitch)",
+        title: "ทำไมคุณถึงควรเลือก จิรายุ โกคูณ ร่วมทีม (Value Pitch)",
         desc: "4 เหตุผลสำคัญที่ทำให้การร่วมงานราบรื่นและได้ผลลัพธ์คุ้มค่า:",
         cards: [
           { title: "1. ถามให้ชัดก่อนลงมือ (Clarifier)", text: "ผมเคลียร์ Requirement และเงื่อนไขที่ซ่อนอยู่จนเข้าใจถ่องแท้ก่อนเริ่มเขียนโค้ดเสมอ ช่วยเซฟเวลาทีมจากการรื้องานใหม่ได้นับสัปดาห์" },
