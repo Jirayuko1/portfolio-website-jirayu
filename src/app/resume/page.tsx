@@ -139,26 +139,38 @@ export default function ResumePage() {
           </h2>
           <div className="space-y-4">
             <div className="p-4 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
-                <h3 className="font-bold text-sm sm:text-base text-[#1c1613] flex items-center gap-2">
-                  <span>TikTok Live Interactive Game</span>
-                  <a
-                    href="https://github.com/Jirayuko1/TikTok-Live-Interactive-Game"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[#995511] hover:text-[#1c1613] text-xs font-mono inline-flex items-center gap-1 bg-[#f9ebe0] px-2 py-0.5 rounded transition-colors"
-                  >
-                    <ExternalLink className="w-3 h-3" />
-                    <span>View GitHub</span>
-                  </a>
-                </h3>
-                <span className="text-[11px] font-mono text-[#995511] bg-[#f9ebe0] px-2 py-0.5 rounded">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
+                <div>
+                  <h3 className="font-bold text-sm sm:text-base text-[#1c1613]">
+                    ARENA LIVE: FIGHTER BLAZE — TikTok Live Interactive Game
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                    <a
+                      href="https://tik-tok-live-interactive-game.vercel.app/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-emerald-800 hover:text-emerald-950 text-xs font-mono font-semibold inline-flex items-center gap-1 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 px-2 py-0.5 rounded transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      <span>🎮 Play Live Demo ↗</span>
+                    </a>
+                    <a
+                      href="https://github.com/Jirayuko1/TikTok-Live-Interactive-Game"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[#995511] hover:text-[#1c1613] text-xs font-mono inline-flex items-center gap-1 bg-[#f9ebe0] hover:bg-[#f3ded0] border border-[#ecd8c7] px-2 py-0.5 rounded transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      <span>View GitHub ↗</span>
+                    </a>
+                  </div>
+                </div>
+                <span className="text-[11px] font-mono text-[#995511] bg-[#f9ebe0] px-2 py-0.5 rounded shrink-0">
                   React · Next.js · Node.js · Python · WebSockets
                 </span>
               </div>
               <p className="text-xs text-[#5c5047] leading-relaxed mb-2">
-                Engineered an interactive live-streaming gaming ecosystem bridging real-time TikTok Live chat comments, likes, and gifts 
-                directly into browser game physics and viewer interaction mechanics using high-throughput WebSocket streams.
+                Cyberpunk 16-bit pixel battle royale game built for TikTok Live streams. Bridges real-time TikTok Live chat comments, likes, and gifts directly into 2D arena physics, attacks, and ring-out mechanics with full OBS overlay support.
               </p>
               <span className="text-[11px] font-mono text-[#786b62]">
                 Key Impact: Sub-second reaction latency for gifts & chat commands; zero dropped packets under high viewer engagement bursts.

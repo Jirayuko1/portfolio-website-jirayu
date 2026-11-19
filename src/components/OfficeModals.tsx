@@ -770,18 +770,33 @@ export default function OfficeModals({
                         ))}
                       </div>
 
-                      {"github" in proj && proj.github && (
-                        <a
-                          href={proj.github}
-                          target="_blank"
-                          rel="noreferrer"
-                          onClick={() => sound.playClick()}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer ml-auto"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          <span>View on GitHub ↗</span>
-                        </a>
-                      )}
+                      <div className="flex flex-wrap items-center gap-2 ml-auto">
+                        {"demoUrl" in proj && proj.demoUrl && (
+                          <a
+                            href={proj.demoUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={() => sound.playClick()}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>{language === "th" ? "🎮 เล่นเกมจริง (Live Demo ↗)" : "🎮 Play Live Demo ↗"}</span>
+                          </a>
+                        )}
+
+                        {"github" in proj && proj.github && (
+                          <a
+                            href={proj.github}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={() => sound.playClick()}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>View on GitHub ↗</span>
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}

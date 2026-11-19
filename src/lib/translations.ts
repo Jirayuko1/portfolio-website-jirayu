@@ -109,13 +109,14 @@ export const translations = {
         desc: "Real production applications engineered with high performance and disciplined architecture:",
         projects: [
           {
-            title: "TikTok Live Interactive Game",
-            type: "Full-Stack Web & Real-Time Backend",
+            title: "ARENA LIVE: FIGHTER BLAZE — TikTok Live Interactive Game",
+            type: "16-Bit Pixel Battle Royale · Full-Stack Web & Real-Time Backend",
             year: "2025",
-            desc: "Interactive live-streaming game ecosystem connecting TikTok Live stream events (chat, likes, and gifts) directly to low-latency browser game physics and viewer mechanics.",
+            desc: "Cyberpunk 16-bit pixel battle royale game built for TikTok Live streams. Connects live viewer comments, likes, and gifts to real-time fighter physics, special attacks, and ring-out mechanics.",
             solved: "Engineered real-time WebSocket bridge between Python stream listeners and Next.js/React frontend; handled high-frequency burst gift events with zero dropped frames.",
             stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
             github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
+            demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
           },
           {
             title: "OmniFit — AI Health & Workout Companion",
@@ -334,13 +335,14 @@ export const translations = {
         desc: "ผลงานที่ออกแบบและพัฒนาจริง รองรับทราฟฟิกสูง และมีสถาปัตยกรรมที่ยืดหยุ่น:",
         projects: [
           {
-            title: "TikTok Live Interactive Game",
-            type: "Full-Stack Web & ระบบแบ็กเอนด์แบบเรียลไทม์",
+            title: "ARENA LIVE: FIGHTER BLAZE — สังเวียนมวยวัด TikTok Live (16-Bit Pixel)",
+            type: "16-Bit Pixel Battle Royale · Full-Stack Web & ระบบแบ็กเอนด์แบบเรียลไทม์",
             year: "2025",
-            desc: "ระบบเกมอินเทอร์แอคทีฟบนสตรีมสด TikTok Live ที่เชื่อมโยงคอมเมนต์ กดไลก์ และของขวัญ (Gifts) จากผู้ชม เข้ากับกลไกฟิสิกส์และการควบคุมเกมบนเว็บด้วย WebSocket ความหน่วงต่ำระดับเสี้ยววินาที",
-            solved: "ออกแบบระบบเชื่อมต่อ Event Stream แบบ High-Throughput ด้วย Python และ Node.js WebSocket Bridge รองรับการรัวของขวัญและคอมเมนต์ได้อย่างลื่นไหล ไม่มีสะดุด",
+            desc: "เกมต่อสู้แบทเทิลรอยัลสไตล์ Cyberpunk 16-Bit Pixel บนสตรีมสด TikTok Live ที่เชื่อมโยงคอมเมนต์ กดไลก์ และของขวัญจากผู้ชม เข้ากับสังเวียนวงกลมเรืองแสง ชก ต่อย ฟัน ผลักตกเวทีด้วย WebSocket ความหน่วงต่ำระดับเสี้ยววินาที",
+            solved: "ออกแบบระบบเชื่อมต่อ Event Stream แบบ High-Throughput ด้วย Python และ Node.js WebSocket Bridge พร้อม Simulator จำลองการต่อสู้และระบบ OBS Overlay ในตัว",
             stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
             github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
+            demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
           },
           {
             title: "OmniFit — แอปผู้ช่วยออกกำลังกายอัจฉริยะ AI",
