@@ -140,6 +140,33 @@ export default function ResumePage() {
           <div className="space-y-4">
             <div className="p-4 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
+                <h3 className="font-bold text-sm sm:text-base text-[#1c1613] flex items-center gap-2">
+                  <span>TikTok Live Interactive Game</span>
+                  <a
+                    href="https://github.com/Jirayuko1/TikTok-Live-Interactive-Game"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[#995511] hover:text-[#1c1613] text-xs font-mono inline-flex items-center gap-1 bg-[#f9ebe0] px-2 py-0.5 rounded transition-colors"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    <span>View GitHub</span>
+                  </a>
+                </h3>
+                <span className="text-[11px] font-mono text-[#995511] bg-[#f9ebe0] px-2 py-0.5 rounded">
+                  React · Next.js · Node.js · Python · WebSockets
+                </span>
+              </div>
+              <p className="text-xs text-[#5c5047] leading-relaxed mb-2">
+                Engineered an interactive live-streaming gaming ecosystem bridging real-time TikTok Live chat comments, likes, and gifts 
+                directly into browser game physics and viewer interaction mechanics using high-throughput WebSocket streams.
+              </p>
+              <span className="text-[11px] font-mono text-[#786b62]">
+                Key Impact: Sub-second reaction latency for gifts & chat commands; zero dropped packets under high viewer engagement bursts.
+              </span>
+            </div>
+
+            <div className="p-4 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
                 <h3 className="font-bold text-sm sm:text-base text-[#1c1613]">
                   OmniFit — AI Health & Workout Companion
                 </h3>

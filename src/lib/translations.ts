@@ -109,6 +109,15 @@ export const translations = {
         desc: "Real production applications engineered with high performance and disciplined architecture:",
         projects: [
           {
+            title: "TikTok Live Interactive Game",
+            type: "Full-Stack Web & Real-Time Backend",
+            year: "2025",
+            desc: "Interactive live-streaming game ecosystem connecting TikTok Live stream events (chat, likes, and gifts) directly to low-latency browser game physics and viewer mechanics.",
+            solved: "Engineered real-time WebSocket bridge between Python stream listeners and Next.js/React frontend; handled high-frequency burst gift events with zero dropped frames.",
+            stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
+            github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
+          },
+          {
             title: "OmniFit — AI Health & Workout Companion",
             type: "Mobile App (iOS & Android)",
             year: "2025",
@@ -324,6 +333,15 @@ export const translations = {
         title: "กรณีศึกษาและโปรเจกต์เด่น (Featured Works)",
         desc: "ผลงานที่ออกแบบและพัฒนาจริง รองรับทราฟฟิกสูง และมีสถาปัตยกรรมที่ยืดหยุ่น:",
         projects: [
+          {
+            title: "TikTok Live Interactive Game",
+            type: "Full-Stack Web & ระบบแบ็กเอนด์แบบเรียลไทม์",
+            year: "2025",
+            desc: "ระบบเกมอินเทอร์แอคทีฟบนสตรีมสด TikTok Live ที่เชื่อมโยงคอมเมนต์ กดไลก์ และของขวัญ (Gifts) จากผู้ชม เข้ากับกลไกฟิสิกส์และการควบคุมเกมบนเว็บด้วย WebSocket ความหน่วงต่ำระดับเสี้ยววินาที",
+            solved: "ออกแบบระบบเชื่อมต่อ Event Stream แบบ High-Throughput ด้วย Python และ Node.js WebSocket Bridge รองรับการรัวของขวัญและคอมเมนต์ได้อย่างลื่นไหล ไม่มีสะดุด",
+            stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
+            github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
+          },
           {
             title: "OmniFit — แอปผู้ช่วยออกกำลังกายอัจฉริยะ AI",
             type: "แอปพลิเคชันมือถือ (iOS & Android)",

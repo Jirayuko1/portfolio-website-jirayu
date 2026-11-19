@@ -757,15 +757,31 @@ export default function OfficeModals({
                       <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#a3e635]" />
                       <span>{proj.solved}</span>
                     </div>
-                    <div className="flex flex-wrap gap-2 text-[11px] font-mono text-[#f4ebdc]/80">
-                      {proj.stack.map((s) => (
-                        <span
-                          key={s}
-                          className="px-2.5 py-1 rounded-md bg-[#1e1511] border border-[#f4ebdc]/5"
+
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                      <div className="flex flex-wrap gap-2 text-[11px] font-mono text-[#f4ebdc]/80">
+                        {proj.stack.map((s) => (
+                          <span
+                            key={s}
+                            className="px-2.5 py-1 rounded-md bg-[#1e1511] border border-[#f4ebdc]/5"
+                          >
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+
+                      {"github" in proj && proj.github && (
+                        <a
+                          href={proj.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={() => sound.playClick()}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer ml-auto"
                         >
-                          {s}
-                        </span>
-                      ))}
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>View on GitHub ↗</span>
+                        </a>
+                      )}
                     </div>
                   </div>
                 ))}
