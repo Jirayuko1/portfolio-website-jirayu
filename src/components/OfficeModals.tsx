@@ -33,6 +33,9 @@ import {
   Cpu,
   Workflow,
   Layers,
+  ChevronLeft,
+  ChevronRight,
+  Image as ImageIcon,
 } from "lucide-react";
 import { Language, translations } from "@/lib/translations";
 import { sound } from "@/lib/soundEffects";
@@ -54,12 +57,48 @@ export default function OfficeModals({
   const [copiedLine, setCopiedLine] = useState(false);
   const [phoneTab, setPhoneTab] = useState<"apps" | "contact" | "game">("apps");
   const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
+  const [lightboxData, setLightboxData] = useState<{
+    images: { url: string; caption: string }[];
+    currentIndex: number;
+  } | null>(null);
 
   useEffect(() => {
     if (activeModal !== "laptop") {
       setSelectedProjectIndex(null);
+      setLightboxData(null);
     }
   }, [activeModal]);
+
+  useEffect(() => {
+    if (!lightboxData) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setLightboxData(null);
+      } else if (e.key === "ArrowLeft") {
+        setLightboxData((prev) =>
+          prev
+            ? {
+                ...prev,
+                currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length,
+              }
+            : null
+        );
+      } else if (e.key === "ArrowRight") {
+        setLightboxData((prev) =>
+          prev
+            ? {
+                ...prev,
+                currentIndex: (prev.currentIndex + 1) % prev.images.length,
+              }
+            : null
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxData]);
   const [bugScore, setBugScore] = useState(0);
   const [bugs, setBugs] = useState<{ id: number; x: number; y: number; icon: string }[]>([
     { id: 1, x: 25, y: 35, icon: "🐛" },
@@ -192,7 +231,8 @@ export default function OfficeModals({
   };
 
   return (
-    <AnimatePresence>
+    <>
+      <AnimatePresence>
       <div
         className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-black/75 backdrop-blur-sm"
         onClick={handleClose}
@@ -812,6 +852,85 @@ export default function OfficeModals({
                         </p>
                       </div>
 
+                      {/* Section 1.5: Screenshots Gallery */}
+                      {"images" in proj && proj.images && proj.images.length > 0 && (
+                        <div className="p-4 sm:p-5 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-3">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#f2b705] flex items-center gap-2">
+                              <ImageIcon className="w-4 h-4 text-[#f2b705]" />
+                              <span>{"galleryTitle" in t.laptop ? t.laptop.galleryTitle : "ภาพหน้าจอระบบและ UI การใช้งานจริง"}</span>
+                            </h3>
+                            <span className="text-[11px] font-mono text-[#d4c3b3]/70">
+                              {"gallerySubtitle" in t.laptop ? t.laptop.gallerySubtitle : "แตะที่รูปเพื่อดูขนาดใหญ่ (Lightbox)"}
+                            </span>
+                          </div>
+
+                          {/* Image Grid / Previews */}
+                          <div className="space-y-3 pt-1">
+                            {/* If there's an overview banner image */}
+                            {proj.images.some((img) => img.url.includes("overview") || img.url.includes("gameplay")) && (
+                              (() => {
+                                const bannerImg = proj.images.find((img) => img.url.includes("overview") || img.url.includes("gameplay"))!;
+                                const bannerIdx = proj.images.indexOf(bannerImg);
+                                return (
+                                  <div
+                                    onClick={() => {
+                                      sound.playClick();
+                                      setLightboxData({ images: proj.images!, currentIndex: bannerIdx });
+                                    }}
+                                    className="group relative rounded-xl overflow-hidden border border-[#f4ebdc]/15 cursor-pointer bg-[#1e1511] shadow-md hover:border-[#f2b705]/50 transition-all"
+                                  >
+                                    <img
+                                      src={bannerImg.url}
+                                      alt={bannerImg.caption}
+                                      className="w-full h-auto max-h-[300px] object-contain mx-auto group-hover:scale-[1.01] transition-transform duration-300"
+                                      loading="lazy"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3.5">
+                                      <span className="text-xs text-white font-medium flex items-center gap-2">
+                                        <Sparkles className="w-4 h-4 text-[#f2b705]" />
+                                        <span>{bannerImg.caption}</span>
+                                      </span>
+                                    </div>
+                                    <span className="absolute top-2.5 right-2.5 px-2 py-1 rounded-md bg-black/70 backdrop-blur-sm text-[10px] font-mono text-[#f2b705] border border-white/10 flex items-center gap-1">
+                                      🔍 แตะขยายรูป
+                                    </span>
+                                  </div>
+                                );
+                              })()
+                            )}
+
+                            {/* Thumbnails row / grid for all images */}
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 pt-1">
+                              {proj.images.map((img, imgIdx) => (
+                                <div
+                                  key={imgIdx}
+                                  onClick={() => {
+                                    sound.playClick();
+                                    setLightboxData({ images: proj.images!, currentIndex: imgIdx });
+                                  }}
+                                  className="group relative rounded-xl overflow-hidden border border-[#f4ebdc]/10 hover:border-[#f2b705]/70 bg-[#1e1511] cursor-pointer transition-all flex flex-col shadow-sm"
+                                >
+                                  <div className="aspect-[9/16] w-full overflow-hidden flex items-center justify-center bg-black/40 p-1">
+                                    <img
+                                      src={img.url}
+                                      alt={img.caption}
+                                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
+                                      loading="lazy"
+                                    />
+                                  </div>
+                                  <div className="p-2 bg-[#17100c] border-t border-[#f4ebdc]/5">
+                                    <p className="text-[10px] font-medium text-[#d4c3b3] line-clamp-2 group-hover:text-white transition-colors leading-tight">
+                                      {img.caption.split("—")[0].trim()}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Section 2: Problem & Solution (2-Column Card) */}
                       {arch && (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1013,7 +1132,7 @@ export default function OfficeModals({
                         </div>
 
                         <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-                          <div className="flex flex-wrap gap-2 text-[11px] font-mono text-[#f4ebdc]/80">
+                          <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-[#f4ebdc]/80">
                             {proj.stack.map((s) => (
                               <span
                                 key={s}
@@ -1022,6 +1141,22 @@ export default function OfficeModals({
                                 {s}
                               </span>
                             ))}
+
+                            {"images" in proj && proj.images && proj.images.length > 0 && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  sound.playClick();
+                                  setSelectedProjectIndex(idx);
+                                  setLightboxData({ images: proj.images!, currentIndex: 0 });
+                                }}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#f2b705]/15 hover:bg-[#f2b705]/25 text-[#f2b705] border border-[#f2b705]/30 transition-all cursor-pointer font-bold active:scale-95 shadow-sm"
+                              >
+                                <ImageIcon className="w-3.5 h-3.5" />
+                                <span>{language === "th" ? `📷 ดูรูปภาพ (${proj.images.length})` : `📷 Screenshots (${proj.images.length})`}</span>
+                              </button>
+                            )}
                           </div>
 
                           <div className="flex flex-wrap items-center gap-2 ml-auto">
@@ -1208,5 +1343,109 @@ export default function OfficeModals({
         </motion.div>
       </div>
     </AnimatePresence>
+
+    {/* ============================================================ */}
+    {/* FULLSCREEN IMAGE LIGHTBOX VIEWER                             */}
+    {/* ============================================================ */}
+    <AnimatePresence>
+      {lightboxData && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[120] bg-black/95 backdrop-blur-md flex flex-col items-center justify-between p-4 sm:p-6"
+          onClick={() => setLightboxData(null)}
+        >
+          {/* Top Toolbar */}
+          <div
+            className="w-full max-w-5xl flex items-center justify-between text-white pb-3 z-10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono bg-white/10 px-3 py-1 rounded-full text-[#f2b705] border border-white/10">
+                {lightboxData.currentIndex + 1} / {lightboxData.images.length}
+              </span>
+              <span className="text-xs text-white/70 font-mono hidden sm:inline">
+                {language === "th"
+                  ? "(กด Esc หรือแตะที่ว่างเพื่อปิด, ปุ่มลูกศร ซ้าย-ขวา เพื่อเปลี่ยนรูป)"
+                  : "(Press Esc or tap outside to close, Left/Right arrow keys to navigate)"}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setLightboxData(null)}
+              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer border border-white/10 active:scale-95"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Main Image Stage */}
+          <div
+            className="relative w-full max-w-5xl flex-1 flex items-center justify-center min-h-0 py-2"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {lightboxData.images.length > 1 && (
+              <button
+                type="button"
+                onClick={() => {
+                  sound.playClick();
+                  setLightboxData((prev) =>
+                    prev
+                      ? {
+                          ...prev,
+                          currentIndex:
+                            (prev.currentIndex - 1 + prev.images.length) % prev.images.length,
+                        }
+                      : null
+                  );
+                }}
+                className="absolute left-2 sm:left-4 z-20 w-11 h-11 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer active:scale-95 shadow-xl"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+            )}
+
+            <img
+              key={lightboxData.images[lightboxData.currentIndex].url}
+              src={lightboxData.images[lightboxData.currentIndex].url}
+              alt={lightboxData.images[lightboxData.currentIndex].caption}
+              className="max-h-[75vh] max-w-full w-auto object-contain rounded-xl shadow-2xl border border-white/10"
+            />
+
+            {lightboxData.images.length > 1 && (
+              <button
+                type="button"
+                onClick={() => {
+                  sound.playClick();
+                  setLightboxData((prev) =>
+                    prev
+                      ? {
+                          ...prev,
+                          currentIndex: (prev.currentIndex + 1) % prev.images.length,
+                        }
+                      : null
+                  );
+                }}
+                className="absolute right-2 sm:right-4 z-20 w-11 h-11 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer active:scale-95 shadow-xl"
+                aria-label="Next image"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            )}
+          </div>
+
+          {/* Bottom Caption Bar */}
+          <div
+            className="w-full max-w-3xl text-center py-2.5 px-4 bg-black/80 backdrop-blur-sm rounded-xl border border-white/10 text-white text-xs sm:text-sm font-medium z-10 shadow-lg mt-2"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {lightboxData.images[lightboxData.currentIndex].caption}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 }

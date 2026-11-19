@@ -116,6 +116,8 @@ export const translations = {
         solutionLabel: "Architectural Solution",
         highlightsTitle: "Key Engineering Highlights",
         workflowTitle: "System Data Flow Pipeline",
+        galleryTitle: "Project Screenshots & UI Gallery",
+        gallerySubtitle: "Click any image to enlarge in full-screen lightbox",
         projects: [
           {
             title: "ARENA LIVE: FIGHTER BLAZE — TikTok Live Interactive Game (16-Bit Cyber City)",
@@ -126,6 +128,12 @@ export const translations = {
             stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
             github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
             demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
+            images: [
+              {
+                url: "/images/projects/arena-live/arena-live-gameplay.jpg",
+                caption: "ARENA LIVE: FIGHTER BLAZE — Live Battle Royale with 9:16 stream overlay and real-time simulator",
+              },
+            ],
             architecture: {
               overview: "Cyberpunk 16-bit battle royale streaming ecosystem designed for TikTok Live. Connects real-time live events (chat, likes, shares, gifts) directly to 2D circular arena physics, fighter spawning, attacks, and ring-out mechanics rendered on OBS Studio.",
               problemStatement: "Most live game streams suffer from low audience retention because viewers have no immediate tangible impact on gameplay. Furthermore, rapid burst gifting during high-viewer broadcasts causes frame drops, event loss, and severe websocket connection lag.",
@@ -157,6 +165,36 @@ export const translations = {
             solved: "Engineered Firebase Cloud Functions webhook with smart text parsing, FCM sound alerts, in-app task lifecycle state machine, and photo-proof cloud storage uploads.",
             stack: ["Flutter", "Dart", "Firebase", "Firestore", "FCM", "Cloud Functions", "Botnoi AI"],
             github: "https://github.com/Jirayuko1/aura_mobile_app_prototype",
+            images: [
+              {
+                url: "/images/projects/aura/aura-overview.jpg",
+                caption: "Aura Staff Mobile App — Complete Multi-Screen UI & Workflow Overview",
+              },
+              {
+                url: "/images/projects/aura/aura-login.png",
+                caption: "Aura Voice AI Concierge Staff Authentication & Role Verification",
+              },
+              {
+                url: "/images/projects/aura/aura-tasks-all.png",
+                caption: "Real-Time Task Dispatch Board with On-Duty Toggle and Status Tabs",
+              },
+              {
+                url: "/images/projects/aura/aura-tasks-maintenance.png",
+                caption: "Maintenance Department Ticket View with Action Buttons & Room Alerts",
+              },
+              {
+                url: "/images/projects/aura/aura-tasks-roomservice.png",
+                caption: "Room Service Department Order Tracking Extracted from Guest Chat",
+              },
+              {
+                url: "/images/projects/aura/aura-task-detail.png",
+                caption: "Guest Request Bottom-Sheet Modal Parsed by Botnoi Webhook",
+              },
+              {
+                url: "/images/projects/aura/aura-staff-report.png",
+                caption: "Staff Performance Analytics, Aura Points, and Daily Work History",
+              },
+            ],
             architecture: {
               overview: "Cross-platform mobile application and serverless hotel operations infrastructure. Connects Botnoi AI chatbot webhooks to automatic task triage, real-time ticket dispatch, FCM push alerts, and photo-proof completion records.",
               problemStatement: "Hotel staff coordination via phone or walkie-talkies frequently results in lost requests, slow response times, and zero accountability. Front-desk staff spent excessive time manually calling housekeeping or maintenance for standard guest requests.",
@@ -453,6 +491,8 @@ export const translations = {
         solutionLabel: "แนวทางการออกแบบระบบ (Architectural Solution)",
         highlightsTitle: "จุดเด่นเชิงวิศวกรรม (Engineering Highlights)",
         workflowTitle: "ผังการไหลของข้อมูล (System Data Flow Pipeline)",
+        galleryTitle: "ภาพหน้าจอระบบและ UI การใช้งานจริง (Screenshots Gallery)",
+        gallerySubtitle: "แตะหรือคลิกที่รูปภาพเพื่อเปิดดูขนาดใหญ่ (Full-Screen Lightbox)",
         projects: [
           {
             title: "ARENA LIVE: FIGHTER BLAZE — สังเวียนดาดฟ้าไซเบอร์พังก์ TikTok Live 16-Bit Cyber City",
@@ -463,6 +503,12 @@ export const translations = {
             stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
             github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
             demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
+            images: [
+              {
+                url: "/images/projects/arena-live/arena-live-gameplay.jpg",
+                caption: "หน้าจอจำลองการต่อสู้ ARENA LIVE: FIGHTER BLAZE พร้อมระบบ OBS Overlay 9:16 และแผงควบคุมแอดมิน",
+              },
+            ],
             architecture: {
               overview: "ระบบนิเวศเกมต่อสู้แบทเทิลรอยัลมวยวัดสไตล์ Cyberpunk 16-Bit สำหรับสตรีมเมอร์ TikTok Live เชื่อมต่ออีเวนต์สดจากผู้ชม (คอมเมนต์, กดไลก์, ส่งของขวัญ) เข้ากับระบบฟิสิกส์สังเวียนวงกลมเรืองแสง ชก ต่อย ฟัน และผลักตกเวทีแบบเรียลไทม์บน OBS Studio",
               problemStatement: "การสตรีมเกมส่วนใหญ่มักประสบปัญหาผู้ชมไม่มีส่วนร่วม (Audience Retention ต่ำ) ผู้ชมส่งของขวัญแต่ไม่มีการตอบสนองทันทีในเกม และเมื่อมีของขวัญรัวเป็นจำนวนมาก (Burst Traffic) ระบบมักกระตุก เกิด Frame Drop หรือข้อความตกหล่น",
@@ -494,6 +540,36 @@ export const translations = {
             solved: "ออกแบบ Webhook Bridge ด้วย Firebase Cloud Functions รองรับการดึงข้อมูลห้องพักและคำขอแบบ Smart Parsing พร้อมระบบถ่ายภาพ Photo Proof ยืนยันผลงานขึ้น Cloud Storage",
             stack: ["Flutter", "Dart", "Firebase", "Firestore", "FCM", "Cloud Functions", "Botnoi AI"],
             github: "https://github.com/Jirayuko1/aura_mobile_app_prototype",
+            images: [
+              {
+                url: "/images/projects/aura/aura-overview.jpg",
+                caption: "ภาพรวมหน้าจอทั้งหมดของแอปพลิเคชัน Aura Staff (Login, Task Dashboard, Filter, Details, Report)",
+              },
+              {
+                url: "/images/projects/aura/aura-login.png",
+                caption: "หน้าเข้าสู่ระบบพนักงาน Aura Voice AI Concierge พร้อมระบบตรวจสอบสิทธิ์",
+              },
+              {
+                url: "/images/projects/aura/aura-tasks-all.png",
+                caption: "หน้ารวมตั๋วงานแบบเรียลไทม์ แสดงสถานะ On Duty, สถิติงานประจำวัน และรายการตั๋วงาน",
+              },
+              {
+                url: "/images/projects/aura/aura-tasks-maintenance.png",
+                caption: "ตัวกรองแผนกช่างซ่อมบำรุง (Maintenance) แยกหมวดหมู่งานซ่อมน้ำรั่วและอุปกรณ์ไฟฟ้า",
+              },
+              {
+                url: "/images/projects/aura/aura-tasks-roomservice.png",
+                caption: "ตัวกรองแผนกรูมเซอร์วิส (Room Service) แสดงรายการอาหาร/เครื่องดื่มที่แขกสั่ง",
+              },
+              {
+                url: "/images/projects/aura/aura-task-detail.png",
+                caption: "หน้าต่างรายละเอียดคำขอ สกัดข้อมูลห้องพักและ Intent จาก Botnoi Webhook Smart Parser",
+              },
+              {
+                url: "/images/projects/aura/aura-staff-report.png",
+                caption: "หน้าสรุปผลงาน Aura Points คะแนนสะสม จำนวนงานที่ปิดสำเร็จ และประวัติงานล่าสุด",
+              },
+            ],
             architecture: {
               overview: "แอปพลิเคชันมือถือสำหรับพนักงานโรงแรม (Staff Operations & Task Management) เชื่อมโยง AI Chatbot (Botnoi) ดักจับคำขอจากแขกผู้เข้าพัก คัดแยกแผนก และส่งต่องานอัตโนมัติ พร้อมระบบแจ้งเตือนแบบเรียลไทม์และถ่ายภาพยืนยันผลงาน",
               problemStatement: "การประสานงานคำขอจากแขก (เช่น ขอผ้าเช็ดตัวเพิ่ม, แอร์เสีย, สั่งอาหาร) ผ่านโทรศัพท์หรือวิทยุสื่อสารมักตกหล่น ล่าช้า และไม่มีระบบติดตามสถานะงาน ทำให้แขกต้องรอนานและผู้จัดการไม่สามารถตรวจสอบประสิทธิภาพการทำงานย้อนหลังได้",
