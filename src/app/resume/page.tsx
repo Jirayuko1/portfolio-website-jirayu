@@ -208,20 +208,32 @@ export default function ResumePage() {
             </div>
 
             <div className="p-4 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
-                <h3 className="font-bold text-sm sm:text-base text-[#1c1613]">
-                  NexFlow — Real-Time Fleet & Dispatch Platform
-                </h3>
-                <span className="text-[11px] font-mono text-[#995511] bg-[#f9ebe0] px-2 py-0.5 rounded">
-                  Next.js · NestJS · Apache Kafka · Redis
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
+                <div>
+                  <h3 className="font-bold text-sm sm:text-base text-[#1c1613]">
+                    Pobsuk (พบสุข) — AI Senior Activity Booking on LINE OA & LIFF
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                    <a
+                      href="https://github.com/Jirayuko1/pobsuk"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[#995511] hover:text-[#1c1613] text-xs font-mono inline-flex items-center gap-1 bg-[#f9ebe0] hover:bg-[#f3ded0] border border-[#ecd8c7] px-2.5 py-0.5 rounded transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      <span>View GitHub ↗</span>
+                    </a>
+                  </div>
+                </div>
+                <span className="text-[11px] font-mono text-[#995511] bg-[#f9ebe0] px-2 py-0.5 rounded shrink-0">
+                  LINE OA · LINE LIFF · Gemini AI · React · Express · Supabase
                 </span>
               </div>
               <p className="text-xs text-[#5c5047] leading-relaxed mb-2">
-                Architected high-throughput telemetry ingestion pipeline handling 10,000+ concurrent vehicle location packets per second. 
-                Employed Kafka message broker and Redis Geo clustering to stream live coordinates to dispatchers under 50ms latency.
+                AI booking platform for senior citizens built on LINE Official Account and LINE Front-end Framework (LIFF). Integrates Google Gemini AI for empathetic natural language booking, generates digital tickets, and records senior physical accommodations.
               </p>
               <span className="text-[11px] font-mono text-[#786b62]">
-                Key Impact: Zero message loss during peak logistics hours; reduced server operational cost by 28%.
+                Key Impact: Zero friction onboarding via LINE with AI typing animations; atomic stored procedures in PostgreSQL/PostGIS preventing concurrent seat overbooking.
               </span>
             </div>
 
