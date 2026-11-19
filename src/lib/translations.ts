@@ -227,6 +227,24 @@ export const translations = {
             solved: "Designed automated fallback between Gemini 3.1 & 3.5 Flash Lite, built atomic concurrency locks in PostgreSQL/PostGIS to prevent overbooking, and implemented real-time LINE typing animations.",
             stack: ["LINE OA", "LINE LIFF", "Gemini AI", "React", "Node.js", "Express", "Supabase", "PostgreSQL", "PostGIS"],
             github: "https://github.com/Jirayuko1/pobsuk",
+            images: [
+              {
+                url: "/images/projects/pobsuk/pobsuk-richmenu.jpg",
+                caption: "Pobsuk LINE Official Account with Custom Rich Menu & Quick Senior Actions",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-line-chat.jpg",
+                caption: "Natural Language Conversational Booking with Gemini AI & Digital Ticket Link",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-liff-home.jpg",
+                caption: "LINE LIFF Web App Home Screen — Activity Categories & Ticket Wallet",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-liff-profile.jpg",
+                caption: "LINE LIFF Profile Integration with Senior Health & Event Schedule",
+              },
+            ],
             architecture: {
               overview: "Empathetic conversational AI booking platform and digital ticket system designed specifically for senior citizens and caregivers. Integrates LINE Messaging API with Google Gemini AI to analyze booking requests naturally, issuing verified tickets via LINE LIFF web app.",
               problemStatement: "Elderly citizens struggle with standard mobile apps requiring complex navigation, app-store downloads, and tedious form fills. Moreover, senior events require physical accommodation tracking (e.g., wheelchair access, chronic conditions), and multiple simultaneous bookings can cause catastrophic overbooking.",
@@ -259,6 +277,32 @@ export const translations = {
             solved: "Architected 3-lead modular state management to prevent conversational handoff data loss; built mathematical diagnostic engines for debt-service ratio (DSR), emergency fund health, and savings goals.",
             stack: ["JavaScript", "WebAvatar SDK", "Voice AI", "FinTech Engine", "State Contract Architecture"],
             github: "https://github.com/Jirayuko1/Voice-Bot-Bella",
+            images: [
+              {
+                url: "/images/projects/bella/bella-home-dashboard.jpg",
+                caption: "Bella Digital Bank Home Dashboard with WebAvatar 3D AI Assistant",
+              },
+              {
+                url: "/images/projects/bella/bella-financial-health.jpg",
+                caption: "3-Step Financial Health Assessment & Cashflow Diagnostic",
+              },
+              {
+                url: "/images/projects/bella/bella-savings-simulator.jpg",
+                caption: "Goal-Based Savings Planning Calculator & Timeline Estimator",
+              },
+              {
+                url: "/images/projects/bella/bella-loan-calculator.jpg",
+                caption: "Mortgage & Loan Installment Calculator with Interactive Sliders",
+              },
+              {
+                url: "/images/projects/bella/bella-investment-knowledge.jpg",
+                caption: "Investment Knowledge Hub & Regulatory Suitability Guidelines",
+              },
+              {
+                url: "/images/projects/bella/bella-fund-recommendation.jpg",
+                caption: "Mutual Fund Risk-Tier Filtering & Curated Portfolio Recommendations",
+              },
+            ],
             architecture: {
               overview: "Multimodal AI voice assistant and digital banking platform. Features a real-time WebAvatar visual character, speech dialogue, and structured state contract architecture coordinating 5 specialized financial advisory AI modules.",
               problemStatement: "Financial advisory voicebots usually suffer from high context loss during multi-topic conversations, impersonal text-only delivery, and lack of mathematical rigor for compliance-heavy calculations like debt-service ratios and retirement projections.",
@@ -602,6 +646,24 @@ export const translations = {
             solved: "พัฒนาระบบ AI Fallback เชื่อมโยง Gemini 3.1 และ 3.5 Flash Lite อัตโนมัติ, สร้าง Atomic Trigger ใน PostgreSQL/PostGIS ป้องกันการจองเกินจำนวน และแสดง Loading Animation ระหว่างรอคำตอบ",
             stack: ["LINE OA", "LINE LIFF", "Gemini AI", "React", "Node.js", "Express", "Supabase", "PostgreSQL", "PostGIS"],
             github: "https://github.com/Jirayuko1/pobsuk",
+            images: [
+              {
+                url: "/images/projects/pobsuk/pobsuk-richmenu.jpg",
+                caption: "LINE Official Account โครงการพบสุข พร้อม Rich Menu เมนูด่วนสำหรับผู้สูงอายุ",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-line-chat.jpg",
+                caption: "บทสนทนาจองกิจกรรมด้วยภาษาธรรมชาติผ่าน Gemini AI พร้อมลิงก์ตั๋วดิจิทัล LIFF",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-liff-home.jpg",
+                caption: "หน้าแรกเว็บแอปพลิเคชัน LINE LIFF หมวดหมู่กิจกรรมสุขภาพและตั๋วของฉัน",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-liff-profile.jpg",
+                caption: "ระบบ LINE LIFF เชื่อมโยงโปรไฟล์ผู้ใช้และข้อมูลกิจกรรมชุมชน",
+              },
+            ],
             architecture: {
               overview: "แพลตฟอร์ม AI ผู้ช่วยและบริการจองกิจกรรมส่งเสริมสุขภาพสำหรับผู้สูงอายุ ใช้งานง่ายผ่าน LINE Official Account ผสานพลัง Google Gemini AI ในการวิเคราะห์เจตนาอย่างเป็นมิตร พร้อมออกตั๋วดิจิทัลผ่าน LINE LIFF โดยไม่ต้องติดตั้งแอปพลิเคชันเพิ่มเติม",
               problemStatement: "ผู้สูงอายุเผชิญอุปสรรคทางเทคโนโลยี (Digital Divide) ไม่คุ้นชินกับการดาวน์โหลดและลงทะเบียนแอปพลิเคชันทั่วไปที่ซับซ้อน นอกจากนี้กิจกรรมผู้สูงอายุต้องการข้อมูลด้านสุขภาพเฉพาะ (เช่น ใช้วีลแชร์, โรคประจำตัว, เบอร์ติดต่อฉุกเฉิน) และมักเจอปัญหาการจองเกินโควตา (Overbooking)",
@@ -634,6 +696,32 @@ export const translations = {
             solved: "วางโครงสร้าง 3-Lead Modular Architecture ป้องกัน Handoff State Loss ระหว่างการคุยสาย พร้อมพัฒนาระบบคำนวณวิเคราะห์สุขภาพการเงิน DSR, เงินสำรองฉุกเฉิน และแบบจำลองการออมเงิน/เกษียณ",
             stack: ["JavaScript", "WebAvatar SDK", "Voice AI", "FinTech Engine", "State Contract Architecture"],
             github: "https://github.com/Jirayuko1/Voice-Bot-Bella",
+            images: [
+              {
+                url: "/images/projects/bella/bella-home-dashboard.jpg",
+                caption: "หน้าแรกธนาคารดิจิทัล Bella Bank พร้อมตัวละครเสมือนจริง WebAvatar น้องเบลล่า",
+              },
+              {
+                url: "/images/projects/bella/bella-financial-health.jpg",
+                caption: "แบบประเมินสุขภาพการเงิน 3 ขั้นตอน วิเคราะห์รายรับ-รายจ่าย และภาระหนี้ DSR",
+              },
+              {
+                url: "/images/projects/bella/bella-savings-simulator.jpg",
+                caption: "เครื่องมือจำลองการออมเงินตามเป้าหมาย คำนวณระยะเวลาออมเงินสุทธิ",
+              },
+              {
+                url: "/images/projects/bella/bella-loan-calculator.jpg",
+                caption: "เครื่องคำนวณค่างวดสินเชื่อและแผนการผ่อนชำระ พร้อมสไลเดอร์วงเงินกู้",
+              },
+              {
+                url: "/images/projects/bella/bella-investment-knowledge.jpg",
+                caption: "คลังความรู้พื้นฐานสำหรับการลงทุนและคู่มือประเมินความเสี่ยง Suitability Test",
+              },
+              {
+                url: "/images/projects/bella/bella-fund-recommendation.jpg",
+                caption: "ระบบค้นหาและกรองตัวอย่างกองทุนรวมตามระดับความเสี่ยง (BELLA-MMF, FIXED, BALANCE)",
+              },
+            ],
             architecture: {
               overview: "ระบบ Voice Bot ผู้ช่วยทางการเงินอัจฉริยะสำหรับ Digital Banking ผสานตัวละครเสมือนจริง WebAvatar สนทนาโต้ตอบด้วยเสียงแบบเรียลไทม์ พร้อมสถาปัตยกรรม State Contract ควบคุมคำสั่งเสียงและโมดูลการเงิน 5 ด้าน",
               problemStatement: "บอททางการเงินทั่วไปมักมีปัญหาข้อมูลสูญหาย (Context Loss) เมื่อบทสนทนาข้ามเรื่อง (เช่น จากตรวจสุขภาพหนี้ไปวางแผนเกษียณ), การตอบสนองด้วยตัวอักษรทำให้ผู้ใช้รู้สึกห่างเหิน และขาดระบบคำนวณสูตรการเงินที่แม่นยำตามเกณฑ์กำกับดูแล (Compliance)",

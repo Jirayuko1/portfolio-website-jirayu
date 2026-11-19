@@ -854,25 +854,35 @@ export default function OfficeModals({
 
                       {/* Section 1.5: Screenshots Gallery */}
                       {"images" in proj && proj.images && proj.images.length > 0 && (
-                        <div className="p-4 sm:p-5 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-3">
-                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#f2b705] flex items-center gap-2">
-                              <ImageIcon className="w-4 h-4 text-[#f2b705]" />
-                              <span>{"galleryTitle" in t.laptop ? t.laptop.galleryTitle : "ภาพหน้าจอระบบและ UI การใช้งานจริง"}</span>
-                            </h3>
-                            <span className="text-[11px] font-mono text-[#d4c3b3]/70">
-                              {"gallerySubtitle" in t.laptop ? t.laptop.gallerySubtitle : "แตะที่รูปเพื่อดูขนาดใหญ่ (Lightbox)"}
-                            </span>
-                          </div>
+                        (() => {
+                          const isLandscapeProject = proj.images.some(
+                            (img) => img.url.includes("bella") || img.url.includes("arena-live")
+                          );
+                          const bannerImg = proj.images.find(
+                            (img) =>
+                              img.url.includes("overview") ||
+                              img.url.includes("gameplay") ||
+                              img.url.includes("home-dashboard") ||
+                              img.url.includes("richmenu")
+                          ) || (proj.images.length > 0 ? proj.images[0] : null);
+                          const bannerIdx = bannerImg ? proj.images.indexOf(bannerImg) : 0;
 
-                          {/* Image Grid / Previews */}
-                          <div className="space-y-3 pt-1">
-                            {/* If there's an overview banner image */}
-                            {proj.images.some((img) => img.url.includes("overview") || img.url.includes("gameplay")) && (
-                              (() => {
-                                const bannerImg = proj.images.find((img) => img.url.includes("overview") || img.url.includes("gameplay"))!;
-                                const bannerIdx = proj.images.indexOf(bannerImg);
-                                return (
+                          return (
+                            <div className="p-4 sm:p-5 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-3">
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#f2b705] flex items-center gap-2">
+                                  <ImageIcon className="w-4 h-4 text-[#f2b705]" />
+                                  <span>{"galleryTitle" in t.laptop ? t.laptop.galleryTitle : "ภาพหน้าจอระบบและ UI การใช้งานจริง"}</span>
+                                </h3>
+                                <span className="text-[11px] font-mono text-[#d4c3b3]/70">
+                                  {"gallerySubtitle" in t.laptop ? t.laptop.gallerySubtitle : "แตะที่รูปเพื่อดูขนาดใหญ่ (Lightbox)"}
+                                </span>
+                              </div>
+
+                              {/* Image Grid / Previews */}
+                              <div className="space-y-3 pt-1">
+                                {/* Featured banner preview */}
+                                {bannerImg && (
                                   <div
                                     onClick={() => {
                                       sound.playClick();
@@ -883,7 +893,7 @@ export default function OfficeModals({
                                     <img
                                       src={bannerImg.url}
                                       alt={bannerImg.caption}
-                                      className="w-full h-auto max-h-[300px] object-contain mx-auto group-hover:scale-[1.01] transition-transform duration-300"
+                                      className={`w-full ${isLandscapeProject ? "max-h-[360px]" : "max-h-[300px]"} object-contain mx-auto group-hover:scale-[1.01] transition-transform duration-300`}
                                       loading="lazy"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3.5">
@@ -893,42 +903,56 @@ export default function OfficeModals({
                                       </span>
                                     </div>
                                     <span className="absolute top-2.5 right-2.5 px-2 py-1 rounded-md bg-black/70 backdrop-blur-sm text-[10px] font-mono text-[#f2b705] border border-white/10 flex items-center gap-1">
-                                      🔍 แตะขยายรูป
+                                      🔍 {language === "th" ? "แตะขยายรูป" : "Click to Expand"}
                                     </span>
                                   </div>
-                                );
-                              })()
-                            )}
+                                )}
 
-                            {/* Thumbnails row / grid for all images */}
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 pt-1">
-                              {proj.images.map((img, imgIdx) => (
+                                {/* Thumbnails row / grid for all images */}
                                 <div
-                                  key={imgIdx}
-                                  onClick={() => {
-                                    sound.playClick();
-                                    setLightboxData({ images: proj.images!, currentIndex: imgIdx });
-                                  }}
-                                  className="group relative rounded-xl overflow-hidden border border-[#f4ebdc]/10 hover:border-[#f2b705]/70 bg-[#1e1511] cursor-pointer transition-all flex flex-col shadow-sm"
+                                  className={`grid ${
+                                    isLandscapeProject
+                                      ? "grid-cols-2 sm:grid-cols-3 gap-3"
+                                      : proj.images.length <= 4
+                                      ? "grid-cols-2 sm:grid-cols-4 gap-2.5"
+                                      : "grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5"
+                                  } pt-1`}
                                 >
-                                  <div className="aspect-[9/16] w-full overflow-hidden flex items-center justify-center bg-black/40 p-1">
-                                    <img
-                                      src={img.url}
-                                      alt={img.caption}
-                                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
-                                      loading="lazy"
-                                    />
-                                  </div>
-                                  <div className="p-2 bg-[#17100c] border-t border-[#f4ebdc]/5">
-                                    <p className="text-[10px] font-medium text-[#d4c3b3] line-clamp-2 group-hover:text-white transition-colors leading-tight">
-                                      {img.caption.split("—")[0].trim()}
-                                    </p>
-                                  </div>
+                                  {proj.images.map((img, imgIdx) => (
+                                    <div
+                                      key={imgIdx}
+                                      onClick={() => {
+                                        sound.playClick();
+                                        setLightboxData({ images: proj.images!, currentIndex: imgIdx });
+                                      }}
+                                      className="group relative rounded-xl overflow-hidden border border-[#f4ebdc]/10 hover:border-[#f2b705]/70 bg-[#1e1511] cursor-pointer transition-all flex flex-col shadow-sm"
+                                    >
+                                      <div
+                                        className={`${
+                                          isLandscapeProject ? "aspect-[16/10]" : "aspect-[9/16]"
+                                        } w-full overflow-hidden flex items-center justify-center bg-black/40 p-1`}
+                                      >
+                                        <img
+                                          src={img.url}
+                                          alt={img.caption}
+                                          className={`w-full h-full ${
+                                            isLandscapeProject ? "object-cover group-hover:scale-105" : "object-contain group-hover:scale-105"
+                                          } transition-transform duration-200`}
+                                          loading="lazy"
+                                        />
+                                      </div>
+                                      <div className="p-2 bg-[#17100c] border-t border-[#f4ebdc]/5">
+                                        <p className="text-[10px] font-medium text-[#d4c3b3] line-clamp-2 group-hover:text-white transition-colors leading-tight">
+                                          {img.caption.split("—")[0].trim()}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
+                              </div>
                             </div>
-                          </div>
-                        </div>
+                          );
+                        })()
                       )}
 
                       {/* Section 2: Problem & Solution (2-Column Card) */}
