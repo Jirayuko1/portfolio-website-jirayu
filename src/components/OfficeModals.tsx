@@ -255,7 +255,7 @@ export default function OfficeModals({
                       sound.playClick();
                       setPhoneTab("apps");
                     }}
-                    className={`py-2 px-2 rounded-lg text-center transition-all min-h-[40px] flex items-center justify-center gap-1 font-bold ${
+                    className={`py-2 px-2 rounded-lg text-center transition-all min-h-[44px] flex items-center justify-center gap-1 font-bold ${
                       phoneTab === "apps"
                         ? "bg-[#f2b705] text-[#140e0b] shadow-md"
                         : "text-[#d4c3b3] hover:text-white"
@@ -269,7 +269,7 @@ export default function OfficeModals({
                       sound.playClick();
                       setPhoneTab("contact");
                     }}
-                    className={`py-2 px-2 rounded-lg text-center transition-all min-h-[40px] flex items-center justify-center gap-1 font-bold ${
+                    className={`py-2 px-2 rounded-lg text-center transition-all min-h-[44px] flex items-center justify-center gap-1 font-bold ${
                       phoneTab === "contact"
                         ? "bg-[#f2b705] text-[#140e0b] shadow-md"
                         : "text-[#d4c3b3] hover:text-white"
@@ -283,7 +283,7 @@ export default function OfficeModals({
                       sound.playClick();
                       setPhoneTab("game");
                     }}
-                    className={`py-2 px-2 rounded-lg text-center transition-all min-h-[40px] flex items-center justify-center gap-1 font-bold ${
+                    className={`py-2 px-2 rounded-lg text-center transition-all min-h-[44px] flex items-center justify-center gap-1 font-bold ${
                       phoneTab === "game"
                         ? "bg-[#10b981] text-[#140e0b] shadow-md"
                         : "text-[#a3e635] hover:text-white"
@@ -453,7 +453,7 @@ export default function OfficeModals({
                           {t.phone.scoreLabel || "Bugs Fixed:"} {bugScore}
                         </span>
                       </div>
-                      <p className="text-[11px] text-[#9ca3af] mb-3">
+                      <p className="text-[11px] text-[#d1d5db] mb-3">
                         {bugScore >= 10
                           ? (t.phone.gameDone || "🎉 Senior Debugger Level Unlocked! Production is safe!")
                           : (t.phone.gameInstruction || "Bugs are invading production! Tap them to debug!")}
@@ -469,7 +469,7 @@ export default function OfficeModals({
                               key={bug.id}
                               onClick={() => handleWhackBug(bug.id)}
                               style={{ left: `${bug.x}%`, top: `${bug.y}%` }}
-                              className="absolute -translate-x-1/2 -translate-y-1/2 text-2xl p-2 rounded-full hover:scale-125 active:scale-75 transition-transform duration-150 animate-bounce"
+                              className="absolute -translate-x-1/2 -translate-y-1/2 text-2xl p-2 rounded-full hover:scale-125 active:scale-75 transition-all duration-200 cursor-pointer select-none"
                               aria-label="Squash bug"
                             >
                               {bug.icon}
