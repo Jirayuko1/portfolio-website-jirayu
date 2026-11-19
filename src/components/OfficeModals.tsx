@@ -582,8 +582,8 @@ export default function OfficeModals({
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
                 <div className="relative w-28 h-36 sm:w-32 sm:h-40 shrink-0 rounded-2xl overflow-hidden border-2 border-[#f2b705]/40 shadow-xl bg-[#1a1410]">
                   <img
-                    src="/images/portrait-black-shirt.webp"
-                    alt="Jirayu Portrait"
+                    src="/images/portrait-tarot.webp?v=5"
+                    alt="Jirayu Tarot Portrait"
                     className="w-full h-full object-cover"
                   />
                 </div>

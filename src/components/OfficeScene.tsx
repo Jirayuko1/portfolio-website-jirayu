@@ -196,57 +196,6 @@ export default function OfficeScene({
       return tex;
     }
 
-    function createYellowVaseTexture(): THREE.CanvasTexture {
-      const c = document.createElement("canvas");
-      c.width = 512;
-      c.height = 640;
-      const ctx = c.getContext("2d")!;
-
-      ctx.fillStyle = "#eab308";
-      ctx.fillRect(0, 0, c.width, c.height);
-
-      for (let i = 0; i < 400; i++) {
-        ctx.fillStyle = Math.random() > 0.5 ? "#ca8a04" : "#facc15";
-        ctx.fillRect(Math.random() * c.width, Math.random() * c.height, 40, 18);
-      }
-
-      ctx.fillStyle = "#f8fafc";
-      ctx.beginPath();
-      ctx.ellipse(c.width / 2, 460, 55, 75, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.strokeStyle = "#4d7c0f";
-      ctx.lineWidth = 4;
-      for (let j = 0; j < 14; j++) {
-        ctx.beginPath();
-        ctx.moveTo(c.width / 2, 430);
-        ctx.quadraticCurveTo(
-          c.width / 2 + (Math.random() - 0.5) * 80,
-          320,
-          c.width / 2 + (Math.random() - 0.5) * 160,
-          220 + Math.random() * 80
-        );
-        ctx.stroke();
-      }
-
-      for (let k = 0; k < 45; k++) {
-        const fx = c.width / 2 + (Math.random() - 0.5) * 180;
-        const fy = 200 + Math.random() * 160;
-        ctx.fillStyle = "#ffffff";
-        ctx.beginPath();
-        ctx.arc(fx, fy, 9 + Math.random() * 6, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = "#fef08a";
-        ctx.beginPath();
-        ctx.arc(fx, fy, 3, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      const tex = new THREE.CanvasTexture(c);
-      tex.colorSpace = THREE.SRGBColorSpace;
-      return tex;
-    }
-
     let laptopCanvas: HTMLCanvasElement | null = null;
     let laptopCtx: CanvasRenderingContext2D | null = null;
     let laptopTexture: THREE.CanvasTexture | null = null;
@@ -390,26 +339,28 @@ export default function OfficeScene({
     scene.add(greenArt);
     clickableObjects.push({ mesh: greenArt, id: "green_art", name: "Skills Matrix (Green Canvas)" });
 
-    // 5.2 Portrait Canvas Painting on Wall (Jirayu in Black Shirt)
+    // 5.2 Portrait Canvas Painting on Wall (Jirayu in Black Shirt - Tarot IX Art)
     const textureLoader = new THREE.TextureLoader();
     const yellowArtMat = new THREE.MeshStandardMaterial({
-      roughness: 0.5,
+      roughness: 0.55,
       metalness: 0.05,
     });
 
     const portraitTexture = textureLoader.load(
-      "/images/portrait-black-shirt.webp",
+      "/images/portrait-tarot.webp?v=5",
       (tex) => {
         tex.colorSpace = THREE.SRGBColorSpace;
         tex.needsUpdate = true;
         yellowArtMat.map = tex;
         yellowArtMat.needsUpdate = true;
-      }
+      },
+      undefined,
+      (err) => console.error("Error loading portrait texture:", err)
     );
     yellowArtMat.map = portraitTexture;
 
     const yellowArt = new THREE.Mesh(
-      new THREE.BoxGeometry(0.58, 0.79, 0.04),
+      new THREE.BoxGeometry(0.56, 0.80, 0.04),
       yellowArtMat
     );
     yellowArt.position.set(0.45, 1.12, -1.27);
@@ -417,7 +368,7 @@ export default function OfficeScene({
     yellowArt.receiveShadow = true;
 
     // Dark walnut gallery frame around the portrait
-    const frameGeo = new THREE.BoxGeometry(0.61, 0.82, 0.036);
+    const frameGeo = new THREE.BoxGeometry(0.59, 0.83, 0.036);
     const frameMat = new THREE.MeshStandardMaterial({ color: 0x1f1713, roughness: 0.85 });
     const frameMesh = new THREE.Mesh(frameGeo, frameMat);
     frameMesh.position.z = -0.005;
