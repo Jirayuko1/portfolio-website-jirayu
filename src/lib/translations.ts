@@ -119,12 +119,13 @@ export const translations = {
             demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
           },
           {
-            title: "OmniFit — AI Health & Workout Companion",
-            type: "Mobile App (iOS & Android)",
+            title: "Aura Mobile App — Smart Hotel Operations & Task Dispatch",
+            type: "Mobile App (iOS & Android) & Cloud Backend",
             year: "2025",
-            desc: "Cross-platform mobile application engineered with offline-first local SQLite sync and computer vision rep-counting.",
-            solved: "Clarified data persistence needs; designed a local sync engine reducing battery usage by 35%.",
-            stack: ["React Native", "Node.js", "PostgreSQL", "SQLite"],
+            desc: "Hotel staff management application integrated with AI Chatbot (Botnoi) webhooks. Automatically parses guest service requests by room & intent, dispatching real-time tickets with sound-alert push notifications.",
+            solved: "Engineered Firebase Cloud Functions webhook with smart text parsing, FCM sound alerts, in-app task lifecycle state machine, and photo-proof cloud storage uploads.",
+            stack: ["Flutter", "Dart", "Firebase", "Firestore", "FCM", "Cloud Functions", "Botnoi AI"],
+            github: "https://github.com/Jirayuko1/aura_mobile_app_prototype",
           },
           {
             title: "NexFlow — Cloud Logistics & Dispatch System",
@@ -195,11 +196,11 @@ export const translations = {
         appsTitle: "Featured Mobile Apps",
         apps: [
           {
-            name: "OmniFit Mobile",
-            category: "Health & Computer Vision",
-            stats: "4.9 Rating · 50k+ Installs",
-            desc: "On-device pose detection and rep counting using CoreML with an offline-first SQLite sync engine.",
-            tech: ["React Native", "CoreML", "SQLite", "EAS"],
+            name: "Aura Staff Mobile",
+            category: "Hotel Operations & Dispatch",
+            stats: "Flutter & Firebase Architecture",
+            desc: "Smart hotel staff operations app receiving AI chatbot guest requests via Cloud Functions, real-time ticket state management, and photo proof verification.",
+            tech: ["Flutter", "Dart", "Firebase", "Firestore", "FCM"],
           },
           {
             name: "TripSync Travel",
@@ -345,12 +346,13 @@ export const translations = {
             demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
           },
           {
-            title: "OmniFit — แอปผู้ช่วยออกกำลังกายอัจฉริยะ AI",
-            type: "แอปพลิเคชันมือถือ (iOS & Android)",
+            title: "Aura Mobile App — ระบบจัดการงานโรงแรมอัจฉริยะ (Aura Staff)",
+            type: "Mobile App (iOS & Android) & ระบบคลาวด์แบ็กเอนด์",
             year: "2025",
-            desc: "แอปมือถือ Cross-platform พร้อมระบบ Offline-first ซิงค์ข้อมูลกับ SQLite ในเครื่อง และระบบนับรอบท่าออกกำลังกายด้วย Computer Vision",
-            solved: "ระบุปัญหาเรื่องการใช้งานตอนไม่มีเน็ต; ออกแบบ Sync Engine ในเครื่องช่วยประหยัดแบตเตอรี่ลงถึง 35%",
-            stack: ["React Native", "Node.js", "PostgreSQL", "SQLite"],
+            desc: "แอปพลิเคชันบริหารจัดการงานโรงแรมสำหรับพนักงาน เชื่อมต่อ AI Chatbot (Botnoi) ดักจับคำขอจากผู้เข้าพักและจำแนกแผนกโดยอัตโนมัติ ส่งต่องานผ่าน Real-time Ticket ไปยังพนักงานพร้อม Push Notification",
+            solved: "ออกแบบ Webhook Bridge ด้วย Firebase Cloud Functions รองรับการดึงข้อมูลห้องพักและคำขอแบบ Smart Parsing พร้อมระบบถ่ายภาพ Photo Proof ยืนยันผลงานขึ้น Cloud Storage",
+            stack: ["Flutter", "Dart", "Firebase", "Firestore", "FCM", "Cloud Functions", "Botnoi AI"],
+            github: "https://github.com/Jirayuko1/aura_mobile_app_prototype",
           },
           {
             title: "NexFlow — แพลตฟอร์มบริหารจัดการโลจิสติกส์",
@@ -421,11 +423,11 @@ export const translations = {
         appsTitle: "ผลงานโมบายล์แอปที่เปิดตัวแล้ว",
         apps: [
           {
-            name: "OmniFit Mobile",
-            category: "Health & Computer Vision",
-            stats: "เรตติ้ง 4.9 · 50k+ ดาวน์โหลด",
-            desc: "แอปผู้ช่วยออกกำลังกายอัจฉริยะ ตรวจจับท่าทางด้วย CoreML / TFLite บนเครื่อง และซิงก์ข้อมูลออฟไลน์ด้วย SQLite",
-            tech: ["React Native", "CoreML", "SQLite", "EAS"],
+            name: "Aura Staff Mobile",
+            category: "Hotel Operations & Dispatch",
+            stats: "สถาปัตยกรรม Flutter & Firebase",
+            desc: "แอปพนักงานโรงแรมอัจฉริยะ รับงานจาก AI Chatbot ผ่าน Cloud Functions, แจ้งเตือน FCM, และส่งภาพ Photo Proof ยืนยันผลงาน",
+            tech: ["Flutter", "Dart", "Firebase", "Firestore", "FCM"],
           },
           {
             name: "TripSync Travel",

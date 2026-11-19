@@ -178,20 +178,32 @@ export default function ResumePage() {
             </div>
 
             <div className="p-4 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
-                <h3 className="font-bold text-sm sm:text-base text-[#1c1613]">
-                  OmniFit — AI Health & Workout Companion
-                </h3>
-                <span className="text-[11px] font-mono text-[#995511] bg-[#f9ebe0] px-2 py-0.5 rounded">
-                  React Native · CoreML · SQLite · 50k+ Users
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
+                <div>
+                  <h3 className="font-bold text-sm sm:text-base text-[#1c1613]">
+                    Aura Mobile App — Smart Hotel Operations & Task Dispatch
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                    <a
+                      href="https://github.com/Jirayuko1/aura_mobile_app_prototype"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[#995511] hover:text-[#1c1613] text-xs font-mono inline-flex items-center gap-1 bg-[#f9ebe0] hover:bg-[#f3ded0] border border-[#ecd8c7] px-2.5 py-0.5 rounded transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      <span>View GitHub ↗</span>
+                    </a>
+                  </div>
+                </div>
+                <span className="text-[11px] font-mono text-[#995511] bg-[#f9ebe0] px-2 py-0.5 rounded shrink-0">
+                  Flutter · Dart · Firebase · Cloud Functions · Botnoi AI
                 </span>
               </div>
               <p className="text-xs text-[#5c5047] leading-relaxed mb-2">
-                Engineered an offline-first fitness app with real-time pose tracking via on-device CoreML. 
-                Designed bidirectional background sync resolving merge conflicts gracefully, decreasing server sync payload by 42% and device battery drain by 35%.
+                Cross-platform hotel staff app integrated with Botnoi AI chatbot. Automatically parses guest requests, extracts room numbers, and dispatches real-time tickets with FCM push alerts, in-progress lifecycle tracking, and photo-proof verification.
               </p>
               <span className="text-[11px] font-mono text-[#786b62]">
-                Key Impact: 4.9 App Store rating, 99.95% crash-free session rate across 50,000+ active devices.
+                Key Impact: Automated guest-to-staff task routing eliminating manual dispatch; real-time performance analytics by hotel department.
               </span>
             </div>
 

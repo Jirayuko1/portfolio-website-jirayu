@@ -738,7 +738,7 @@ export default function OfficeModals({
                   >
                     <div className="flex items-center justify-between text-xs font-mono text-[#f2b705] mb-2">
                       <span className="flex items-center gap-1.5">
-                        {idx === 0 ? (
+                        {proj.type.toLowerCase().includes("mobile") || proj.type.toLowerCase().includes("มือถือ") ? (
                           <Smartphone className="w-3.5 h-3.5" />
                         ) : (
                           <Globe className="w-3.5 h-3.5" />

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Jirayu Kokhoon (จิรายุ โกคูณ) · Resume & Engineering Credentials",
     description:
-      "Review Jirayu Kokhoon's technical proficiencies, featured engineering projects (OmniFit, NexFlow, Tripsync), work experience, and educational background.",
+      "Review Jirayu Kokhoon's technical proficiencies, featured engineering projects (ARENA LIVE, Aura Mobile App, NexFlow), work experience, and educational background.",
     url: "https://portfolio-website-jirayu.vercel.app/resume",
     images: [
       {
