@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --font-playfair: "Playfair Display", var(--font-noto-serif-thai), Georgia, serif;
+  --font-playfair: "Playfair Display", var(--font-anuphan), Georgia, serif;
   --font-caveat: "Caveat", var(--font-mali), "Comic Sans MS", cursive;
   --font-karla: "Karla", var(--font-anuphan), sans-serif;
   --font-pinyon: "Pinyon Script", cursive;
@@ -17,7 +17,7 @@ body {
 }
 
 .font-playfair {
-  font-family: var(--font-playfair), var(--font-noto-serif-thai), Georgia, serif;
+  font-family: var(--font-playfair), var(--font-anuphan), sans-serif;
 }
 
 .font-caveat {
