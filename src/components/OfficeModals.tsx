@@ -579,16 +579,25 @@ export default function OfficeModals({
           {/* ============================================================ */}
           {activeModal === "yellow_vase" && (
             <div className="break-words space-y-6">
-              <div>
-                <span className="text-xs font-mono tracking-wider text-[#f2b705] uppercase block mb-1">
-                  {t.yellow_vase.tag.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, "").trim()}
-                </span>
-                <h2 className="font-playfair text-2xl sm:text-3xl text-white mb-2">
-                  {t.yellow_vase.title}
-                </h2>
-                <p className="text-xs sm:text-sm text-[#d4c3b3] leading-relaxed">
-                  {t.yellow_vase.desc}
-                </p>
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+                <div className="relative w-28 h-36 sm:w-32 sm:h-40 shrink-0 rounded-2xl overflow-hidden border-2 border-[#f2b705]/40 shadow-xl bg-[#1a1410]">
+                  <img
+                    src="/images/portrait-black-shirt.webp"
+                    alt="Jirayu Portrait"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <span className="text-xs font-mono tracking-wider text-[#f2b705] uppercase block mb-1">
+                    {t.yellow_vase.tag.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, "").trim()}
+                  </span>
+                  <h2 className="font-playfair text-2xl sm:text-3xl text-white mb-2">
+                    {t.yellow_vase.title}
+                  </h2>
+                  <p className="text-xs sm:text-sm text-[#d4c3b3] leading-relaxed">
+                    {t.yellow_vase.desc}
+                  </p>
+                </div>
               </div>
 
               {/* Clean Single-Layer Contact Group */}

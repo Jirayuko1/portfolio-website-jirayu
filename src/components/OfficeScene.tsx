@@ -390,16 +390,33 @@ export default function OfficeScene({
     scene.add(greenArt);
     clickableObjects.push({ mesh: greenArt, id: "green_art", name: "Skills Matrix (Green Canvas)" });
 
-    // 5.2 Yellow Flower Vase Painting (Contact & Bio)
+    // 5.2 Portrait Canvas Painting on Wall (Jirayu in Black Shirt)
+    const textureLoader = new THREE.TextureLoader();
+    const portraitTexture = textureLoader.load("/images/portrait-black-shirt.webp", (tex) => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+    });
+
+    const sideMat = new THREE.MeshStandardMaterial({
+      color: 0x241a14, // Warm dark natural gallery-wrap canvas edge
+      roughness: 0.85,
+    });
+    const frontMat = new THREE.MeshStandardMaterial({
+      map: portraitTexture,
+      roughness: 0.55,
+    });
+
+    // BoxGeometry face indices: 0: right (+X), 1: left (-X), 2: top (+Y), 3: bottom (-Y), 4: front (+Z), 5: back (-Z)
+    const portraitMaterials = [sideMat, sideMat, sideMat, sideMat, frontMat, sideMat];
+
     const yellowArt = new THREE.Mesh(
-      new THREE.BoxGeometry(0.62, 0.76, 0.04),
-      new THREE.MeshStandardMaterial({ map: createYellowVaseTexture(), roughness: 0.7 })
+      new THREE.BoxGeometry(0.60, 0.765, 0.04),
+      portraitMaterials
     );
     yellowArt.position.set(0.45, 1.12, -1.27);
     yellowArt.castShadow = true;
     yellowArt.receiveShadow = true;
     scene.add(yellowArt);
-    clickableObjects.push({ mesh: yellowArt, id: "yellow_vase", name: "Contact & Bio (Yellow Vase)" });
+    clickableObjects.push({ mesh: yellowArt, id: "yellow_vase", name: "Portrait & Bio (Jirayu)" });
 
     // 5.3 Collage of Aesthetic Cards on Wall (Red, Green, Blue Clusters)
     // Red Cluster (Top Right, work life)
