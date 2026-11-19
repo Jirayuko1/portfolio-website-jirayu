@@ -94,13 +94,19 @@ export default function OfficeScene({
       cam.aspect = asp;
 
       if (asp < 0.65) {
-        // Tall smartphone (iPhone portrait)
-        cam.fov = 42;
-        cam.position.set(0.0, 0.18, 6.8);
+        // Mobile Portrait (e.g. iPhone 8 [375x667], iPhone 14/15/16 [390x844], SE)
+        // Dynamically compute FOV to guarantee full room width (~4.15m) fits without any clipping
+        const targetWidthAtDesk = 4.15;
+        const camZ = 7.35;
+        const requiredFovRad = 2 * Math.atan((targetWidthAtDesk / (2 * camZ)) / asp);
+        const dynamicFov = Math.min(60, Math.max(48, (requiredFovRad * 180) / Math.PI));
+
+        cam.fov = dynamicFov;
+        cam.position.set(0.0, 0.08, camZ);
       } else if (asp < 1.0) {
         // Tablet portrait
-        cam.fov = 38;
-        cam.position.set(0.0, 0.14, 5.8);
+        cam.fov = 39;
+        cam.position.set(0.0, 0.12, 6.0);
       } else if (asp < 1.4) {
         // Tablet landscape / small laptop
         cam.fov = 36;
@@ -1065,7 +1071,7 @@ export default function OfficeScene({
           }
         });
         const plantModel = createNormalizedModel(gltf.scene, { targetHeight: 1.25 });
-        plantModel.position.set(-2.35, -2.1, 0.6); // Sits on floor
+        plantModel.position.set(-1.88, -2.1, 0.65); // Sits gracefully beside desk legs, visible on mobile & desktop
         scene.add(plantModel);
       },
       undefined,
@@ -1126,8 +1132,8 @@ export default function OfficeScene({
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
-      targetCameraX = mouse.x * 0.18;
-      targetCameraY = 0.08 + mouse.y * 0.06;
+      targetCameraX = mouse.x * 0.15;
+      targetCameraY = defaultCameraY + mouse.y * 0.05;
 
       raycaster.setFromCamera(mouse, camera);
       const meshesToTest = clickableObjects.map((o) => o.mesh);

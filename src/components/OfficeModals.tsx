@@ -182,7 +182,7 @@ export default function OfficeModals({
   return (
     <AnimatePresence>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6 bg-black/75 backdrop-blur-sm"
         onClick={handleClose}
         role="dialog"
         aria-modal="true"
@@ -195,10 +195,10 @@ export default function OfficeModals({
           exit={{ opacity: 0, scale: 0.94, y: 16 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl bg-[#231b16] text-[#f4ebdc] border border-[#f4ebdc]/15 shadow-2xl p-5 sm:p-8 font-karla outline-none"
+          className="relative w-full max-w-2xl max-h-[92dvh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-[#231b16] text-[#f4ebdc] border border-[#f4ebdc]/15 shadow-2xl p-4 sm:p-8 font-karla outline-none"
         >
           {/* Sticky Modal Top Bar with Category & Close Button */}
-          <div className="sticky top-0 z-30 flex items-center justify-between pb-4 pt-1 bg-[#231b16]/95 backdrop-blur-md border-b border-[#f4ebdc]/10 -mx-5 px-5 sm:-mx-8 sm:px-8 mb-6">
+          <div className="sticky top-0 z-30 flex items-center justify-between pb-3.5 pt-1 bg-[#231b16]/95 backdrop-blur-md border-b border-[#f4ebdc]/10 -mx-4 px-4 sm:-mx-8 sm:px-8 mb-5 sm:mb-6">
             <span
               id="modal-category-title"
               className="text-[11px] font-mono tracking-widest text-[#f2b705] uppercase"

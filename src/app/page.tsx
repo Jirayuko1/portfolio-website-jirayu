@@ -138,7 +138,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative w-screen h-screen overflow-hidden select-none bg-[#2e2620]">
+    <main className="relative w-full h-[100dvh] overflow-hidden select-none bg-[#2e2620]">
       {/* 0. Cozy Initial Preloader */}
       <AnimatePresence>
         {isLoading && <Preloader progress={loadingProgress} />}

@@ -147,18 +147,18 @@ export default function OfficeUI({
   return (
     <>
       {/* 1. TOP RIGHT: Night Mode + Rain Ambience + Sound + Lang + Resume + Menu */}
-      <div className="fixed top-4 right-4 sm:top-8 sm:right-8 z-40 flex items-center gap-2 sm:gap-2.5">
+      <div className="fixed top-3 right-3 sm:top-8 sm:right-8 z-40 flex items-center gap-1.5 sm:gap-2.5">
         {/* Day / Night Mode Toggle */}
         <button
           onClick={onToggleNightMode}
           aria-label={isNightMode ? t.ui.modeDay : t.ui.modeNight}
           title={isNightMode ? t.ui.modeDay : t.ui.modeNight}
-          className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          className="flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
         >
           {isNightMode ? (
-            <Moon className="w-4 h-4 text-[#818cf8]" />
+            <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#818cf8]" />
           ) : (
-            <Sun className="w-4 h-4 text-[#f2b705]" />
+            <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#f2b705]" />
           )}
         </button>
 
@@ -167,11 +167,11 @@ export default function OfficeUI({
           onClick={onToggleRain}
           aria-label={isRainPlaying ? t.ui.rainOff : t.ui.rainOn}
           title={isRainPlaying ? t.ui.rainOff : t.ui.rainOn}
-          className={`flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer ${
+          className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer ${
             isRainPlaying ? "border-[#38bdf8]/50 ring-2 ring-[#38bdf8]/20" : ""
           }`}
         >
-          <CloudRain className={`w-4 h-4 ${isRainPlaying ? "text-[#38bdf8] animate-pulse" : "text-[#c8b7a6]"}`} />
+          <CloudRain className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isRainPlaying ? "text-[#38bdf8] animate-pulse" : "text-[#c8b7a6]"}`} />
         </button>
 
         {/* Sound Toggle */}
@@ -179,12 +179,12 @@ export default function OfficeUI({
           onClick={handleSoundBtn}
           aria-label={isMuted ? t.ui.soundUnmuted : t.ui.soundMuted}
           title={isMuted ? t.ui.soundUnmuted : t.ui.soundMuted}
-          className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          className="flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
         >
           {isMuted ? (
-            <VolumeX className="w-4 h-4 text-[#c8b7a6]" />
+            <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#c8b7a6]" />
           ) : (
-            <Volume2 className="w-4 h-4 text-[#f2b705]" />
+            <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#f2b705]" />
           )}
         </button>
 
@@ -193,7 +193,7 @@ export default function OfficeUI({
           onClick={handleLangBtn}
           aria-label="Switch Language (TH / EN)"
           title="Switch Language (TH / EN)"
-          className="flex items-center gap-1 px-3 h-10 sm:h-11 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl text-xs font-mono font-bold tracking-wider transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          className="flex items-center gap-1 px-2.5 h-9 sm:h-11 sm:px-3 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl text-[11px] sm:text-xs font-mono font-bold tracking-wider transition-all hover:scale-105 active:scale-95 cursor-pointer"
         >
           <span className={language === "th" ? "text-[#f2b705] font-black" : "text-[#c8b7a6]"}>TH</span>
           <span className="text-[#c8b7a6]/50">/</span>
@@ -218,7 +218,7 @@ export default function OfficeUI({
         <button
           onClick={handleMenuOpen}
           aria-label="Open navigation menu"
-          className="flex items-center gap-1.5 px-3.5 h-10 sm:h-11 sm:px-4.5 rounded-full bg-[#f4ebdc] text-[#1e1713] hover:bg-white text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
+          className="flex items-center gap-1.5 px-3 h-9 sm:h-11 sm:px-4.5 rounded-full bg-[#f4ebdc] text-[#1e1713] hover:bg-white text-[11px] sm:text-xs font-mono font-bold tracking-wider uppercase transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
         >
           <Menu className="w-3.5 h-3.5" />
           <span>{t.ui.menu}</span>
@@ -242,7 +242,7 @@ export default function OfficeUI({
       </AnimatePresence>
 
       {/* 2. BOTTOM LEFT: Main Headline & Discovery Tracker (Collapsible) */}
-      <div className="fixed bottom-4 left-4 sm:bottom-10 sm:left-10 z-30 max-w-[calc(100vw-2rem)] sm:max-w-md select-none pointer-events-none">
+      <div className="fixed bottom-3 left-3 sm:bottom-10 sm:left-10 z-30 max-w-[calc(100vw-1.5rem)] sm:max-w-md select-none pointer-events-none">
         <AnimatePresence mode="wait">
           {!isIntroCollapsed ? (
             <motion.div
@@ -251,30 +251,30 @@ export default function OfficeUI({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 16, scale: 0.96 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="pointer-events-auto p-4 sm:p-5 rounded-3xl bg-[#1c1613]/85 backdrop-blur-md border border-[#f4ebdc]/15 shadow-2xl text-[#f4ebdc]"
+              className="pointer-events-auto p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl bg-[#1c1613]/90 backdrop-blur-md border border-[#f4ebdc]/15 shadow-2xl text-[#f4ebdc]"
             >
-              <div className="flex items-start justify-between gap-3 mb-2">
-                <h1 className="font-playfair text-2xl sm:text-3xl lg:text-4xl text-[#f4ebdc] leading-snug sm:leading-[1.22] whitespace-pre-line">
+              <div className="flex items-start justify-between gap-2.5 mb-1.5 sm:mb-2">
+                <h1 className="font-playfair text-xl sm:text-3xl lg:text-4xl text-[#f4ebdc] leading-snug sm:leading-[1.22] whitespace-pre-line">
                   {t.ui.headline}
                 </h1>
                 <button
                   onClick={handleToggleIntro}
                   aria-label={t.ui.collapse}
                   title={t.ui.collapse}
-                  className="p-1.5 sm:p-2 rounded-full bg-[#2a211c] hover:bg-[#3d3027] text-[#c8b7a6] hover:text-[#f4ebdc] transition-all hover:scale-105 active:scale-95 shrink-0 border border-[#f4ebdc]/10 mt-1 cursor-pointer"
+                  className="p-1 sm:p-2 rounded-full bg-[#2a211c] hover:bg-[#3d3027] text-[#c8b7a6] hover:text-[#f4ebdc] transition-all hover:scale-105 active:scale-95 shrink-0 border border-[#f4ebdc]/10 mt-0.5 cursor-pointer"
                 >
                   <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
 
-              <p className="font-karla text-xs sm:text-sm text-[#d4c3b3] leading-relaxed mb-3">
+              <p className="font-karla text-[11px] sm:text-sm text-[#d4c3b3] leading-relaxed mb-2.5 sm:mb-3">
                 {t.ui.subheadline}
               </p>
 
               {/* Discovery Progress */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2a211c] border border-[#f4ebdc]/15">
-                <span className="w-2 h-2 rounded-full bg-[#f2b705]" />
-                <span className="font-mono text-[10px] sm:text-[11px] tracking-widest text-[#f4ebdc] uppercase">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#2a211c] border border-[#f4ebdc]/15">
+                <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#f2b705]" />
+                <span className="font-mono text-[9px] sm:text-[11px] tracking-widest text-[#f4ebdc] uppercase">
                   {t.ui.discoveredBadge.replace("{count}", String(discoveredCount))}
                 </span>
               </div>
@@ -289,19 +289,19 @@ export default function OfficeUI({
               onClick={handleToggleIntro}
               aria-label={t.ui.expand}
               title={t.ui.expand}
-              className="pointer-events-auto group flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#1c1613]/90 hover:bg-[#2e231c] text-[#f4ebdc] border border-[#f4ebdc]/20 shadow-2xl backdrop-blur-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="pointer-events-auto group flex items-center gap-2.5 sm:gap-3 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-[#1c1613]/90 hover:bg-[#2e231c] text-[#f4ebdc] border border-[#f4ebdc]/20 shadow-2xl backdrop-blur-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#f2b705] animate-pulse" />
-                <span className="font-playfair text-sm sm:text-base text-white font-medium">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#f2b705] animate-pulse" />
+                <span className="font-playfair text-xs sm:text-base text-white font-medium">
                   {t.ui.workspaceTitle}
                 </span>
                 <span className="text-[#c8b7a6]/40">•</span>
-                <span className="font-mono text-xs text-[#f2b705] font-semibold">
+                <span className="font-mono text-[11px] sm:text-xs text-[#f2b705] font-semibold">
                   {discoveredCount}/10
                 </span>
               </div>
-              <span className="p-1 rounded-full bg-[#2a211c] text-[#c8b7a6] group-hover:text-white group-hover:bg-[#3d3027] transition-colors">
+              <span className="p-0.5 sm:p-1 rounded-full bg-[#2a211c] text-[#c8b7a6] group-hover:text-white group-hover:bg-[#3d3027] transition-colors">
                 <ChevronUp className="w-3.5 h-3.5" />
               </span>
             </motion.button>
@@ -317,7 +317,7 @@ export default function OfficeUI({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="fixed top-18 sm:top-22 left-1/2 -translate-x-1/2 z-40 pointer-events-none px-4 py-1.5 rounded-full bg-[#1e1713]/90 text-[#f4ebdc] border border-[#f2b705]/50 backdrop-blur-md shadow-2xl flex items-center gap-2 max-w-[90vw]"
+            className="fixed top-14 sm:top-22 left-1/2 -translate-x-1/2 z-40 pointer-events-none px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full bg-[#1e1713]/90 text-[#f4ebdc] border border-[#f2b705]/50 backdrop-blur-md shadow-2xl flex items-center gap-2 max-w-[calc(100vw-1.5rem)]"
           >
             <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-[#f2b705]" />
             <span className="font-karla text-xs sm:text-sm font-medium text-[#f2b705] whitespace-nowrap">
