@@ -109,7 +109,7 @@ export const translations = {
         desc: "Real production applications engineered with high performance and disciplined architecture:",
         projects: [
           {
-            title: "ARENA LIVE: FIGHTER BLAZE — TikTok Live Interactive Game",
+            title: "ARENA LIVE: FIGHTER BLAZE — TikTok Live Interactive Game (16-Bit Cyber City)",
             type: "16-Bit Pixel Battle Royale · Full-Stack Web & Real-Time Backend",
             year: "2025",
             desc: "Cyberpunk 16-bit pixel battle royale game built for TikTok Live streams. Connects live viewer comments, likes, and gifts to real-time fighter physics, special attacks, and ring-out mechanics.",
@@ -335,7 +335,7 @@ export const translations = {
         desc: "ผลงานที่ออกแบบและพัฒนาจริง รองรับทราฟฟิกสูง และมีสถาปัตยกรรมที่ยืดหยุ่น:",
         projects: [
           {
-            title: "ARENA LIVE: FIGHTER BLAZE — สังเวียนมวยวัด TikTok Live (16-Bit Pixel)",
+            title: "ARENA LIVE: FIGHTER BLAZE — สังเวียนดาดฟ้าไซเบอร์พังก์ TikTok Live 16-Bit Cyber City",
             type: "16-Bit Pixel Battle Royale · Full-Stack Web & ระบบแบ็กเอนด์แบบเรียลไทม์",
             year: "2025",
             desc: "เกมต่อสู้แบทเทิลรอยัลสไตล์ Cyberpunk 16-Bit Pixel บนสตรีมสด TikTok Live ที่เชื่อมโยงคอมเมนต์ กดไลก์ และของขวัญจากผู้ชม เข้ากับสังเวียนวงกลมเรืองแสง ชก ต่อย ฟัน ผลักตกเวทีด้วย WebSocket ความหน่วงต่ำระดับเสี้ยววินาที",

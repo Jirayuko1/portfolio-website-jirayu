@@ -142,7 +142,7 @@ export default function ResumePage() {
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
                 <div>
                   <h3 className="font-bold text-sm sm:text-base text-[#1c1613]">
-                    ARENA LIVE: FIGHTER BLAZE — TikTok Live Interactive Game
+                    ARENA LIVE: FIGHTER BLAZE — TikTok Live 16-Bit Cyber City Interactive Game
                   </h3>
                   <div className="flex flex-wrap items-center gap-2 mt-1.5">
                     <a
