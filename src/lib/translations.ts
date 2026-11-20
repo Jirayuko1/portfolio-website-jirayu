@@ -630,7 +630,7 @@ export const translations = {
         tag: "ผลงานคัดสรร 💻",
         title: "กรณีศึกษาและโปรเจกต์เด่น (Featured Works)",
         desc: "ผลงานที่ออกแบบและพัฒนาจริง รองรับทราฟฟิกสูง และมีสถาปัตยกรรมที่ยืดหยุ่น:",
-        viewDetailsBtn: "ดูสถาปัตยกรรมและรายละเอียด 🔍",
+        viewDetailsBtn: "ดูสถาปัตยกรรม & รายละเอียด 🔍",
         backToProjectsBtn: "← ย้อนกลับไปรายการผลงาน",
         archOverviewTitle: "ข้อมูลสถาปัตยกรรมและภาพรวมระบบ",
         techRolesTitle: "เทคโนโลยีที่ใช้และหน้าที่ในระบบ (Tech Stack Breakdown)",

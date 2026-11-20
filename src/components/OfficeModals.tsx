@@ -1297,80 +1297,80 @@ export default function OfficeModals({
                           <span>{proj.solved}</span>
                         </div>
 
-                        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-                          <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-[#f4ebdc]/80">
-                            {proj.stack.map((s) => (
-                              <span
-                                key={s}
-                                className="px-2.5 py-1 rounded-md bg-[#1e1511] border border-[#f4ebdc]/5"
-                              >
-                                {s}
-                              </span>
-                            ))}
+                        {/* Tech Stack Pills (Metadata Badges) */}
+                        <div className="flex flex-wrap items-center gap-1.5 mb-3.5">
+                          {proj.stack.map((s) => (
+                            <span
+                              key={s}
+                              className="px-2.5 py-1 rounded-md bg-[#1e1511] text-[#f4ebdc]/80 text-[11px] font-mono border border-[#f4ebdc]/5"
+                            >
+                              {s}
+                            </span>
+                          ))}
+                        </div>
 
-                            {"images" in proj && proj.images && proj.images.length > 0 && (
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  sound.playClick();
-                                  setSelectedProjectIndex(idx);
-                                  setLightboxData({ images: proj.images!, currentIndex: 0 });
-                                }}
-                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#f2b705]/15 hover:bg-[#f2b705]/25 text-[#f2b705] border border-[#f2b705]/30 transition-all cursor-pointer font-bold active:scale-95 shadow-sm"
-                              >
-                                <ImageIcon className="w-3.5 h-3.5" />
-                                <span>{language === "th" ? `📷 ดูรูปภาพ (${proj.images.length})` : `📷 Screenshots (${proj.images.length})`}</span>
-                              </button>
-                            )}
-                          </div>
+                        {/* Dedicated Action Toolbar */}
+                        <div className="pt-3 border-t border-[#f4ebdc]/10 flex flex-wrap items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              sound.playClick();
+                              setSelectedProjectIndex(idx);
+                            }}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3d2b22] hover:bg-[#4d362b] text-[#f4ebdc] border border-[#f4ebdc]/15 text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
+                          >
+                            <Sparkles className="w-3.5 h-3.5 text-[#f2b705]" />
+                            <span>{"viewDetailsBtn" in t.laptop ? t.laptop.viewDetailsBtn : (language === "th" ? "ดูสถาปัตยกรรม & รายละเอียด 🔍" : "View Architecture & Details 🔍")}</span>
+                          </button>
 
-                          <div className="flex flex-wrap items-center gap-2 ml-auto">
+                          {"images" in proj && proj.images && proj.images.length > 0 && (
                             <button
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 sound.playClick();
                                 setSelectedProjectIndex(idx);
+                                setLightboxData({ images: proj.images!, currentIndex: 0 });
                               }}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3d2b22] hover:bg-[#4d362b] text-[#f4ebdc] border border-[#f4ebdc]/15 text-xs font-mono font-medium transition-all shadow-sm active:scale-95 cursor-pointer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705]/15 hover:bg-[#f2b705]/25 text-[#f2b705] border border-[#f2b705]/30 text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
                             >
-                              <Sparkles className="w-3.5 h-3.5 text-[#f2b705]" />
-                              <span>{"viewDetailsBtn" in t.laptop ? t.laptop.viewDetailsBtn : (language === "th" ? "ดูสถาปัตยกรรมและรายละเอียด 🔍" : "View Architecture & Details 🔍")}</span>
+                              <ImageIcon className="w-3.5 h-3.5" />
+                              <span>{language === "th" ? `ดูรูปภาพ (${proj.images.length})` : `Screenshots (${proj.images.length})`}</span>
                             </button>
+                          )}
 
-                            {"demoUrl" in proj && proj.demoUrl && (
-                              <a
-                                href={proj.demoUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  sound.playClick();
-                                }}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
-                              >
-                                <ExternalLink className="w-3.5 h-3.5" />
-                                <span>{language === "th" ? "🎮 เล่นเกมจริง (Live Demo ↗)" : "🎮 Play Live Demo ↗"}</span>
-                              </a>
-                            )}
+                          {"demoUrl" in proj && proj.demoUrl && (
+                            <a
+                              href={proj.demoUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                sound.playClick();
+                              }}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              <span>{language === "th" ? "🎮 เล่นเกมจริง (Live Demo ↗)" : "🎮 Play Live Demo ↗"}</span>
+                            </a>
+                          )}
 
-                            {"github" in proj && proj.github && (
-                              <a
-                                href={proj.github}
-                                target="_blank"
-                                rel="noreferrer"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  sound.playClick();
-                                }}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
-                              >
-                                <ExternalLink className="w-3.5 h-3.5" />
-                                <span>View on GitHub ↗</span>
-                              </a>
-                            )}
-                          </div>
+                          {"github" in proj && proj.github && (
+                            <a
+                              href={proj.github}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                sound.playClick();
+                              }}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              <span>View on GitHub ↗</span>
+                            </a>
+                          )}
                         </div>
                       </div>
                     ))}
