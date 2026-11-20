@@ -48,12 +48,14 @@ interface OfficeModalsProps {
   onClose: () => void;
   discoveredCount: number;
   language: Language;
+  onSwitchModal?: (id: string) => void;
 }
 
 export default function OfficeModals({
   activeModal,
   onClose,
   language,
+  onSwitchModal,
 }: OfficeModalsProps) {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
@@ -352,39 +354,77 @@ export default function OfficeModals({
                 {/* TAB 1: Mobile Apps Showcase */}
                 {phoneTab === "apps" && (
                   <div className="space-y-3 px-1">
-                    {t.phone.apps.map((app, idx) => (
-                      <div
-                        key={idx}
-                        className="p-3.5 rounded-2xl bg-[#1f1713] border border-[#f4ebdc]/10 hover:border-[#f2b705]/40 transition-colors"
-                      >
-                        <div className="flex items-start justify-between gap-2 mb-1.5">
-                          <div>
-                            <span className="font-semibold text-sm text-white block">
-                              {app.name}
-                            </span>
-                            <span className="text-[11px] text-[#f2b705] font-mono">
-                              {app.category}
+                    {t.phone.apps.map((app, idx) => {
+                      const appGithubLinks: Record<number, string> = {
+                        0: "https://github.com/Jirayuko1/aura_mobile_app_prototype",
+                        1: "https://github.com/Jirayuko1/pobsuk",
+                        2: "https://github.com/Jirayuko1/Voice-Bot-Bella",
+                      };
+                      const targetProjIndex = idx + 1; // 0->Aura (1), 1->Pobsuk (2), 2->Bella (3)
+
+                      return (
+                        <div
+                          key={idx}
+                          className="p-3.5 sm:p-4 rounded-2xl bg-[#1f1713] border border-[#f4ebdc]/10 hover:border-[#f2b705]/40 transition-colors"
+                        >
+                          <div className="flex items-start justify-between gap-2 mb-1.5">
+                            <div>
+                              <span className="font-semibold text-sm text-white block">
+                                {app.name}
+                              </span>
+                              <span className="text-[11px] text-[#f2b705] font-mono">
+                                {app.category}
+                              </span>
+                            </div>
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#2e231d] text-[#a3e635] border border-[#a3e635]/20 shrink-0">
+                              {app.stats}
                             </span>
                           </div>
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#2e231d] text-[#a3e635] border border-[#a3e635]/20 shrink-0">
-                            {app.stats}
-                          </span>
-                        </div>
-                        <p className="text-xs text-[#d4c3b3] leading-relaxed mb-2.5">
-                          {app.desc}
-                        </p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {app.tech.map((tc) => (
-                            <span
-                              key={tc}
-                              className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#2a1f18] text-[#f4ebdc]/80"
+                          <p className="text-xs text-[#d4c3b3] leading-relaxed mb-2.5">
+                            {app.desc}
+                          </p>
+                          <div className="flex flex-wrap gap-1.5 mb-3">
+                            {app.tech.map((tc) => (
+                              <span
+                                key={tc}
+                                className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#2a1f18] text-[#f4ebdc]/80"
+                              >
+                                {tc}
+                              </span>
+                            ))}
+                          </div>
+
+                          {/* Interactive Deep-Dive Actions */}
+                          <div className="flex flex-wrap items-center gap-2 pt-2.5 border-t border-[#f4ebdc]/10">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setSelectedProjectIndex(targetProjIndex);
+                                onSwitchModal?.("laptop");
+                              }}
+                              className="min-h-[44px] flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
                             >
-                              {tc}
-                            </span>
-                          ))}
+                              <Sparkles className="w-3.5 h-3.5" />
+                              <span>{language === "th" ? "ดูสถาปัตยกรรม & รูปภาพ 🔍" : "View Architecture & Gallery 🔍"}</span>
+                            </button>
+
+                            {appGithubLinks[idx] && (
+                              <a
+                                href={appGithubLinks[idx]}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={() => sound.playClick()}
+                                className="min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#2e231d] hover:bg-[#3d2e26] text-[#f4ebdc] border border-[#f4ebdc]/15 text-xs font-mono font-medium transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5 text-[#f2b705]" />
+                                <span>GitHub ↗</span>
+                              </a>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
 
@@ -442,10 +482,10 @@ export default function OfficeModals({
                     </div>
 
                     {/* LINE / Social Quick Connect */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-mono">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-mono">
                       <button
                         onClick={handleCopyLine}
-                        className="min-h-[44px] p-3 rounded-xl bg-[#1f1713] hover:bg-[#2c201a] border border-[#f4ebdc]/10 flex items-center justify-between text-left text-[#f4ebdc] transition-colors"
+                        className="min-h-[44px] p-3 rounded-xl bg-[#1f1713] hover:bg-[#2c201a] border border-[#f4ebdc]/10 flex items-center justify-between text-left text-[#f4ebdc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
                       >
                         <div className="flex items-center gap-2">
                           <MessageCircle className="w-4 h-4 text-[#a3e635]" />
@@ -457,16 +497,29 @@ export default function OfficeModals({
                       </button>
 
                       <a
+                        href="https://github.com/Jirayuko1"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="min-h-[44px] p-3 rounded-xl bg-[#1f1713] hover:bg-[#2c201a] border border-[#f4ebdc]/10 flex items-center justify-between text-[#f4ebdc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
+                      >
+                        <div className="flex items-center gap-2">
+                          <ExternalLink className="w-4 h-4 text-[#f2b705]" />
+                          <span>GitHub</span>
+                        </div>
+                        <span className="text-[10px] text-[#f2b705]">Visit ↗</span>
+                      </a>
+
+                      <a
                         href="https://linkedin.com"
                         target="_blank"
                         rel="noreferrer"
-                        className="min-h-[44px] p-3 rounded-xl bg-[#1f1713] hover:bg-[#2c201a] border border-[#f4ebdc]/10 flex items-center justify-between text-[#f4ebdc] transition-colors"
+                        className="min-h-[44px] p-3 rounded-xl bg-[#1f1713] hover:bg-[#2c201a] border border-[#f4ebdc]/10 flex items-center justify-between text-[#f4ebdc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
                       >
                         <div className="flex items-center gap-2">
                           <ExternalLink className="w-4 h-4 text-[#60a5fa]" />
                           <span>LinkedIn</span>
                         </div>
-                        <span className="text-[10px] text-[#f2b705]">Visit ↗</span>
+                        <span className="text-[10px] text-[#60a5fa]">Visit ↗</span>
                       </a>
                     </div>
 
@@ -475,7 +528,7 @@ export default function OfficeModals({
                       <a
                         href="mailto:jirayukokhoon@gmail.com?subject=Schedule%20a%2015-minute%20Chat%20with%20Jirayu&body=Hi%20Jirayu,%0D%0A%0D%0AI'd%20love%20to%20schedule%20a%2015-min%20call%20to%20discuss%20an%20opportunity."
                         onClick={() => sound.playClick()}
-                        className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#60a5fa] hover:bg-[#93c5fd] text-[#0f172a] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+                        className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#60a5fa] hover:bg-[#93c5fd] text-[#0f172a] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#60a5fa]"
                       >
                         <Calendar className="w-4 h-4" />
                         <span>{t.phone.scheduleCallBtn || (language === "th" ? "นัดคุยงาน 15 นาที" : "Schedule 15-min Chat")}</span>
@@ -486,7 +539,7 @@ export default function OfficeModals({
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => sound.playClick()}
-                        className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+                        className="min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
                       >
                         <Download className="w-4 h-4" />
                         <span>{t.phone.downloadResumeBtn || (language === "th" ? "ดาวน์โหลดเรซูเม่ (PDF)" : "Download Resume (PDF)")}</span>
@@ -524,7 +577,7 @@ export default function OfficeModals({
                               key={bug.id}
                               onClick={() => handleWhackBug(bug.id)}
                               style={{ left: `${bug.x}%`, top: `${bug.y}%` }}
-                              className="absolute -translate-x-1/2 -translate-y-1/2 text-2xl p-2 rounded-full hover:scale-125 active:scale-75 transition-all duration-200 cursor-pointer select-none"
+                              className="absolute -translate-x-1/2 -translate-y-1/2 min-w-[48px] min-h-[48px] flex items-center justify-center text-2xl p-2 rounded-full hover:scale-125 active:scale-75 transition-all duration-200 cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10b981]"
                               aria-label="Squash bug"
                             >
                               {bug.icon}

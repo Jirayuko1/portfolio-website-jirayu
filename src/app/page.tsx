@@ -189,6 +189,7 @@ export default function Home() {
         onClose={handleCloseModal}
         discoveredCount={discoveredItems.size}
         language={language}
+        onSwitchModal={handleSelectObject}
       />
     </main>
   );
