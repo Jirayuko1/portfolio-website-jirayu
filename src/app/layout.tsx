@@ -123,10 +123,10 @@ export const metadata: Metadata = {
       "Step into Jirayu Kokhoon's interactive 3D workspace. Explore mobile apps, high-throughput cloud architectures, and interactive 3D case studies.",
     images: [
       {
-        url: "/images/office-og.jpg",
+        url: "/images/office-og.jpg?v=4",
         width: 1200,
         height: 630,
-        alt: "Jirayu Kokhoon's Interactive 3D Studio Desk Portfolio",
+        alt: "Jirayu Kokhoon (จิรายุ โกคูณ) · Full-Stack & Mobile Developer Portfolio",
         type: "image/jpeg",
       },
     ],
@@ -136,7 +136,7 @@ export const metadata: Metadata = {
     title: "Jirayu Dev | Interactive 3D Portfolio",
     description:
       "Step into Jirayu Kokhoon's interactive 3D workspace. Explore mobile apps, high-throughput cloud architectures, and interactive 3D case studies.",
-    images: ["/images/office-og.jpg"],
+    images: ["/images/office-og.jpg?v=4"],
     creator: "@jirayu_dev",
   },
   robots: {

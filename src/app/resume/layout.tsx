@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: "https://portfolio-website-jirayu.vercel.app/resume",
     images: [
       {
-        url: "/images/office-og.jpg",
+        url: "/images/office-og.jpg?v=4",
         width: 1200,
         height: 630,
         alt: "Jirayu Kokhoon Engineering Resume",
