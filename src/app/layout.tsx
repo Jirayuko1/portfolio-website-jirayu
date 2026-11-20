@@ -58,8 +58,19 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Jirayu Kokhoon (จิรายุ โกคูณ) · Full-Stack & Mobile Developer",
-    template: "%s | Jirayu Kokhoon Portfolio",
+    default: "Jirayu Dev | Interactive 3D Portfolio",
+    template: "%s | Jirayu Dev",
+  },
+  icons: {
+    icon: [
+      { url: "/icon.png?v=3", type: "image/png", sizes: "512x512" },
+      { url: "/favicon.ico?v=3", sizes: "any" },
+      { url: "/favicon.svg?v=3", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-icon.png?v=3", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico?v=3",
   },
   description:
     "Explore Jirayu Kokhoon's interactive 3D studio office. Full-Stack & Mobile Developer specializing in React Native, Flutter, Next.js, Node.js, and interactive 3D WebGL experiences with an 'Ask First, Code Later' engineering philosophy.",
@@ -106,8 +117,8 @@ export const metadata: Metadata = {
     locale: "th_TH",
     alternateLocale: ["en_US"],
     url: siteUrl,
-    siteName: "Jirayu Kokhoon · Full-Stack & Mobile Developer",
-    title: "Jirayu Kokhoon (จิรายุ โกคูณ) · Full-Stack & Mobile Developer",
+    siteName: "Jirayu Dev · Interactive 3D Portfolio",
+    title: "Jirayu Dev | Interactive 3D Portfolio",
     description:
       "Step into Jirayu Kokhoon's interactive 3D workspace. Explore mobile apps, high-throughput cloud architectures, and interactive 3D case studies.",
     images: [
@@ -122,7 +133,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jirayu Kokhoon (จิรายุ โกคูณ) · Full-Stack & Mobile Developer",
+    title: "Jirayu Dev | Interactive 3D Portfolio",
     description:
       "Step into Jirayu Kokhoon's interactive 3D workspace. Explore mobile apps, high-throughput cloud architectures, and interactive 3D case studies.",
     images: ["/images/office-og.jpg"],
