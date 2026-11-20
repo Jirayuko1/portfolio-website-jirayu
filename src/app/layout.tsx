@@ -158,6 +158,7 @@ export default function RootLayout({
     image: `${siteUrl}/images/portrait-tarot.webp`,
     sameAs: [
       "https://github.com/Jirayuko1",
+      "https://www.linkedin.com/in/jirayu-kokhoon-883796390/",
       "https://portfolio-website-jirayu.vercel.app",
     ],
     knowsAbout: [

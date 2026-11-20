@@ -1,9 +1,46 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Printer, Mail, Phone, MapPin, Globe, Award, Briefcase, Code, CheckCircle, ExternalLink } from "lucide-react";
+import { ArrowLeft, Printer, Mail, Phone, MapPin, Globe, Award, Briefcase, Code, CheckCircle, ExternalLink, Sparkles, X, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ResumePage() {
+  const [lightboxData, setLightboxData] = useState<{
+    images: { url: string; caption: string }[];
+    currentIndex: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!lightboxData) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setLightboxData(null);
+      } else if (e.key === "ArrowLeft") {
+        setLightboxData((prev) =>
+          prev
+            ? {
+                ...prev,
+                currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length,
+              }
+            : null
+        );
+      } else if (e.key === "ArrowRight") {
+        setLightboxData((prev) =>
+          prev
+            ? {
+                ...prev,
+                currentIndex: (prev.currentIndex + 1) % prev.images.length,
+              }
+            : null
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxData]);
+
   const handlePrint = () => {
     window.print();
   };
@@ -80,6 +117,15 @@ export default function ResumePage() {
               >
                 <Code className="w-3.5 h-3.5 text-[#995511]" />
                 github.com/Jirayuko1
+              </a>
+              <a
+                href="https://www.linkedin.com/in/jirayu-kokhoon-883796390/"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center sm:justify-end gap-1.5 hover:underline text-[#2d2522]"
+              >
+                <Globe className="w-3.5 h-3.5 text-[#995511]" />
+                linkedin.com/in/jirayu-kokhoon
               </a>
             </div>
           </div>
@@ -173,6 +219,30 @@ export default function ResumePage() {
               <p className="text-xs text-[#5c5047] leading-relaxed mt-2">
                 Engineered production-grade cross-platform mobile application prototypes with Flutter integrated with Botnoi AI Chatbot webhooks. Spearheaded the Aura Staff mobile hotel operations system with smart room extraction and FCM push notifications. Graduated from the BOTNOI TRAINEE program with distinction.
               </p>
+              <div className="pt-2.5 mt-2.5 border-t border-[#eee6dc]/70 flex flex-wrap gap-2 print:hidden">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setLightboxData({
+                      images: [
+                        {
+                          url: "/images/certificates/cert-botnoi-completion.webp",
+                          caption: "BOTNOI TRAINEE Certificate of Completion: Mobile Application Developer (Signed by Dr. Winn Voravuthikunchai, CEO & Founder)",
+                        },
+                        {
+                          url: "/images/certificates/cert-botnoi-internship-letter.webp",
+                          caption: "Official Internship Verification Letter — Botnoi Group Co., Ltd. (Ref: IBN-0670)",
+                        },
+                      ],
+                      currentIndex: 0,
+                    })
+                  }
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#995511]/10 hover:bg-[#995511]/20 text-[#995511] text-xs font-mono font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>🔍 View Official Certificate (2 Pages)</span>
+                </button>
+              </div>
             </div>
 
             <div className="p-4 rounded-xl border border-[#eee6dc] bg-[#fdfbf9]">
@@ -192,6 +262,34 @@ export default function ResumePage() {
               <p className="text-xs text-[#5c5047] leading-relaxed mt-2">
                 Managed operations and preventive maintenance for critical facility support and electrical control systems in Section A of NXP Semiconductor plant. Maintained strict compliance with ISO 9001:2015 quality procedures and high-reliability industrial safety standards.
               </p>
+              <div className="pt-2.5 mt-2.5 border-t border-[#eee6dc]/70 flex flex-wrap gap-2 print:hidden">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setLightboxData({
+                      images: [
+                        {
+                          url: "/images/certificates/cert-prompt-techno-letter.webp",
+                          caption: "Official Work Verification Letter — Prompt Techno Service Co., Ltd. (Stationed at NXP Semiconductor Unit)",
+                        },
+                        {
+                          url: "/images/certificates/cert-prompt-techno-iso9001.webp",
+                          caption: "Professional Operational Training Certificate: Teamwork & ISO 9001:2015 — Prompt Techno Service",
+                        },
+                        {
+                          url: "/images/certificates/cert-prompt-techno-dual.webp",
+                          caption: "Dual Vocational Training Certificate: Operations Technician — Prompt Techno Service",
+                        },
+                      ],
+                      currentIndex: 0,
+                    })
+                  }
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#995511]/10 hover:bg-[#995511]/20 text-[#995511] text-xs font-mono font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>🔍 View Official Verification & Training Certs (3 Pages)</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -387,6 +485,34 @@ export default function ResumePage() {
               <span className="text-[#786b62] font-mono text-[11px] mt-1 inline-block bg-[#f3eee7] px-2 py-0.5 rounded">
                 2020 — 2022 · Graduated March 15, 2022
               </span>
+              <div className="pt-2 mt-2 border-t border-[#eee6dc]/70 print:hidden">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setLightboxData({
+                      images: [
+                        {
+                          url: "/images/certificates/transcript-saraburi-thai-p1.webp",
+                          caption: "Technical Education Diploma Transcript (Thai Version - Page 1) — Saraburi Technical College",
+                        },
+                        {
+                          url: "/images/certificates/transcript-saraburi-thai-p2.webp",
+                          caption: "Technical Education Diploma Transcript (Thai Version - Page 2) — Project Grade 4.00, Cumulative GPA 3.14",
+                        },
+                        {
+                          url: "/images/certificates/transcript-saraburi-en-p1.webp",
+                          caption: "Technical Education Diploma Transcript (Official English Version) — Saraburi Technical College",
+                        },
+                      ],
+                      currentIndex: 0,
+                    })
+                  }
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#995511]/10 hover:bg-[#995511]/20 text-[#995511] text-[11px] font-mono font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                >
+                  <Sparkles className="w-3 h-3" />
+                  <span>🔍 View Official Transcript (GPA 3.14)</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -398,40 +524,118 @@ export default function ResumePage() {
             Certifications & National Skill Standards
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1">
-              <span className="font-bold text-[#1c1613] block">
-                National Skill Standard Assessment: On Building Electrician Level 1
-              </span>
-              <span className="text-[#5c5047] block text-[11px]">
-                Department of Skill Development, Ministry of Labour (Score: 89.6 / 100)
-              </span>
-              <span className="text-[#995511] font-mono text-[11px] mt-1 block">
-                Certified March 29, 2021
-              </span>
+            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1 flex flex-col justify-between">
+              <div>
+                <span className="font-bold text-[#1c1613] block">
+                  National Skill Standard Assessment: On Building Electrician Level 1
+                </span>
+                <span className="text-[#5c5047] block text-[11px]">
+                  Department of Skill Development, Ministry of Labour (Score: 89.6 / 100)
+                </span>
+                <span className="text-[#995511] font-mono text-[11px] mt-1 block">
+                  Certified March 29, 2021
+                </span>
+              </div>
+              <div className="pt-2 mt-2 border-t border-[#eee6dc]/70 print:hidden">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setLightboxData({
+                      images: [
+                        {
+                          url: "/images/certificates/cert-national-skill-standard-front.webp",
+                          caption: "National Skill Standard Assessment Certificate: On Building Electrician Level 1 — Department of Skill Development, Ministry of Labour",
+                        },
+                        {
+                          url: "/images/certificates/cert-national-skill-standard-back.webp",
+                          caption: "National Skill Standard Score Sheet (Theory: 15, Practical: 74.6, Total: 89.6 / 100)",
+                        },
+                      ],
+                      currentIndex: 0,
+                    })
+                  }
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#995511]/10 hover:bg-[#995511]/20 text-[#995511] text-[11px] font-mono font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                >
+                  <Sparkles className="w-3 h-3" />
+                  <span>🔍 View Certificate</span>
+                </button>
+              </div>
             </div>
 
-            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1">
-              <span className="font-bold text-[#1c1613] block">
-                BOTNOI TRAINEE Certificate: Mobile Application Developer
-              </span>
-              <span className="text-[#5c5047] block text-[11px]">
-                Botnoi Group (Signed by Dr. Winn Voravuthikunchai, CEO & Founder)
-              </span>
-              <span className="text-[#995511] font-mono text-[11px] mt-1 block">
-                Certified 2026
-              </span>
+            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1 flex flex-col justify-between">
+              <div>
+                <span className="font-bold text-[#1c1613] block">
+                  BOTNOI TRAINEE Certificate: Mobile Application Developer
+                </span>
+                <span className="text-[#5c5047] block text-[11px]">
+                  Botnoi Group (Signed by Dr. Winn Voravuthikunchai, CEO & Founder)
+                </span>
+                <span className="text-[#995511] font-mono text-[11px] mt-1 block">
+                  Certified 2026
+                </span>
+              </div>
+              <div className="pt-2 mt-2 border-t border-[#eee6dc]/70 print:hidden">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setLightboxData({
+                      images: [
+                        {
+                          url: "/images/certificates/cert-botnoi-completion.webp",
+                          caption: "BOTNOI TRAINEE Certificate of Completion: Mobile Application Developer (Signed by Dr. Winn Voravuthikunchai, CEO & Founder)",
+                        },
+                        {
+                          url: "/images/certificates/cert-botnoi-internship-letter.webp",
+                          caption: "Official Internship Verification Letter — Botnoi Group Co., Ltd.",
+                        },
+                      ],
+                      currentIndex: 0,
+                    })
+                  }
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#995511]/10 hover:bg-[#995511]/20 text-[#995511] text-[11px] font-mono font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                >
+                  <Sparkles className="w-3 h-3" />
+                  <span>🔍 View Certificate</span>
+                </button>
+              </div>
             </div>
 
-            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1">
-              <span className="font-bold text-[#1c1613] block">
-                Professional Operational Training: Teamwork & ISO 9001:2015
-              </span>
-              <span className="text-[#5c5047] block text-[11px]">
-                Prompt Techno Service Co., Ltd. (NXP Semiconductor Facility)
-              </span>
-              <span className="text-[#995511] font-mono text-[11px] mt-1 block">
-                Certified March 20, 2022
-              </span>
+            <div className="p-3.5 rounded-xl border border-[#eee6dc] bg-[#fdfbf9] space-y-1 flex flex-col justify-between">
+              <div>
+                <span className="font-bold text-[#1c1613] block">
+                  Professional Operational Training: Teamwork & ISO 9001:2015
+                </span>
+                <span className="text-[#5c5047] block text-[11px]">
+                  Prompt Techno Service Co., Ltd. (NXP Semiconductor Facility)
+                </span>
+                <span className="text-[#995511] font-mono text-[11px] mt-1 block">
+                  Certified March 20, 2022
+                </span>
+              </div>
+              <div className="pt-2 mt-2 border-t border-[#eee6dc]/70 print:hidden">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setLightboxData({
+                      images: [
+                        {
+                          url: "/images/certificates/cert-prompt-techno-iso9001.webp",
+                          caption: "Professional Operational Training Certificate: Teamwork & ISO 9001:2015 — Prompt Techno Service Co., Ltd.",
+                        },
+                        {
+                          url: "/images/certificates/cert-prompt-techno-dual.webp",
+                          caption: "Dual Vocational Training Certificate: Operations Technician — Prompt Techno Service Co., Ltd.",
+                        },
+                      ],
+                      currentIndex: 0,
+                    })
+                  }
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#995511]/10 hover:bg-[#995511]/20 text-[#995511] text-[11px] font-mono font-bold transition-all shadow-xs cursor-pointer active:scale-95"
+                >
+                  <Sparkles className="w-3 h-3" />
+                  <span>🔍 View Certificate</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -441,6 +645,98 @@ export default function ResumePage() {
       <footer className="max-w-4xl mx-auto py-8 text-center text-xs font-mono text-[#a39487] print:hidden">
         © 2026 Jirayu Kokhoon (จิรายุ โกคูณ) · Available for High-Impact Full-Stack & Mobile Roles · Bangkok, Thailand
       </footer>
+
+      {/* Fullscreen Lightbox Modal for Viewing Credentials (Print Hidden, In-app only, No download button) */}
+      {lightboxData && (
+        <div
+          className="fixed inset-0 z-[120] bg-black/95 backdrop-blur-md flex flex-col items-center justify-between p-4 sm:p-6 print:hidden"
+          onClick={() => setLightboxData(null)}
+        >
+          {/* Top Toolbar */}
+          <div
+            className="w-full max-w-5xl flex items-center justify-between text-white pb-3 z-10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono bg-white/10 px-3 py-1 rounded-full text-[#f2b705] border border-white/10">
+                {lightboxData.currentIndex + 1} / {lightboxData.images.length}
+              </span>
+              <span className="text-xs text-white/70 font-mono hidden sm:inline">
+                (Press Esc or tap outside to close, Left/Right arrow keys to navigate)
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setLightboxData(null)}
+              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer border border-white/10 active:scale-95"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Main Image Stage */}
+          <div
+            className="relative w-full max-w-5xl flex-1 flex items-center justify-center min-h-0 py-2"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {lightboxData.images.length > 1 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setLightboxData((prev) =>
+                    prev
+                      ? {
+                          ...prev,
+                          currentIndex:
+                            (prev.currentIndex - 1 + prev.images.length) % prev.images.length,
+                        }
+                      : null
+                  );
+                }}
+                className="absolute left-2 sm:left-4 z-20 w-11 h-11 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer active:scale-95 shadow-xl"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+            )}
+
+            <img
+              key={lightboxData.images[lightboxData.currentIndex].url}
+              src={lightboxData.images[lightboxData.currentIndex].url}
+              alt={lightboxData.images[lightboxData.currentIndex].caption}
+              className="max-h-[75vh] max-w-full w-auto object-contain rounded-xl shadow-2xl border border-white/10"
+            />
+
+            {lightboxData.images.length > 1 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setLightboxData((prev) =>
+                    prev
+                      ? {
+                          ...prev,
+                          currentIndex: (prev.currentIndex + 1) % prev.images.length,
+                        }
+                      : null
+                  );
+                }}
+                className="absolute right-2 sm:right-4 z-20 w-11 h-11 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer active:scale-95 shadow-xl"
+                aria-label="Next image"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            )}
+          </div>
+
+          {/* Bottom Caption Bar */}
+          <div
+            className="w-full max-w-3xl text-center py-2.5 px-4 bg-black/80 backdrop-blur-sm rounded-xl border border-white/10 text-white text-xs sm:text-sm font-medium z-10 shadow-lg mt-2"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {lightboxData.images[lightboxData.currentIndex].caption}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

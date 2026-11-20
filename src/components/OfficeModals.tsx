@@ -68,7 +68,7 @@ export default function OfficeModals({
   } | null>(null);
 
   useEffect(() => {
-    if (activeModal !== "laptop") {
+    if (activeModal !== "laptop" && activeModal !== "yellow_vase") {
       setSelectedProjectIndex(null);
       setLightboxData(null);
     }
@@ -510,7 +510,7 @@ export default function OfficeModals({
                       </a>
 
                       <a
-                        href="https://linkedin.com"
+                        href="https://www.linkedin.com/in/jirayu-kokhoon-883796390/"
                         target="_blank"
                         rel="noreferrer"
                         className="min-h-[44px] p-3 rounded-xl bg-[#1f1713] hover:bg-[#2c201a] border border-[#f4ebdc]/10 flex items-center justify-between text-[#f4ebdc] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
@@ -775,13 +775,13 @@ export default function OfficeModals({
                   </a>
 
                   <a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/jirayu-kokhoon-883796390/"
                     target="_blank"
                     rel="noreferrer"
                     className="min-h-[44px] p-3 rounded-xl bg-[#1e1511] hover:bg-[#382b24] border border-[#f4ebdc]/10 flex items-center justify-between text-[#f4ebdc] transition-colors"
                   >
                     <span>LinkedIn</span>
-                    <span className="text-[#f2b705]">linkedin.com/in/jirayu ↗</span>
+                    <span className="text-[#f2b705]">linkedin.com/in/jirayu-kokhoon ↗</span>
                   </a>
                 </div>
 
@@ -799,27 +799,72 @@ export default function OfficeModals({
                     <span>{"experienceTitle" in t.yellow_vase ? t.yellow_vase.experienceTitle : (language === "th" ? "ประวัติการทำงาน / ฝึกงาน (Work & Internships)" : "Work & Internships")}</span>
                   </h3>
                   <div className="space-y-3">
-                    {t.yellow_vase.experience.map((exp: any, i: number) => (
-                      <div
-                        key={i}
-                        className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-1.5"
-                      >
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                          <span className="font-semibold text-sm text-white">
-                            {exp.role}
+                    {t.yellow_vase.experience.map((exp: any, i: number) => {
+                      const experienceCerts: Record<number, { url: string; caption: string }[]> = {
+                        0: [
+                          {
+                            url: "/images/certificates/cert-botnoi-completion.webp",
+                            caption: language === "th" ? "วุฒิบัตร BOTNOI TRAINEE Certificate: Mobile Application Developer (ดร.วินน์ วรวุฒิคุณชัย)" : "BOTNOI TRAINEE Certificate of Completion: Mobile Application Developer (Dr. Winn Voravuthikunchai)"
+                          },
+                          {
+                            url: "/images/certificates/cert-botnoi-internship-letter.webp",
+                            caption: language === "th" ? "หนังสือรับรองการทำงาน / ฝึกงาน บริษัท ไอบอทน้อย จำกัด (เลขที่ IBN-0670)" : "Official Internship Verification Letter — Botnoi Group Co., Ltd. (Ref: IBN-0670)"
+                          }
+                        ],
+                        1: [
+                          {
+                            url: "/images/certificates/cert-prompt-techno-letter.webp",
+                            caption: language === "th" ? "หนังสือรับรองผ่านงาน บริษัท พร้อม เทคโน เซอร์วิส จำกัด (ประจำหน่วยงาน NXP Semiconductor)" : "Work Verification Letter — Prompt Techno Service (NXP Semiconductor Facility)"
+                          },
+                          {
+                            url: "/images/certificates/cert-prompt-techno-iso9001.webp",
+                            caption: language === "th" ? "เกียรติบัตรการฝึกอบรมการทำงานเป็นทีม และมาตรฐาน ISO 9001:2015 — Prompt Techno Service" : "Training Certificate: Teamwork & ISO 9001:2015 — Prompt Techno Service"
+                          },
+                          {
+                            url: "/images/certificates/cert-prompt-techno-dual.webp",
+                            caption: language === "th" ? "วุฒิบัตรการฝึกวิชาชีพตำแหน่ง ช่างเทคนิค ในระบบทวิภาคี — Prompt Techno Service" : "Dual Vocational Training Certificate: Operations Technician — Prompt Techno Service"
+                          }
+                        ]
+                      };
+
+                      return (
+                        <div
+                          key={i}
+                          className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-1.5"
+                        >
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                            <span className="font-semibold text-sm text-white">
+                              {exp.role}
+                            </span>
+                            <span className="text-[11px] font-mono text-[#a3e635] bg-[#1e1511] px-2.5 py-0.5 rounded-md border border-[#a3e635]/25 self-start sm:self-auto">
+                              {exp.period}
+                            </span>
+                          </div>
+                          <span className="text-xs text-[#f2b705] font-medium block">
+                            {exp.company}
                           </span>
-                          <span className="text-[11px] font-mono text-[#a3e635] bg-[#1e1511] px-2.5 py-0.5 rounded-md border border-[#a3e635]/25 self-start sm:self-auto">
-                            {exp.period}
-                          </span>
+                          <p className="text-xs text-[#d4c3b3] leading-relaxed pt-1">
+                            {exp.desc}
+                          </p>
+
+                          {experienceCerts[i] && (
+                            <div className="pt-2 border-t border-[#f4ebdc]/10 mt-2">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  sound.playClick();
+                                  setLightboxData({ images: experienceCerts[i], currentIndex: 0 });
+                                }}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#a3e635]/15 hover:bg-[#a3e635]/25 text-[#a3e635] border border-[#a3e635]/30 text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                              >
+                                <Sparkles className="w-3.5 h-3.5" />
+                                <span>{language === "th" ? `🔍 เปิดดูเอกสารจริง (${experienceCerts[i].length} หน้า)` : `🔍 View Original Document (${experienceCerts[i].length} Pages)`}</span>
+                              </button>
+                            </div>
+                          )}
                         </div>
-                        <span className="text-xs text-[#f2b705] font-medium block">
-                          {exp.company}
-                        </span>
-                        <p className="text-xs text-[#d4c3b3] leading-relaxed pt-1">
-                          {exp.desc}
-                        </p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -831,24 +876,61 @@ export default function OfficeModals({
                   <span>{t.yellow_vase.educationTitle}</span>
                 </h3>
                 <div className="space-y-2.5">
-                  {t.yellow_vase.education.map((edu, i) => (
-                    <div
-                      key={i}
-                      className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 flex flex-col sm:flex-row sm:items-start justify-between gap-2"
-                    >
-                      <div className="space-y-0.5">
-                        <span className="font-semibold text-sm text-white block">
-                          {edu.degree}
-                        </span>
-                        <span className="text-xs text-[#c8b7a6] block leading-relaxed">
-                          {edu.school}
-                        </span>
+                  {t.yellow_vase.education.map((edu, i) => {
+                    const educationCerts: Record<number, { url: string; caption: string }[]> = {
+                      1: [
+                        {
+                          url: "/images/certificates/transcript-saraburi-thai-p1.webp",
+                          caption: language === "th" ? "ระเบียนแสดงผลการเรียนตามหลักสูตร ปวส. วิทยาลัยเทคนิคสระบุรี (หน้า 1)" : "Technical Education Diploma Transcript (Thai - Page 1)"
+                        },
+                        {
+                          url: "/images/certificates/transcript-saraburi-thai-p2.webp",
+                          caption: language === "th" ? "ระเบียนแสดงผลการเรียน ปวส. วิทยาลัยเทคนิคสระบุรี — โครงงาน 2 เกรด 4.00, เกรดเฉลี่ยสะสม GPA 3.14 (หน้า 2)" : "Technical Education Diploma Transcript — Cumulative GPA 3.14 / Project 4.00 (Thai - Page 2)"
+                        },
+                        {
+                          url: "/images/certificates/transcript-saraburi-en-p1.webp",
+                          caption: language === "th" ? "ระเบียนแสดงผลการเรียน ปวส. ฉบับภาษาอังกฤษ (English Transcript)" : "Technical Education Diploma Transcript (English Version)"
+                        }
+                      ]
+                    };
+
+                    return (
+                      <div
+                        key={i}
+                        className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 flex flex-col gap-2"
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                          <div className="space-y-0.5">
+                            <span className="font-semibold text-sm text-white block">
+                              {edu.degree}
+                            </span>
+                            <span className="text-xs text-[#c8b7a6] block leading-relaxed">
+                              {edu.school}
+                            </span>
+                          </div>
+                          <span className="text-xs font-mono text-[#a3e635] shrink-0 bg-[#1e1511] px-2.5 py-0.5 rounded-md border border-[#f4ebdc]/5 self-start sm:self-auto">
+                            {edu.year}
+                          </span>
+                        </div>
+
+                        {educationCerts[i] && (
+                          <div className="pt-2 border-t border-[#f4ebdc]/10 mt-1">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setLightboxData({ images: educationCerts[i], currentIndex: 0 });
+                              }}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705]/15 hover:bg-[#f2b705]/25 text-[#f2b705] border border-[#f2b705]/30 text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                            >
+                              <Sparkles className="w-3.5 h-3.5" />
+                              <span>{language === "th" ? `🔍 เปิดดูทรานสคริปต์จริง (${educationCerts[i].length} หน้า)` : `🔍 View Transcript (${educationCerts[i].length} Pages)`}</span>
+                            </button>
+                          </div>
+                        )}
                       </div>
-                      <span className="text-xs font-mono text-[#a3e635] shrink-0 bg-[#1e1511] px-2.5 py-0.5 rounded-md border border-[#f4ebdc]/5 self-start sm:self-auto">
-                        {edu.year}
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
@@ -860,24 +942,81 @@ export default function OfficeModals({
                     <span>{"certsTitle" in t.yellow_vase ? t.yellow_vase.certsTitle : (language === "th" ? "ใบรับรองและมาตรฐานวิชาชีพ (Certificates & Standards)" : "Certifications & Standards")}</span>
                   </h3>
                   <div className="space-y-2.5">
-                    {t.yellow_vase.certifications.map((cert: any, i: number) => (
-                      <div
-                        key={i}
-                        className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 flex flex-col sm:flex-row sm:items-start justify-between gap-2"
-                      >
-                        <div className="space-y-0.5">
-                          <span className="font-semibold text-xs sm:text-sm text-white block">
-                            {cert.title}
-                          </span>
-                          <span className="text-[11px] text-[#c8b7a6] block">
-                            {cert.issuer}
-                          </span>
+                    {t.yellow_vase.certifications.map((cert: any, i: number) => {
+                      const credentialsCerts: Record<number, { url: string; caption: string }[]> = {
+                        0: [
+                          {
+                            url: "/images/certificates/cert-national-skill-standard-front.webp",
+                            caption: language === "th" ? "หนังสือรับรองมาตรฐานฝีมือแรงงานแห่งชาติ: ช่างไฟฟ้าภายในอาคาร ระดับ 1 — กรมพัฒนาฝีมือแรงงาน" : "National Skill Standard Assessment Certificate: On Building Electrician Level 1"
+                          },
+                          {
+                            url: "/images/certificates/cert-national-skill-standard-back.webp",
+                            caption: language === "th" ? "ใบแจ้งผลคะแนนมาตรฐานฝีมือแรงงานแห่งชาติ (รวม 89.6 / 100) — กระทรวงแรงงาน" : "National Skill Standard Score Sheet (Total Score: 89.6 / 100)"
+                          }
+                        ],
+                        1: [
+                          {
+                            url: "/images/certificates/cert-botnoi-completion.webp",
+                            caption: language === "th" ? "BOTNOI TRAINEE 2026 Certificate: Mobile Application Developer (ดร.วินน์ วรวุฒิคุณชัย)" : "BOTNOI TRAINEE Certificate of Completion: Mobile Application Developer"
+                          },
+                          {
+                            url: "/images/certificates/cert-botnoi-internship-letter.webp",
+                            caption: language === "th" ? "หนังสือรับรองการทำงาน / ฝึกงาน บริษัท ไอบอทน้อย จำกัด (IBN-0670)" : "Official Internship Verification Letter — Botnoi Group Co., Ltd."
+                          }
+                        ],
+                        2: [
+                          {
+                            url: "/images/certificates/cert-prompt-techno-iso9001.webp",
+                            caption: language === "th" ? "เกียรติบัตรการฝึกอบรมการทำงานเป็นทีม และมาตรฐาน ISO 9001:2015 — บริษัท พร้อม เทคโน เซอร์วิส จำกัด" : "Training Certificate: Teamwork & ISO 9001:2015 — Prompt Techno Service"
+                          },
+                          {
+                            url: "/images/certificates/cert-prompt-techno-dual.webp",
+                            caption: language === "th" ? "วุฒิบัตรการฝึกวิชาชีพตำแหน่ง ช่างเทคนิค ในระบบทวิภาคี — บริษัท พร้อม เทคโน เซอร์วิส จำกัด" : "Vocational Training Certificate: Operations Technician — Prompt Techno Service"
+                          },
+                          {
+                            url: "/images/certificates/cert-prompt-techno-letter.webp",
+                            caption: language === "th" ? "หนังสือรับรองผ่านงาน แผนก Operation and Maintenance Section A (หน่วยงาน NXP Semiconductor)" : "Work Verification Letter — Prompt Techno Service (NXP Semiconductor Facility)"
+                          }
+                        ]
+                      };
+
+                      return (
+                        <div
+                          key={i}
+                          className="p-4 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 flex flex-col gap-2"
+                        >
+                          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                            <div className="space-y-0.5">
+                              <span className="font-semibold text-xs sm:text-sm text-white block">
+                                {cert.title}
+                              </span>
+                              <span className="text-[11px] text-[#c8b7a6] block">
+                                {cert.issuer}
+                              </span>
+                            </div>
+                            <span className="text-[11px] font-mono text-[#60a5fa] shrink-0 bg-[#1e1511] px-2.5 py-0.5 rounded-md border border-[#60a5fa]/25 self-start sm:self-auto">
+                              {cert.year}
+                            </span>
+                          </div>
+
+                          {credentialsCerts[i] && (
+                            <div className="pt-2 border-t border-[#f4ebdc]/10 mt-1">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  sound.playClick();
+                                  setLightboxData({ images: credentialsCerts[i], currentIndex: 0 });
+                                }}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#60a5fa]/15 hover:bg-[#60a5fa]/25 text-[#60a5fa] border border-[#60a5fa]/30 text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                              >
+                                <Sparkles className="w-3.5 h-3.5" />
+                                <span>{language === "th" ? `🔍 เปิดดูใบรับรองจริง (${credentialsCerts[i].length} หน้า)` : `🔍 View Certificate (${credentialsCerts[i].length} Pages)`}</span>
+                              </button>
+                            </div>
+                          )}
                         </div>
-                        <span className="text-[11px] font-mono text-[#60a5fa] shrink-0 bg-[#1e1511] px-2.5 py-0.5 rounded-md border border-[#60a5fa]/25 self-start sm:self-auto">
-                          {cert.year}
-                        </span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}
