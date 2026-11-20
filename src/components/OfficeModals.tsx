@@ -317,7 +317,7 @@ export default function OfficeModals({
                     }`}
                   >
                     <Smartphone className="w-3.5 h-3.5" />
-                    <span>{language === "th" ? "แอป (3)" : "Apps (3)"}</span>
+                    <span>{language === "th" ? `แอป (${t.phone.apps.length})` : `Apps (${t.phone.apps.length})`}</span>
                   </button>
                   <button
                     onClick={() => {

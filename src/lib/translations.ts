@@ -384,13 +384,13 @@ export const translations = {
       cards_red: {
         tag: "Behind The Scenes 📸",
         title: "Work Life & Development Culture",
-        desc: "Snapshots of how I approach engineering day-to-day:",
+        desc: "Engineering practices, teamwork culture, and lessons from real-world operations:",
         cards: [
-          { title: "Daily Deep Work", text: "Morning dedicated to uninterrupted coding and architectural planning, afternoon to syncs and reviews." },
-          { title: "Thoughtful PR Reviews", text: "Treating code reviews as teaching moments; focusing on architecture, readability, and performance." },
-          { title: "User Feedback Loops", text: "Directly checking crash reports and user feedback tickets to maintain 99.9% crash-free sessions." },
-          { title: "Team Collaboration", text: "Bridging designers, product managers, and backend engineers with transparent communication." },
-          { title: "Continuous Refactoring", text: "Leaving every piece of code cleaner and more testable than when I first found it." },
+          { title: "Deep Work & Sprint Execution", text: "Mornings dedicated to uninterrupted architectural design and coding; afternoons focused on team standups and sprint reviews." },
+          { title: "Operational Rigor (ISO 9001:2015)", text: "Cultivated disciplined engineering, quality standards, and high-reliability safety practices from industrial operations at NXP." },
+          { title: "Thoughtful Code Reviews", text: "Treating PR reviews as mutual learning; prioritizing maintainability, modularity, and security without accumulating technical debt." },
+          { title: "Cross-Functional AI Collaboration", text: "Proven teamwork at Botnoi Group collaborating with AI developers, data scientists, and UI/UX designers in Figma." },
+          { title: "User Feedback & 99.9% Stability", text: "Actively tracking real-user crash diagnostics and feedback tickets to ensure buttery performance and 99.9% crash-free sessions." },
         ],
       },
       cards_green: {
@@ -398,20 +398,20 @@ export const translations = {
         title: "Why Hire Jirayu Kokhoon",
         desc: "Four key reasons teams love working with me:",
         cards: [
-          { title: "1. The Clarifier Mindset", text: "I clarify specs, edge cases, and business goals before writing code — eliminating weeks of wasted iterations." },
-          { title: "2. Bridging Mobile & Web", text: "No silo between native apps and web backends. I architect systems that share schemas and logic harmoniously." },
-          { title: "3. Extreme Ownership", text: "From technical RFC to unit tests, deployment pipelines, and analytics, I treat products like my own." },
-          { title: "4. Fast & Humble Learner", text: "Zero ego. I absorb domain knowledge rapidly and bring a positive, solution-oriented energy to the team." },
+          { title: "1. The Clarifier (Ask First, Code Later)", text: "I clarify requirements, edge cases, and business goals before writing code — eliminating weeks of wasted iterations and technical debt." },
+          { title: "2. Seamless Mobile, Web & AI", text: "Zero silos between Flutter mobile apps, Next.js web backends, and AI ecosystems (Gemini, Botnoi, WebAvatar), sharing schemas harmoniously." },
+          { title: "3. Engineering Discipline & Ownership", text: "Grounded in Electrical Control Engineering (GPA 3.14) and national skill standards. Disciplined, thorough, and accountable from design to production." },
+          { title: "4. Fast Learner & Humble Collaborator", text: "Zero ego, highly receptive to feedback, agile with modern tools (Flutter, Lovable, Antigravity, GitHub, Figma), bringing positive momentum to the team." },
         ],
       },
       cards_blue: {
         tag: "Tech Insights & Writing ✍️",
-        title: "Engineering Articles",
-        desc: "Articles and technical essays written from real-world engineering trials:",
+        title: "Engineering Articles & Insights",
+        desc: "Technical essays and architectural takeaways written from real-world engineering trials:",
         cards: [
-          { title: "Architecting Offline-First Mobile Sync with SQLite", readTime: "6 min read", summary: "How we handled bidirectional conflict resolution and background queues in React Native." },
-          { title: "Ask First, Code Later: The Engineering Superpower", readTime: "4 min read", summary: "Why asking clarifying questions during spec refinement is the highest-leverage engineering skill." },
-          { title: "Tactile Micro-Interactions in 3D WebGL", readTime: "8 min read", summary: "Creating emotional connection on the web using Three.js procedural synthesis and buttery 60fps animations." },
+          { title: "Bridging AI Chatbot Webhooks with Flutter & FCM in Real-Time", readTime: "6 min read", summary: "Case study from Aura Staff: engineering Cloud Functions to parse room numbers and intents from chatbots, triggering instant FCM alerts." },
+          { title: "Ask First, Code Later: The Pragmatic Engineering Superpower", readTime: "4 min read", summary: "Why asking clarifying questions upfront saves weeks of wasted iterations, plus techniques for uncovering hidden edge cases." },
+          { title: "Atomic Concurrency Locks: Preventing Overbooking in Senior Activity Systems", readTime: "5 min read", summary: "Case study from Pobsuk: designing PostgreSQL atomic triggers to handle concurrent senior bookings with zero race conditions." },
         ],
       },
       aquarium: {
@@ -437,7 +437,7 @@ export const translations = {
         callBtn: "Call Now",
         phoneNum: "+66 81 234 5678",
         copiedPhone: "Phone copied!",
-        appsTitle: "Featured Mobile Apps",
+        appsTitle: "Featured Mobile & Web Apps",
         apps: [
           {
             name: "Aura Staff Mobile",
@@ -447,11 +447,11 @@ export const translations = {
             tech: ["Flutter", "Dart", "Firebase", "Firestore", "FCM"],
           },
           {
-            name: "TripSync Travel",
-            category: "Real-time Collaboration",
-            stats: "4.8 Rating · Featured App",
-            desc: "Collaborative multi-user travel planner with offline Mapbox vector maps and WebSocket peer sync.",
-            tech: ["Flutter", "Dart", "Mapbox", "Go/gRPC"],
+            name: "Pobsuk (พบสุข)",
+            category: "Senior AI Assistant & LINE LIFF",
+            stats: "LINE OA · Gemini AI",
+            desc: "AI assistant & activity booking platform for senior citizens. Natural conversational booking with Google Gemini AI and digital tickets via LINE LIFF.",
+            tech: ["LINE OA", "LINE LIFF", "Gemini AI", "React", "Supabase"],
           },
           {
             name: "Bella Voice Assistant",
@@ -855,13 +855,13 @@ export const translations = {
       cards_red: {
         tag: "ภาพการทำงานในแต่ละวัน 📸",
         title: "เบื้องหลังและวัฒนธรรมการพัฒนาซอฟต์แวร์",
-        desc: "เกร็ดความทรงจำและวิธีการทำงานจริงในแต่ละบทบาท:",
+        desc: "เกร็ดความทรงจำและวิธีการทำงานจริงในแต่ละบทบาท จาก Botnoi และ Prompt Techno Service (NXP):",
         cards: [
-          { title: "ช่วงเวลา Deep Work", text: "จัดสรรเวลาช่วงเช้าสำหรับการเขียนโค้ดและวางโครงสร้างอย่างมีสมาธิ และช่วงบ่ายสำหรับการประสานงานในทีม" },
-          { title: "Code Review อย่างใส่ใจ", text: "มองการตรวจโค้ดเป็นการแลกเปลี่ยนความรู้ เน้นความกระชับ อ่านง่าย และความปลอดภัยของระบบ" },
-          { title: "ติดตาม Feedback ของผู้ใช้", text: "ตรวจสอบ Crash Reports และข้อเสนอแนะจริงเสมอ เพื่อรักษาอัตรา Crash-free สูงถึง 99.9%" },
-          { title: "การทำงานข้ามสายงาน", text: "ประสานงานกับ Product Manager, Designer และฝ่ายธุรกิจด้วยภาษาที่เข้าใจง่าย ตรงประเด็น" },
-          { title: "การรีแฟกเตอร์อย่างสม่ำเสมอ", text: "ปรับปรุงโค้ดทุกครั้งที่เข้าไปแตะ เพื่อให้โค้ดสะอาดตาและมี Automated Test ครอบคลุมอยู่เสมอ" },
+          { title: "ช่วงเวลา Deep Work & Sprint Execution", text: "จัดสรรเวลาช่วงเช้าสำหรับการพัฒนาฟีเจอร์อย่างมีสมาธิ และช่วงบ่ายสำหรับ Standup Sync และตรวจงานใน Sprint ร่วมกับทีม" },
+          { title: "ระเบียบวินัยตามมาตรฐาน ISO 9001:2015", text: "ซึมซับการทำงานที่เป็นระบบและระเบียบความปลอดภัยขั้นสูงจากประสบการณ์ปฏิบัติงานที่ NXP นำมาประยุกต์ใช้กับกระบวนการพัฒนาซอฟต์แวร์ที่เชื่อถือได้" },
+          { title: "Code Review & Continuous Improvement", text: "มองการตรวจโค้ดเป็นการแลกเปลี่ยนความรู้ เน้นความกระชับ อ่านง่าย ความปลอดภัยของระบบ และไม่ปล่อยให้เกิด Technical Debt สะสม" },
+          { title: "การทำงานร่วมกับทีม AI ข้ามสายงาน", text: "ประสบการณ์จริงจาก Botnoi Group ในการทำงานร่วมกับทีม AI, Data Science และ Designer (Figma) เพื่อส่งมอบผลงานแอปมือถือที่ตอบโจทย์ผู้ใช้จริง" },
+          { title: "ติดตาม Feedback & ความเสถียร 99.9%", text: "ตรวจสอบ Crash Reports และข้อเสนอแนะจริงของผู้ใช้เสมอ เพื่อรักษาอัตรา Crash-Free และความเสถียรของระบบทั้งบนมือถือและเว็บ" },
         ],
       },
       cards_green: {
@@ -869,20 +869,20 @@ export const translations = {
         title: "ทำไมคุณถึงควรเลือก จิรายุ โกคูณ ร่วมทีม (Value Pitch)",
         desc: "4 เหตุผลสำคัญที่ทำให้การร่วมงานราบรื่นและได้ผลลัพธ์คุ้มค่า:",
         cards: [
-          { title: "1. ถามให้ชัดก่อนลงมือ (Clarifier)", text: "ผมเคลียร์ Requirement และเงื่อนไขที่ซ่อนอยู่จนเข้าใจถ่องแท้ก่อนเริ่มเขียนโค้ดเสมอ ช่วยเซฟเวลาทีมจากการรื้องานใหม่ได้นับสัปดาห์" },
-          { title: "2. เชื่อมต่อ Web & Mobile ไร้รอยต่อ", text: "ไม่มีกำแพงระหว่างฝั่ง Mobile และ Web Backend ผมออกแบบระบบที่แชร์ Data Schema และ Logic ร่วมกันได้อย่างคล่องตัว" },
-          { title: "3. ความรับผิดชอบสูงสุด (High Ownership)", text: "ตั้งแต่เอกสารสถาปัตยกรรม เขียน Unit Test จัดทำ Pipeline ไปจนถึงการขึ้น Production ผมดูแลเหมือนเป็นผลิตภัณฑ์ของตนเอง" },
-          { title: "4. เรียนรู้เร็วและถ่อมตน (Adaptability)", text: "ไม่มีอีโก้ พร้อมรับฟังทุกคำแนะนำ ซึมซับความรู้ธุรกิจใหม่ได้อย่างรวดเร็ว และสร้างพลังบวกให้กับทีมเสมอ" },
+          { title: "1. ถามให้ชัดก่อนลงมือ (Clarifier & Pragmatic)", text: "ผมเคลียร์ Requirement และเงื่อนไขชายขอบ (Edge Cases) จนเข้าใจถ่องแท้ก่อนเริ่มเขียนโค้ดเสมอ ช่วยเซฟเวลาทีมจากการรื้องานใหม่ได้นับสัปดาห์" },
+          { title: "2. เชื่อมต่อ Web, Mobile & AI ไร้รอยต่อ", text: "ไม่มีกำแพงระหว่าง Mobile (Flutter) และ Web Backend (Next.js/Node.js) ผสานระบบ AI (Gemini, Botnoi, WebAvatar) ได้อย่างคล่องตัว" },
+          { title: "3. พื้นฐานวิศวกรรม & ความรับผิดชอบสูง", text: "มีรากฐานจากวิศวกรรมไฟฟ้าควบคุม (ปวส. GPA 3.14) และมาตรฐานฝีมือแรงงาน มั่นใจได้ในความละเอียดรอบคอบ เป็นระบบ และรับผิดชอบงานจนขึ้น Production" },
+          { title: "4. เรียนรู้เร็วและถ่อมตน (Fast Learner & Humble)", text: "ไม่มีอีโก้ พร้อมรับฟังทุกคำแนะนำ คล่องแคล่วในเครื่องมือพัฒนาสมัยใหม่ (Flutter, Lovable, Antigravity, GitHub, Figma) และสร้างพลังบวกให้ทีมเสมอ" },
         ],
       },
       cards_blue: {
         tag: "บทความและเกร็ดเทคนิค ✍️",
         title: "บทความและการเรียนรู้ในการทำงาน",
-        desc: "สรุปบทเรียนและเกร็ดวิศวกรรมที่กลั่นกรองมาจากประสบการณ์จริง:",
+        desc: "สรุปบทเรียนและเกร็ดวิศวกรรมที่กลั่นกรองมาจากประสบการณ์พัฒนาจริง:",
         cards: [
-          { title: "การวางระบบ Offline-First Mobile ด้วย SQLite Sync", readTime: "อ่าน 6 นาที", summary: "วิธีจัดการ Conflict Resolution และการทำงานแบบ Background Sync บน React Native อย่างราบรื่น" },
-          { title: "Ask First, Code Later: พลังวิเศษของวิศวกรซอฟต์แวร์", readTime: "อ่าน 4 นาที", summary: "ทำไมการตั้งคำถามให้ตรงจุดในห้องประชุมจึงเป็นทักษะที่ประหยัดต้นทุนทางธุรกิจได้มากที่สุด" },
-          { title: "Micro-interactions กับการรักษาระดับ 60FPS บน WebGL", readTime: "อ่าน 8 นาที", summary: "เคล็ดลับการสังเคราะห์เสียงแบบ Web Audio และการจัด Raycasting ให้เบาแรงเครื่องผู้ใช้งาน" },
+          { title: "การเชื่อมต่อ AI Chatbot Webhook เข้ากับ Flutter แบบ Real-time", readTime: "อ่าน 6 นาที", summary: "กรณีศึกษาจาก Aura Staff: ออกแบบ Firebase Cloud Functions สกัดเลขห้องและ Intent จาก Chatbot ยิง FCM แจ้งเตือนพนักงานทันที" },
+          { title: "Ask First, Code Later: พลังวิเศษของวิศวกรซอฟต์แวร์", readTime: "อ่าน 4 นาที", summary: "ทำไมการตั้งคำถามเคลียร์ Requirement ให้ตรงจุดตั้งแต่เริ่ม จึงช่วยประหยัดเวลาและต้นทุนธุรกิจได้มหาศาล พร้อมเทคนิคดักจับ Edge Cases" },
+          { title: "ระบบล็อกที่นั่ง Atomic Trigger ป้องกัน Overbooking บน LINE LIFF", readTime: "อ่าน 5 นาที", summary: "กรณีศึกษาจาก พบสุข: ออกแบบฟังก์ชัน Database Trigger บน PostgreSQL/PostGIS เพื่อล็อกที่นั่งระดับ Transaction ป้องกันการจองซ้ำซ้อน" },
         ],
       },
       aquarium: {
@@ -908,7 +908,7 @@ export const translations = {
         callBtn: "โทรสายตรง",
         phoneNum: "081-234-5678",
         copiedPhone: "คัดลอกเบอร์แล้ว!",
-        appsTitle: "ผลงานโมบายล์แอปที่เปิดตัวแล้ว",
+        appsTitle: "ผลงานโมบายล์แอป & Web App บนมือถือ",
         apps: [
           {
             name: "Aura Staff Mobile",
@@ -918,11 +918,11 @@ export const translations = {
             tech: ["Flutter", "Dart", "Firebase", "Firestore", "FCM"],
           },
           {
-            name: "TripSync Travel",
-            category: "Real-time Collaboration",
-            stats: "เรตติ้ง 4.8 · แอปแนะนำประจำสัปดาห์",
-            desc: "วางแผนทริปท่องเที่ยวแบบเรียลไทม์ร่วมกับเพื่อน แผนที่ Mapbox เวกเตอร์ออฟไลน์ และซิงก์ด้วย WebSocket",
-            tech: ["Flutter", "Dart", "Mapbox", "Go/gRPC"],
+            name: "Pobsuk (พบสุข)",
+            category: "AI ผู้ช่วย & LINE LIFF ผู้สูงอายุ",
+            stats: "LINE OA · Gemini AI",
+            desc: "ระบบ AI ผู้ช่วยและบริการจองกิจกรรมส่งเสริมสุขภาพสำหรับผู้สูงอายุ ใช้งานง่ายผ่าน LINE OA ผสานพลัง Gemini AI พร้อมออกตั๋วดิจิทัลผ่าน LINE LIFF",
+            tech: ["LINE OA", "LINE LIFF", "Gemini AI", "React", "Supabase"],
           },
           {
             name: "Bella Voice Assistant",
