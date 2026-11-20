@@ -35,13 +35,65 @@ import {
   Layers,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   Image as ImageIcon,
   Briefcase,
   GraduationCap,
   Wrench,
+  Play,
+  Eye,
+  ArrowRight,
+  Camera,
+  Gamepad2,
+  MessageSquare,
+  Database,
+  Star,
 } from "lucide-react";
 import { Language, translations } from "@/lib/translations";
 import { sound } from "@/lib/soundEffects";
+
+const BotanicalLeavesSvg = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 120 120"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    aria-hidden="true"
+  >
+    <path
+      d="M20 100 Q 55 75 95 25"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M95 25 C90 10, 70 12, 68 28 C66 38, 80 35, 95 25 Z"
+      fill="currentColor"
+      fillOpacity="0.5"
+    />
+    <path
+      d="M68 45 C50 40, 42 22, 58 18 C70 15, 78 30, 68 45 Z"
+      fill="currentColor"
+      fillOpacity="0.6"
+    />
+    <path
+      d="M50 62 C32 60, 26 42, 40 36 C52 32, 58 48, 50 62 Z"
+      fill="currentColor"
+      fillOpacity="0.5"
+    />
+    <path
+      d="M78 40 C95 48, 105 35, 98 25 C90 20, 82 30, 78 40 Z"
+      fill="currentColor"
+      fillOpacity="0.6"
+    />
+    <path
+      d="M60 58 C78 68, 88 55, 80 45 C72 40, 64 50, 60 58 Z"
+      fill="currentColor"
+      fillOpacity="0.55"
+    />
+  </svg>
+);
 
 interface OfficeModalsProps {
   activeModal: string | null;
@@ -62,6 +114,20 @@ export default function OfficeModals({
   const [copiedLine, setCopiedLine] = useState(false);
   const [phoneTab, setPhoneTab] = useState<"apps" | "contact" | "game">("apps");
   const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
+  const [spotlightIndex, setSpotlightIndex] = useState(0);
+  const [accordionOpen, setAccordionOpen] = useState<{
+    problem: boolean;
+    solution: boolean;
+    tech: boolean;
+    highlights: boolean;
+    workflow: boolean;
+  }>({
+    problem: true,
+    solution: true,
+    tech: true,
+    highlights: true,
+    workflow: true,
+  });
   const [lightboxData, setLightboxData] = useState<{
     images: { url: string; caption: string }[];
     currentIndex: number;
@@ -71,6 +137,7 @@ export default function OfficeModals({
     if (activeModal !== "laptop" && activeModal !== "yellow_vase") {
       setSelectedProjectIndex(null);
       setLightboxData(null);
+      setSpotlightIndex(0);
     }
   }, [activeModal]);
 
@@ -254,23 +321,25 @@ export default function OfficeModals({
           onClick={(e) => e.stopPropagation()}
           className="relative w-full max-w-2xl max-h-[92dvh] overflow-y-auto overscroll-contain rounded-2xl sm:rounded-3xl bg-[#231b16] text-[#f4ebdc] border border-[#f4ebdc]/15 shadow-2xl p-4 sm:p-8 font-karla outline-none"
         >
-          {/* Static Modal Header Bar with Category & Close Button */}
-          <div className="flex items-center justify-between pb-3.5 pt-1 border-b border-[#f4ebdc]/10 mb-5 sm:mb-6">
-            <span
-              id="modal-category-title"
-              className="text-[11px] font-mono tracking-widest text-[#f2b705] uppercase"
-            >
-              {modalTitles[activeModal]?.[language] || "Desk Artifact"}
-            </span>
+          {/* Static Modal Header Bar with Category & Close Button (for all modals except laptop which has its own bespoke header) */}
+          {activeModal !== "laptop" && (
+            <div className="flex items-center justify-between pb-3.5 pt-1 border-b border-[#f4ebdc]/10 mb-5 sm:mb-6">
+              <span
+                id="modal-category-title"
+                className="text-[11px] font-mono tracking-widest text-[#f2b705] uppercase"
+              >
+                {modalTitles[activeModal]?.[language] || "Desk Artifact"}
+              </span>
 
-            <button
-              onClick={handleClose}
-              aria-label="Close modal dialog (Press Escape)"
-              className="min-h-[44px] min-w-[44px] p-2 rounded-full bg-[#382b24] hover:bg-[#4d3c33] text-[#f4ebdc] transition-all hover:scale-105 active:scale-95 flex items-center justify-center border border-[#f4ebdc]/10"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+              <button
+                onClick={handleClose}
+                aria-label="Close modal dialog (Press Escape)"
+                className="min-h-[44px] min-w-[44px] p-2 rounded-full bg-[#382b24] hover:bg-[#4d3c33] text-[#f4ebdc] transition-all hover:scale-105 active:scale-95 flex items-center justify-center border border-[#f4ebdc]/10"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          )}
 
           {/* ============================================================ */}
           {/* 0. SMARTPHONE ON STAND: MOBILE APPS & DIRECT LINE            */}
@@ -1050,321 +1119,419 @@ export default function OfficeModals({
           {/* 3. LAPTOP: FEATURED CASE STUDIES & ARCHITECTURE DEEP DIVE    */}
           {/* ============================================================ */}
           {activeModal === "laptop" && (
-            <div className="break-words space-y-6">
+            <div className="break-words space-y-5">
               {selectedProjectIndex !== null && t.laptop.projects[selectedProjectIndex] ? (
+                // ==========================================================
+                // VIEW 2: PROJECT DETAIL VIEW (IMAGE 2)
+                // ==========================================================
                 (() => {
                   const proj = t.laptop.projects[selectedProjectIndex];
                   const arch = "architecture" in proj ? proj.architecture : null;
 
                   return (
-                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-200">
-                      {/* Top Action / Back Button */}
-                      <div className="flex items-center justify-between gap-3 border-b border-[#f4ebdc]/10 pb-4">
+                    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                      {/* Top Header Row: Case Study Number + Gold Divider + Gold-ring (X) */}
+                      <div className="flex items-center justify-between gap-3 border-b border-[#d4af37]/30 pb-3">
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          {proj.type.toLowerCase().includes("game") ? (
+                            <Gamepad2 className="w-4 h-4 text-[#e5be7a] shrink-0" />
+                          ) : proj.type.toLowerCase().includes("mobile") || proj.type.toLowerCase().includes("มือถือ") ? (
+                            <Smartphone className="w-4 h-4 text-[#e5be7a] shrink-0" />
+                          ) : (
+                            <Globe className="w-4 h-4 text-[#e5be7a] shrink-0" />
+                          )}
+                          <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#d4af37] shrink-0">
+                            {`CASE STUDY / ${String(selectedProjectIndex + 1).padStart(2, "0")}`}
+                          </span>
+                          <div className="h-[1px] bg-[#d4af37]/30 flex-1 ml-2" />
+                        </div>
+
+                        {/* Gold-Ring Close Button (X) -> returns to Featured Works Main View */}
                         <button
                           type="button"
                           onClick={() => {
                             sound.playClick();
                             setSelectedProjectIndex(null);
                           }}
-                          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#f2b705] hover:text-[#fbbf24] bg-[#221712] hover:bg-[#2c1e18] px-3.5 py-2 rounded-xl border border-[#f2b705]/20 transition-all cursor-pointer shadow-sm active:scale-95"
+                          aria-label={language === "th" ? "ย้อนกลับไปรายการผลงาน" : "Back to case studies list"}
+                          className="w-9 h-9 rounded-full border border-[#d4af37]/60 flex items-center justify-center text-white/90 hover:text-white hover:bg-white/10 active:scale-95 transition-all cursor-pointer shrink-0"
                         >
-                          <ArrowLeft className="w-4 h-4" />
-                          <span>{"backToProjectsBtn" in t.laptop ? t.laptop.backToProjectsBtn : "← ย้อนกลับไปรายการผลงาน"}</span>
+                          <X className="w-4 h-4" />
                         </button>
-
-                        <div className="flex items-center gap-2">
-                          <span className="flex items-center gap-1.5 text-xs font-mono text-[#f2b705] bg-[#1e1511] px-2.5 py-1 rounded-lg border border-[#f4ebdc]/5">
-                            {proj.type.toLowerCase().includes("mobile") || proj.type.toLowerCase().includes("มือถือ") ? (
-                              <Smartphone className="w-3.5 h-3.5" />
-                            ) : (
-                              <Globe className="w-3.5 h-3.5" />
-                            )}
-                            {proj.year}
-                          </span>
-                        </div>
                       </div>
 
-                      {/* Title & Action Links */}
+                      {/* Project Title & Category Meta */}
                       <div>
-                        <span className="text-xs font-mono tracking-wider text-[#a3e635] uppercase block mb-1">
-                          {proj.type}
-                        </span>
-                        <h2 className="font-playfair text-2xl sm:text-3xl text-white font-bold leading-snug mb-3">
-                          {proj.title}
+                        <h2 className="font-playfair text-2xl sm:text-3xl text-white font-bold leading-tight">
+                          {proj.title.split(" — ")[0]}
                         </h2>
-
-                        <div className="flex flex-wrap items-center gap-2.5 pt-1">
-                          {"demoUrl" in proj && proj.demoUrl && (
-                            <a
-                              href={proj.demoUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={() => sound.playClick()}
-                              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer"
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                              <span>{language === "th" ? "🎮 เล่นเกมจริง (Live Demo ↗)" : "🎮 Play Live Demo ↗"}</span>
-                            </a>
-                          )}
-
-                          {"github" in proj && proj.github && (
-                            <a
-                              href={proj.github}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={() => sound.playClick()}
-                              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-md active:scale-95 cursor-pointer"
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                              <span>View on GitHub ↗</span>
-                            </a>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Section 1: Overview */}
-                      <div className="p-4 sm:p-5 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10">
-                        <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#f2b705] mb-2 flex items-center gap-2">
-                          <Layers className="w-4 h-4" />
-                          <span>{"archOverviewTitle" in t.laptop ? t.laptop.archOverviewTitle : "ข้อมูลสถาปัตยกรรมและภาพรวมระบบ"}</span>
-                        </h3>
-                        <p className="text-xs sm:text-sm text-[#e6d8cb] leading-relaxed">
-                          {arch?.overview || proj.desc}
+                        <p className="text-xs sm:text-sm text-[#b8a896] font-mono mt-1">
+                          {proj.type} · {proj.year}
                         </p>
                       </div>
 
-                      {/* Section 1.5: Screenshots Gallery */}
-                      {"images" in proj && proj.images && proj.images.length > 0 && (
-                        (() => {
-                          const isLandscapeProject = proj.images.some(
-                            (img) => img.url.includes("bella") || img.url.includes("arena-live")
-                          );
-                          const bannerImg = proj.images.find(
-                            (img) =>
-                              img.url.includes("overview") ||
-                              img.url.includes("gameplay") ||
-                              img.url.includes("home-dashboard") ||
-                              img.url.includes("richmenu")
-                          ) || (proj.images.length > 0 ? proj.images[0] : null);
-                          const bannerIdx = bannerImg ? proj.images.indexOf(bannerImg) : 0;
+                      {/* Hero Image Banner with Badges & Play Overlay */}
+                      <div
+                        onClick={() => {
+                          sound.playClick();
+                          if (proj.images && proj.images.length > 0) {
+                            setLightboxData({ images: proj.images, currentIndex: 0 });
+                          }
+                        }}
+                        className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden cursor-pointer border border-[#f4ebdc]/15 group shadow-lg bg-black"
+                      >
+                        <img
+                          src={proj.images?.[0]?.url || "/images/projects/arena-live/arena-live-gameplay.webp"}
+                          alt={proj.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/30 pointer-events-none" />
 
-                          return (
-                            <div className="p-4 sm:p-5 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-3">
-                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#f2b705] flex items-center gap-2">
-                                  <ImageIcon className="w-4 h-4 text-[#f2b705]" />
-                                  <span>{"galleryTitle" in t.laptop ? t.laptop.galleryTitle : "ภาพหน้าจอระบบและ UI การใช้งานจริง"}</span>
-                                </h3>
-                                <span className="text-[11px] font-mono text-[#d4c3b3]/70">
-                                  {"gallerySubtitle" in t.laptop ? t.laptop.gallerySubtitle : "แตะที่รูปเพื่อดูขนาดใหญ่ (Lightbox)"}
+                        {/* Top-left LIVE badge */}
+                        <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ef4444] text-white text-[10px] font-bold tracking-wider uppercase shadow-md">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                            LIVE
+                          </span>
+                        </div>
+
+                        {/* Top-right viewer count badge */}
+                        <div className="absolute top-3 right-3 flex items-center gap-1">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[10px] font-mono border border-white/20 shadow-md">
+                            <span>{proj.images?.length || 1}</span>
+                            <Eye className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+
+                        {/* Bottom-right Play Icon Circle */}
+                        <div className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-black/70 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-xl group-hover:scale-110 group-hover:bg-[#d4af37] group-hover:text-black transition-all">
+                          <Play className="w-4 h-4 fill-current ml-0.5" />
+                        </div>
+                      </div>
+
+                      {/* Summary Description */}
+                      <p className="text-xs sm:text-sm text-[#d4c3b3] leading-relaxed">
+                        {proj.desc}
+                      </p>
+
+                      {/* Key Highlights Card with Green Checkmark & Sparkle */}
+                      <div className="rounded-2xl bg-[#231711] border border-[#d4af37]/35 p-3.5 sm:p-4 relative shadow-md">
+                        <div className="absolute top-3 right-3 text-[#e5be7a] text-sm select-none pointer-events-none">
+                          ✦
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-6 h-6 rounded-full bg-[#22c55e]/20 border border-[#22c55e]/40 text-[#22c55e] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                            ✓
+                          </div>
+                          <div className="space-y-1.5 text-xs sm:text-sm text-[#e0cfbd]">
+                            {arch && arch.keyHighlights ? (
+                              arch.keyHighlights.map((kh, kIdx) => (
+                                <div key={kIdx} className="flex items-start gap-1.5">
+                                  <span className="text-[#a3e635]">•</span>
+                                  <span>
+                                    <strong className="text-white">{kh.title}:</strong> {kh.desc}
+                                  </span>
+                                </div>
+                              ))
+                            ) : (
+                              <div className="flex items-start gap-1.5">
+                                <span className="text-[#a3e635]">•</span>
+                                <span>{proj.solved}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tech Stack Pills */}
+                      <div className="flex flex-wrap gap-1.5">
+                        {proj.stack.map((tech) => (
+                          <span
+                            key={tech}
+                            className="text-xs font-mono px-3 py-1 rounded-full bg-[#2a1d17] border border-white/10 text-white/90 shadow-sm"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Screenshots Gallery Section */}
+                      {proj.images && proj.images.length > 0 && (
+                        <div className="pt-2">
+                          <div className="flex items-center justify-between mb-2.5">
+                            <div className="flex items-center gap-1.5 font-mono text-xs font-bold tracking-wider text-[#d4af37] uppercase">
+                              <Camera className="w-3.5 h-3.5" />
+                              <span>SCREENSHOTS GALLERY</span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setLightboxData({ images: proj.images!, currentIndex: 0 });
+                              }}
+                              className="text-xs font-mono text-[#d4af37] hover:underline cursor-pointer"
+                            >
+                              View All →
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-2.5">
+                            {proj.images.slice(0, 2).map((img, imgIdx) => (
+                              <div
+                                key={imgIdx}
+                                onClick={() => {
+                                  sound.playClick();
+                                  setLightboxData({ images: proj.images!, currentIndex: imgIdx });
+                                }}
+                                className="relative aspect-[16/10] rounded-xl overflow-hidden cursor-pointer border border-[#f4ebdc]/10 hover:border-[#d4af37]/60 group bg-black/40"
+                              >
+                                <img
+                                  src={img.url}
+                                  alt={img.caption}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 5 Collapsible Accordion Sections */}
+                      {arch && (
+                        <div className="space-y-2.5 pt-2">
+                          {/* 1. PROBLEM STATEMENT */}
+                          <div className="rounded-xl bg-[#231711] border border-[#f4ebdc]/10 overflow-hidden">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setAccordionOpen((prev) => ({ ...prev, problem: !prev.problem }));
+                              }}
+                              className="w-full p-3 sm:p-3.5 flex items-center justify-between text-left hover:bg-white/5 transition-colors cursor-pointer"
+                            >
+                              <div className="flex items-center gap-2">
+                                <span className="text-amber-400">⚠️</span>
+                                <span className="font-mono text-xs font-bold uppercase tracking-wider text-white">
+                                  PROBLEM STATEMENT
                                 </span>
                               </div>
+                              {accordionOpen.problem ? (
+                                <ChevronUp className="w-4 h-4 text-[#b8a896]" />
+                              ) : (
+                                <ChevronDown className="w-4 h-4 text-[#b8a896]" />
+                              )}
+                            </button>
+                            {accordionOpen.problem && (
+                              <div className="px-3.5 pb-3.5 pt-1 text-xs sm:text-sm text-[#d4c3b3] leading-relaxed border-t border-[#f4ebdc]/5">
+                                {arch.problemStatement}
+                              </div>
+                            )}
+                          </div>
 
-                              {/* Image Grid / Previews */}
-                              <div className="space-y-3 pt-1">
-                                {/* Featured banner preview */}
-                                {bannerImg && (
-                                  <div
-                                    onClick={() => {
-                                      sound.playClick();
-                                      setLightboxData({ images: proj.images!, currentIndex: bannerIdx });
-                                    }}
-                                    className="group relative rounded-xl overflow-hidden border border-[#f4ebdc]/15 cursor-pointer bg-[#1e1511] shadow-md hover:border-[#f2b705]/50 transition-all"
-                                  >
-                                    <img
-                                      src={bannerImg.url}
-                                      alt={bannerImg.caption}
-                                      className={`w-full ${isLandscapeProject ? "max-h-[360px]" : "max-h-[300px]"} object-contain mx-auto group-hover:scale-[1.01] transition-transform duration-300`}
-                                      loading="lazy"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3.5">
-                                      <span className="text-xs text-white font-medium flex items-center gap-2">
-                                        <Sparkles className="w-4 h-4 text-[#f2b705]" />
-                                        <span>{bannerImg.caption}</span>
-                                      </span>
-                                    </div>
-                                    <span className="absolute top-2.5 right-2.5 px-2 py-1 rounded-md bg-black/70 backdrop-blur-sm text-[10px] font-mono text-[#f2b705] border border-white/10 flex items-center gap-1">
-                                      🔍 {language === "th" ? "แตะขยายรูป" : "Click to Expand"}
+                          {/* 2. ARCHITECTURAL SOLUTION */}
+                          <div className="rounded-xl bg-[#231711] border border-[#f4ebdc]/10 overflow-hidden">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setAccordionOpen((prev) => ({ ...prev, solution: !prev.solution }));
+                              }}
+                              className="w-full p-3 sm:p-3.5 flex items-center justify-between text-left hover:bg-white/5 transition-colors cursor-pointer"
+                            >
+                              <div className="flex items-center gap-2">
+                                <span className="text-amber-300">💡</span>
+                                <span className="font-mono text-xs font-bold uppercase tracking-wider text-white">
+                                  ARCHITECTURAL SOLUTION
+                                </span>
+                              </div>
+                              {accordionOpen.solution ? (
+                                <ChevronUp className="w-4 h-4 text-[#b8a896]" />
+                              ) : (
+                                <ChevronDown className="w-4 h-4 text-[#b8a896]" />
+                              )}
+                            </button>
+                            {accordionOpen.solution && (
+                              <div className="px-3.5 pb-3.5 pt-1 text-xs sm:text-sm text-[#d4c3b3] leading-relaxed border-t border-[#f4ebdc]/5">
+                                {arch.solutionApproach}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* 3. TECH STACK BREAKDOWN */}
+                          <div className="rounded-xl bg-[#231711] border border-[#f4ebdc]/10 overflow-hidden">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setAccordionOpen((prev) => ({ ...prev, tech: !prev.tech }));
+                              }}
+                              className="w-full p-3 sm:p-3.5 flex items-center justify-between text-left hover:bg-white/5 transition-colors cursor-pointer"
+                            >
+                              <div className="flex items-center gap-2">
+                                <span>🗄️</span>
+                                <span className="font-mono text-xs font-bold uppercase tracking-wider text-white">
+                                  TECH STACK BREAKDOWN
+                                </span>
+                              </div>
+                              {accordionOpen.tech ? (
+                                <ChevronUp className="w-4 h-4 text-[#b8a896]" />
+                              ) : (
+                                <ChevronDown className="w-4 h-4 text-[#b8a896]" />
+                              )}
+                            </button>
+                            {accordionOpen.tech && (
+                              <div className="px-3.5 pb-3.5 pt-1 space-y-2 border-t border-[#f4ebdc]/5">
+                                {arch.techRoles.map((tr, trIdx) => (
+                                  <div key={trIdx} className="p-2.5 rounded-lg bg-[#1a110c] border border-white/5">
+                                    <span className="text-xs font-mono font-bold text-[#f5d070] block mb-0.5">
+                                      {tr.name}
+                                    </span>
+                                    <span className="text-xs text-[#d4c3b3] block leading-relaxed">
+                                      {tr.role}
                                     </span>
                                   </div>
-                                )}
+                                ))}
+                              </div>
+                            )}
+                          </div>
 
-                                {/* Thumbnails row / grid for all images */}
-                                <div
-                                  className={`grid ${
-                                    isLandscapeProject
-                                      ? "grid-cols-2 sm:grid-cols-3 gap-3"
-                                      : proj.images.length <= 4
-                                      ? "grid-cols-2 sm:grid-cols-4 gap-2.5"
-                                      : "grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5"
-                                  } pt-1`}
-                                >
-                                  {proj.images.map((img, imgIdx) => (
-                                    <div
-                                      key={imgIdx}
-                                      onClick={() => {
-                                        sound.playClick();
-                                        setLightboxData({ images: proj.images!, currentIndex: imgIdx });
-                                      }}
-                                      className="group relative rounded-xl overflow-hidden border border-[#f4ebdc]/10 hover:border-[#f2b705]/70 bg-[#1e1511] cursor-pointer transition-all flex flex-col shadow-sm"
-                                    >
-                                      <div
-                                        className={`${
-                                          isLandscapeProject ? "aspect-[16/10]" : "aspect-[9/16]"
-                                        } w-full overflow-hidden flex items-center justify-center bg-black/40 p-1`}
-                                      >
-                                        <img
-                                          src={img.url}
-                                          alt={img.caption}
-                                          className={`w-full h-full ${
-                                            isLandscapeProject ? "object-cover group-hover:scale-105" : "object-contain group-hover:scale-105"
-                                          } transition-transform duration-200`}
-                                          loading="lazy"
-                                        />
+                          {/* 4. ENGINEERING HIGHLIGHTS */}
+                          <div className="rounded-xl bg-[#231711] border border-[#f4ebdc]/10 overflow-hidden">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setAccordionOpen((prev) => ({ ...prev, highlights: !prev.highlights }));
+                              }}
+                              className="w-full p-3 sm:p-3.5 flex items-center justify-between text-left hover:bg-white/5 transition-colors cursor-pointer"
+                            >
+                              <div className="flex items-center gap-2">
+                                <span>⭐</span>
+                                <span className="font-mono text-xs font-bold uppercase tracking-wider text-white">
+                                  ENGINEERING HIGHLIGHTS
+                                </span>
+                              </div>
+                              {accordionOpen.highlights ? (
+                                <ChevronUp className="w-4 h-4 text-[#b8a896]" />
+                              ) : (
+                                <ChevronDown className="w-4 h-4 text-[#b8a896]" />
+                              )}
+                            </button>
+                            {accordionOpen.highlights && (
+                              <div className="px-3.5 pb-3.5 pt-1 flex flex-wrap gap-2 border-t border-[#f4ebdc]/5">
+                                {arch.keyHighlights.map((kh, khIdx) => (
+                                  <div
+                                    key={khIdx}
+                                    className="p-2.5 rounded-lg bg-[#1a110c] border border-white/5 flex-1 min-w-[200px]"
+                                  >
+                                    <span className="text-xs font-mono font-bold text-[#a3e635] block mb-1">
+                                      {kh.title}
+                                    </span>
+                                    <span className="text-xs text-[#d4c3b3] block leading-relaxed">
+                                      {kh.desc}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* 5. WORKFLOW PIPELINE */}
+                          <div className="rounded-xl bg-[#231711] border border-[#f4ebdc]/10 overflow-hidden">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setAccordionOpen((prev) => ({ ...prev, workflow: !prev.workflow }));
+                              }}
+                              className="w-full p-3 sm:p-3.5 flex items-center justify-between text-left hover:bg-white/5 transition-colors cursor-pointer"
+                            >
+                              <div className="flex items-center gap-2">
+                                <span>🔗</span>
+                                <span className="font-mono text-xs font-bold uppercase tracking-wider text-white">
+                                  WORKFLOW PIPELINE
+                                </span>
+                              </div>
+                              {accordionOpen.workflow ? (
+                                <ChevronUp className="w-4 h-4 text-[#b8a896]" />
+                              ) : (
+                                <ChevronDown className="w-4 h-4 text-[#b8a896]" />
+                              )}
+                            </button>
+                            {accordionOpen.workflow && (
+                              <div className="px-4 pb-4 pt-2 border-t border-[#f4ebdc]/5">
+                                <div className="relative pl-6 space-y-4 before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-[2px] before:bg-gradient-to-b before:from-[#a3e635] before:via-[#e5be7a] before:to-[#a3e635]">
+                                  {arch.workflowSteps.map((ws, wsIdx) => (
+                                    <div key={wsIdx} className="relative group">
+                                      <span className="absolute -left-6 top-1 w-3 h-3 rounded-full bg-[#1a110c] border-2 border-[#a3e635] ring-2 ring-[#a3e635]/20 group-hover:scale-125 transition-transform" />
+                                      <div className="flex items-baseline gap-2">
+                                        <span className="text-[11px] font-mono font-bold text-[#a3e635] tracking-wider uppercase">
+                                          {`STEP ${ws.step}`}
+                                        </span>
+                                        <span className="text-xs font-bold text-white">
+                                          {ws.title}
+                                        </span>
                                       </div>
-                                      <div className="p-2 bg-[#17100c] border-t border-[#f4ebdc]/5">
-                                        <p className="text-[10px] font-medium text-[#d4c3b3] line-clamp-2 group-hover:text-white transition-colors leading-tight">
-                                          {img.caption.split("—")[0].trim()}
-                                        </p>
-                                      </div>
+                                      <p className="text-xs text-[#b8a896] mt-0.5 leading-relaxed">
+                                        {ws.desc}
+                                      </p>
                                     </div>
                                   ))}
                                 </div>
                               </div>
-                            </div>
-                          );
-                        })()
-                      )}
-
-                      {/* Section 2: Problem & Solution (2-Column Card) */}
-                      {arch && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="p-4 sm:p-5 rounded-2xl bg-[#281714] border border-[#ef4444]/20 space-y-2">
-                            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#f87171] flex items-center gap-1.5">
-                              <AlertCircle className="w-4 h-4 text-[#f87171] shrink-0" />
-                              <span>{"problemLabel" in t.laptop ? t.laptop.problemLabel : "ความท้าทาย / ปัญหาเดิม (Problem Statement)"}</span>
-                            </h4>
-                            <p className="text-xs sm:text-sm text-[#f5d0cc] leading-relaxed">
-                              {arch.problemStatement}
-                            </p>
-                          </div>
-
-                          <div className="p-4 sm:p-5 rounded-2xl bg-[#17261b] border border-[#22c55e]/20 space-y-2">
-                            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#4ade80] flex items-center gap-1.5">
-                              <CheckCircle2 className="w-4 h-4 text-[#4ade80] shrink-0" />
-                              <span>{"solutionLabel" in t.laptop ? t.laptop.solutionLabel : "แนวทางการออกแบบระบบ (Architectural Solution)"}</span>
-                            </h4>
-                            <p className="text-xs sm:text-sm text-[#d1fae5] leading-relaxed">
-                              {arch.solutionApproach}
-                            </p>
+                            )}
                           </div>
                         </div>
                       )}
 
-                      {/* Section 3: Tech Roles Breakdown */}
-                      {arch?.techRoles && arch.techRoles.length > 0 && (
-                        <div className="p-4 sm:p-5 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-3">
-                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#f2b705] flex items-center gap-2">
-                            <Cpu className="w-4 h-4" />
-                            <span>{"techRolesTitle" in t.laptop ? t.laptop.techRolesTitle : "เทคโนโลยีที่ใช้และหน้าที่ในระบบ"}</span>
-                          </h3>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                            {arch.techRoles.map((tRole, tIdx) => (
-                              <div
-                                key={tIdx}
-                                className="p-3 rounded-xl bg-[#1e1511] border border-[#f4ebdc]/5 space-y-1"
-                              >
-                                <span className="inline-block px-2 py-0.5 rounded bg-[#f2b705]/10 text-[#f2b705] font-mono text-[11px] font-bold">
-                                  {tRole.name}
-                                </span>
-                                <p className="text-xs text-[#d4c3b3] leading-relaxed">
-                                  {tRole.role}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
+                      {/* Subtle Botanical Leaf Watermark */}
+                      <div className="relative flex justify-end pt-2">
+                        <BotanicalLeavesSvg className="w-16 h-16 text-[#a3b899]/20" />
+                      </div>
+
+                      {/* Bottom Sticky Action Bar */}
+                      <div className="sticky bottom-0 -mx-4 -mb-4 sm:-mx-8 sm:-mb-8 p-3 sm:p-4 bg-[#1a120c]/95 backdrop-blur-md border-t border-[#d4af37]/30 flex flex-wrap items-center justify-between gap-2 z-10">
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              sound.playClick();
+                              setSelectedProjectIndex(null);
+                            }}
+                            className="px-3.5 py-2 rounded-xl bg-[#2a1d17] hover:bg-[#38271f] text-[#f5d070] text-xs font-mono font-bold flex items-center gap-1.5 border border-[#d4af37]/30 transition-all active:scale-95 cursor-pointer"
+                          >
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>{language === "th" ? "รายการผลงาน" : "Case Studies"}</span>
+                          </button>
+
+                          {proj.images && proj.images.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setLightboxData({ images: proj.images!, currentIndex: 0 });
+                              }}
+                              className="px-3.5 py-2 rounded-xl bg-[#2a1d17] hover:bg-[#38271f] text-white text-xs font-mono font-bold flex items-center gap-1.5 border border-white/10 transition-all active:scale-95 cursor-pointer"
+                            >
+                              <Camera className="w-3.5 h-3.5" />
+                              <span>{language === "th" ? "ดูรูปภาพ" : "Gallery"}</span>
+                            </button>
+                          )}
                         </div>
-                      )}
 
-                      {/* Section 4: Key Engineering Highlights */}
-                      {arch?.keyHighlights && arch.keyHighlights.length > 0 && (
-                        <div className="p-4 sm:p-5 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-3">
-                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#a3e635] flex items-center gap-2">
-                            <Zap className="w-4 h-4" />
-                            <span>{"highlightsTitle" in t.laptop ? t.laptop.highlightsTitle : "จุดเด่นเชิงวิศวกรรม (Engineering Highlights)"}</span>
-                          </h3>
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            {arch.keyHighlights.map((hl, hlIdx) => (
-                              <div
-                                key={hlIdx}
-                                className="p-3 rounded-xl bg-[#1e1511] border border-[#a3e635]/15 space-y-1"
-                              >
-                                <h5 className="text-xs font-mono font-bold text-white flex items-center gap-1.5">
-                                  <ShieldCheck className="w-3.5 h-3.5 text-[#a3e635] shrink-0" />
-                                  <span>{hl.title}</span>
-                                </h5>
-                                <p className="text-[11px] text-[#c7b5a5] leading-relaxed">
-                                  {hl.desc}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Section 5: Workflow Pipeline */}
-                      {arch?.workflowSteps && arch.workflowSteps.length > 0 && (
-                        <div className="p-4 sm:p-5 rounded-2xl bg-[#2c2019] border border-[#f4ebdc]/10 space-y-3">
-                          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#38bdf8] flex items-center gap-2">
-                            <Workflow className="w-4 h-4" />
-                            <span>{"workflowTitle" in t.laptop ? t.laptop.workflowTitle : "ผังการไหลของข้อมูล (System Data Flow Pipeline)"}</span>
-                          </h3>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-                            {arch.workflowSteps.map((ws, wsIdx) => (
-                              <div
-                                key={wsIdx}
-                                className="p-3 rounded-xl bg-[#1e1511] border border-[#38bdf8]/15 space-y-1 relative"
-                              >
-                                <span className="text-[10px] font-mono font-bold text-[#38bdf8] bg-[#38bdf8]/10 px-1.5 py-0.5 rounded inline-block mb-1">
-                                  STEP {ws.step}
-                                </span>
-                                <h5 className="text-xs font-bold text-white">
-                                  {ws.title}
-                                </h5>
-                                <p className="text-[11px] text-[#c7b5a5] leading-relaxed">
-                                  {ws.desc}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Bottom Footer Actions */}
-                      <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-[#f4ebdc]/10">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            sound.playClick();
-                            setSelectedProjectIndex(null);
-                          }}
-                          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#f2b705] hover:text-[#fbbf24] bg-[#221712] hover:bg-[#2c1e18] px-3.5 py-2 rounded-xl border border-[#f2b705]/20 transition-all cursor-pointer shadow-sm active:scale-95"
-                        >
-                          <ArrowLeft className="w-4 h-4" />
-                          <span>{"backToProjectsBtn" in t.laptop ? t.laptop.backToProjectsBtn : "← ย้อนกลับไปรายการผลงาน"}</span>
-                        </button>
-
-                        <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex items-center gap-2">
                           {"demoUrl" in proj && proj.demoUrl && (
                             <a
                               href={proj.demoUrl}
                               target="_blank"
                               rel="noreferrer"
                               onClick={() => sound.playClick()}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                              className="px-4 py-2 rounded-full bg-[#22c55e] hover:bg-[#16a34a] text-black text-xs font-mono font-bold flex items-center gap-1.5 shadow-md transition-all active:scale-95"
                             >
-                              <ExternalLink className="w-3.5 h-3.5" />
-                              <span>{language === "th" ? "🎮 เล่นเกมจริง (Live Demo ↗)" : "🎮 Play Live Demo ↗"}</span>
+                              <Play className="w-3.5 h-3.5 fill-current" />
+                              <span>{language === "th" ? "เล่นเกมจริง (Live Demo)" : "Live Demo"}</span>
+                              <ExternalLink className="w-3 h-3" />
                             </a>
                           )}
 
@@ -1374,10 +1541,10 @@ export default function OfficeModals({
                               target="_blank"
                               rel="noreferrer"
                               onClick={() => sound.playClick()}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                              className="px-3.5 py-2 rounded-full border border-[#d4af37] text-white hover:bg-[#d4af37]/20 text-xs font-mono font-bold flex items-center gap-1.5 transition-all active:scale-95"
                             >
-                              <ExternalLink className="w-3.5 h-3.5" />
-                              <span>View on GitHub ↗</span>
+                              <span>View on GitHub</span>
+                              <ExternalLink className="w-3 h-3" />
                             </a>
                           )}
                         </div>
@@ -1386,135 +1553,265 @@ export default function OfficeModals({
                   );
                 })()
               ) : (
-                <>
-                  <div>
-                    <span className="text-xs font-mono tracking-wider text-[#f2b705] uppercase block mb-1">
-                      {t.laptop.tag.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, "").trim()}
-                    </span>
-                    <h2 className="font-playfair text-2xl sm:text-3xl text-white mb-2">
-                      {t.laptop.title}
-                    </h2>
-                    <p className="text-xs sm:text-sm text-[#d4c3b3] leading-relaxed">
-                      {t.laptop.desc}
-                    </p>
-                  </div>
+                // ==========================================================
+                // VIEW 1: FEATURED WORKS MAIN VIEW (IMAGE 1)
+                // ==========================================================
+                (() => {
+                  const spotlightProj = t.laptop.projects[spotlightIndex] || t.laptop.projects[0];
+                  const totalProjects = t.laptop.projects.length;
 
-                  <div className="space-y-4">
-                    {t.laptop.projects.map((proj, idx) => (
-                      <div
-                        key={idx}
-                        onClick={() => {
-                          sound.playClick();
-                          setSelectedProjectIndex(idx);
-                        }}
-                        className="p-5 sm:p-6 rounded-2xl bg-[#2c2019] hover:bg-[#34261e] border border-[#f4ebdc]/10 hover:border-[#f2b705]/40 transition-all cursor-pointer group shadow-sm"
-                      >
-                        <div className="flex items-center justify-between text-xs font-mono text-[#f2b705] mb-2">
-                          <span className="flex items-center gap-1.5">
-                            {proj.type.toLowerCase().includes("mobile") || proj.type.toLowerCase().includes("มือถือ") ? (
-                              <Smartphone className="w-3.5 h-3.5" />
-                            ) : (
-                              <Globe className="w-3.5 h-3.5" />
-                            )}
-                            {proj.type}
-                          </span>
-                          <span className="flex items-center gap-2">
-                            <span>{proj.year}</span>
-                            <span className="text-[11px] font-mono text-[#f2b705]/70 group-hover:text-[#f2b705] group-hover:translate-x-0.5 transition-all">
-                              🔍
-                            </span>
-                          </span>
+                  return (
+                    <div className="space-y-5 animate-in fade-in duration-200">
+                      {/* Top Bar: Title & Circular Gold-ring Close Button */}
+                      <div className="flex items-center justify-between pb-3 border-b border-[#d4af37]/30">
+                        <span className="text-[11px] font-mono tracking-widest text-[#d4af37] uppercase font-bold">
+                          {language === "th" ? "ผลงานเด่น (CASE STUDIES)" : "CASE STUDIES"}
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={handleClose}
+                          aria-label="Close modal dialog"
+                          className="w-9 h-9 rounded-full border border-[#d4af37]/60 flex items-center justify-center text-white/90 hover:text-white hover:bg-white/10 active:scale-95 transition-all cursor-pointer"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      {/* Header Section with Radiance Ray & Botanical Watermark */}
+                      <div className="relative pt-1">
+                        {/* Botanical Leaf Watermark */}
+                        <BotanicalLeavesSvg className="w-20 h-20 text-[#a3b899]/30 absolute -top-3 right-0 pointer-events-none" />
+
+                        <div className="relative inline-block">
+                          <h2 className="font-playfair text-3xl sm:text-4xl text-white font-bold tracking-tight">
+                            {language === "th" ? "ผลงานของฉัน" : "My Creations"}
+                          </h2>
+                          {/* 3 Golden Radiance Lines \ | / */}
+                          <svg
+                            className="w-5 h-5 text-[#d4af37] absolute -top-3 -right-6 pointer-events-none"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                          >
+                            <line x1="12" y1="2" x2="12" y2="7" />
+                            <line x1="4.93" y1="4.93" x2="8.46" y2="8.46" />
+                            <line x1="19.07" y1="4.93" x2="15.54" y2="8.46" />
+                          </svg>
                         </div>
-                        <h3 className="font-playfair text-xl sm:text-2xl text-white group-hover:text-[#f2b705] transition-colors mb-2">
-                          {proj.title}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-[#d4c3b3] leading-relaxed mb-4">
-                          {proj.desc}
+
+                        <p className="font-playfair italic text-2xl sm:text-3xl text-[#e5be7a] font-normal mt-0.5">
+                          Featured Works
                         </p>
-                        <div className="p-3 rounded-xl bg-[#1e1511] text-xs text-[#a3e635] font-mono mb-4 border border-[#a3e635]/20 leading-relaxed flex items-start gap-2">
-                          <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#a3e635]" />
-                          <span>{proj.solved}</span>
+                        <p className="text-xs sm:text-sm text-[#b8a896] mt-1.5 leading-relaxed">
+                          {language === "th"
+                            ? "ผลงานที่เราภูมิใจ และอยากแบ่งปันให้คุณได้รู้จัก"
+                            : "Projects crafted with architectural rigor, scalability, and passion."}
+                        </p>
+                      </div>
+
+                      {/* Featured Project Spotlight Card */}
+                      <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-b from-[#2a1d17] to-[#1c130f] border border-[#d4af37]/40 shadow-xl overflow-hidden p-3.5 sm:p-5 relative">
+                        {/* Spotlight Badge */}
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#d4af37]/80 bg-[#1e140e]/90 text-[#f5d070] text-[11px] font-mono font-bold tracking-wider uppercase mb-3 shadow-sm">
+                          <Star className="w-3.5 h-3.5 fill-[#f5d070] text-[#f5d070]" />
+                          <span>FEATURED PROJECT</span>
                         </div>
 
-                        {/* Tech Stack Pills (Metadata Badges) */}
-                        <div className="flex flex-wrap items-center gap-1.5 mb-3.5">
-                          {proj.stack.map((s) => (
-                            <span
-                              key={s}
-                              className="px-2.5 py-1 rounded-md bg-[#1e1511] text-[#f4ebdc]/80 text-[11px] font-mono border border-[#f4ebdc]/5"
-                            >
-                              {s}
+                        {/* Hero Image */}
+                        <div
+                          onClick={() => {
+                            sound.playClick();
+                            setSelectedProjectIndex(spotlightIndex);
+                          }}
+                          className="relative aspect-[16/9] w-full rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer border border-[#f4ebdc]/15 group shadow-inner bg-black"
+                        >
+                          <img
+                            src={spotlightProj.images?.[0]?.url || "/images/projects/arena-live/arena-live-gameplay.webp"}
+                            alt={spotlightProj.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/30 pointer-events-none" />
+
+                          {/* Badges */}
+                          <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ef4444] text-white text-[10px] font-bold tracking-wider uppercase shadow-md">
+                              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                              LIVE
                             </span>
+                          </div>
+
+                          <div className="absolute top-3 right-3 flex items-center gap-1">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[10px] font-mono border border-white/20 shadow-md">
+                              <span>16</span>
+                              <Eye className="w-3.5 h-3.5" />
+                            </span>
+                          </div>
+
+                          {/* Play Overlay */}
+                          <div className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-black/70 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-xl group-hover:scale-110 group-hover:bg-[#d4af37] group-hover:text-black transition-all">
+                            <Play className="w-4 h-4 fill-current ml-0.5" />
+                          </div>
+                        </div>
+
+                        {/* Title, Subtitle, Meta */}
+                        <div className="mt-4 mb-3">
+                          <h3 className="font-playfair text-lg sm:text-xl font-bold text-white tracking-wide leading-tight">
+                            {spotlightProj.title.split(" — ")[0]}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-[#e0cfbd] mt-1 line-clamp-1">
+                            {spotlightProj.title.includes(" — ")
+                              ? spotlightProj.title.split(" — ")[1]
+                              : spotlightProj.desc}
+                          </p>
+                          <div className="flex items-center gap-2 text-xs text-[#b8a896] mt-2 font-mono flex-wrap">
+                            <span className="flex items-center gap-1">
+                              {spotlightProj.type.toLowerCase().includes("game") ? (
+                                <Gamepad2 className="w-3.5 h-3.5 text-[#e5be7a]" />
+                              ) : spotlightProj.type.toLowerCase().includes("mobile") || spotlightProj.type.toLowerCase().includes("มือถือ") ? (
+                                <Smartphone className="w-3.5 h-3.5 text-[#e5be7a]" />
+                              ) : (
+                                <Globe className="w-3.5 h-3.5 text-[#e5be7a]" />
+                              )}
+                              <span>{spotlightProj.type.split("·")[0].trim()}</span>
+                            </span>
+                            <span>·</span>
+                            <span>Full-Stack Web</span>
+                            <span>·</span>
+                            <span>{spotlightProj.year}</span>
+                          </div>
+                        </div>
+
+                        {/* Main CTA Button */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            sound.playClick();
+                            setSelectedProjectIndex(spotlightIndex);
+                          }}
+                          className="w-full py-3 px-6 rounded-full bg-gradient-to-r from-[#d4a359] via-[#e5be7a] to-[#d4a359] hover:brightness-110 text-[#1a120c] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95 cursor-pointer"
+                        >
+                          <span>{language === "th" ? "ดูรายละเอียดโปรเจกต์" : "View Project Details"}</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      {/* Bottom Grid of Other Projects */}
+                      <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-1">
+                        {t.laptop.projects.map((proj, pIdx) => {
+                          if (pIdx === spotlightIndex) return null;
+                          return (
+                            <div
+                              key={pIdx}
+                              onClick={() => {
+                                sound.playClick();
+                                setSpotlightIndex(pIdx);
+                              }}
+                              className="rounded-2xl bg-[#231711] border border-[#f4ebdc]/10 hover:border-[#d4af37]/50 overflow-hidden p-2.5 transition-all cursor-pointer group flex flex-col justify-between"
+                            >
+                              <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-black/40 mb-2 border border-white/5">
+                                <img
+                                  src={proj.images?.[0]?.url || "/images/projects/aura/aura-overview.webp"}
+                                  alt={proj.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                                {/* Category Pill */}
+                                <div className="absolute top-2 left-2">
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-white border border-white/10">
+                                    <Star className="w-2.5 h-2.5 fill-[#f5d070] text-[#f5d070]" />
+                                    <span>
+                                      {proj.type.toLowerCase().includes("mobile") || proj.type.toLowerCase().includes("มือถือ")
+                                        ? "Mobile App"
+                                        : proj.type.toLowerCase().includes("game")
+                                        ? "Game"
+                                        : "Web Application"}
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center justify-between gap-1 pt-1">
+                                <span className="font-mono text-xs font-bold text-white tracking-wider uppercase truncate">
+                                  {`PROJECT ${String(pIdx + 1).padStart(2, "0")}`}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    sound.playClick();
+                                    setSelectedProjectIndex(pIdx);
+                                  }}
+                                  className="w-7 h-7 rounded-full bg-[#e5be7a] text-[#1a120c] flex items-center justify-center hover:scale-110 active:scale-95 transition-transform shrink-0"
+                                  aria-label={`View project ${pIdx + 1}`}
+                                >
+                                  <ArrowRight className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        }).filter(Boolean).slice(0, 2)}
+                      </div>
+
+                      {/* Bottom Pagination & Controls */}
+                      <div className="flex items-center justify-between pt-3 border-t border-[#f4ebdc]/10">
+                        {/* Left: 01 / 04 */}
+                        <div className="font-mono text-xs font-bold text-[#b8a896] tracking-wider">
+                          <span className="text-white">{String(spotlightIndex + 1).padStart(2, "0")}</span>
+                          {" / "}
+                          <span>{String(totalProjects).padStart(2, "0")}</span>
+                        </div>
+
+                        {/* Center: Dot pagination */}
+                        <div className="flex items-center gap-2">
+                          {t.laptop.projects.map((_, dotIdx) => (
+                            <button
+                              key={dotIdx}
+                              type="button"
+                              onClick={() => {
+                                sound.playClick();
+                                setSpotlightIndex(dotIdx);
+                              }}
+                              aria-label={`Go to slide ${dotIdx + 1}`}
+                              className={`h-2 rounded-full transition-all cursor-pointer ${
+                                dotIdx === spotlightIndex
+                                  ? "bg-[#e5be7a] w-5"
+                                  : "bg-white/20 hover:bg-white/40 w-2"
+                              }`}
+                            />
                           ))}
                         </div>
 
-                        {/* Dedicated Action Toolbar */}
-                        <div className="pt-3 border-t border-[#f4ebdc]/10 flex flex-wrap items-center gap-2">
+                        {/* Right: Circular Arrow buttons */}
+                        <div className="flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
+                            onClick={() => {
                               sound.playClick();
-                              setSelectedProjectIndex(idx);
+                              setSpotlightIndex((prev) => (prev > 0 ? prev - 1 : totalProjects - 1));
                             }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3d2b22] hover:bg-[#4d362b] text-[#f4ebdc] border border-[#f4ebdc]/15 text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
+                            aria-label="Previous project"
+                            className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all cursor-pointer"
                           >
-                            <Sparkles className="w-3.5 h-3.5 text-[#f2b705]" />
-                            <span>{"viewDetailsBtn" in t.laptop ? t.laptop.viewDetailsBtn : (language === "th" ? "ดูสถาปัตยกรรม & รายละเอียด 🔍" : "View Architecture & Details 🔍")}</span>
+                            <ChevronLeft className="w-4 h-4" />
                           </button>
-
-                          {"images" in proj && proj.images && proj.images.length > 0 && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                sound.playClick();
-                                setSelectedProjectIndex(idx);
-                                setLightboxData({ images: proj.images!, currentIndex: 0 });
-                              }}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705]/15 hover:bg-[#f2b705]/25 text-[#f2b705] border border-[#f2b705]/30 text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
-                            >
-                              <ImageIcon className="w-3.5 h-3.5" />
-                              <span>{language === "th" ? `ดูรูปภาพ (${proj.images.length})` : `Screenshots (${proj.images.length})`}</span>
-                            </button>
-                          )}
-
-                          {"demoUrl" in proj && proj.demoUrl && (
-                            <a
-                              href={proj.demoUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                sound.playClick();
-                              }}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
-                            >
-                              <ExternalLink className="w-3.5 h-3.5" />
-                              <span>{language === "th" ? "🎮 เล่นเกมจริง (Live Demo ↗)" : "🎮 Play Live Demo ↗"}</span>
-                            </a>
-                          )}
-
-                          {"github" in proj && proj.github && (
-                            <a
-                              href={proj.github}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                sound.playClick();
-                              }}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f2b705] hover:bg-[#fbbf24] text-[#140e0b] text-xs font-mono font-bold transition-all shadow-sm active:scale-95 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b705]"
-                            >
-                              <ExternalLink className="w-3.5 h-3.5" />
-                              <span>View on GitHub ↗</span>
-                            </a>
-                          )}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              sound.playClick();
+                              setSpotlightIndex((prev) => (prev < totalProjects - 1 ? prev + 1 : 0));
+                            }}
+                            aria-label="Next project"
+                            className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 active:scale-95 transition-all cursor-pointer"
+                          >
+                            <ChevronRight className="w-4 h-4" />
+                          </button>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </>
+                    </div>
+                  );
+                })()
               )}
             </div>
           )}
