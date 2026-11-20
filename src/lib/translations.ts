@@ -182,7 +182,7 @@ export const translations = {
             demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
             images: [
               {
-                url: "/images/projects/arena-live/arena-live-gameplay.jpg",
+                url: "/images/projects/arena-live/arena-live-gameplay.webp",
                 caption: "ARENA LIVE: FIGHTER BLAZE — Live Battle Royale with 9:16 stream overlay and real-time simulator",
               },
             ],
@@ -219,31 +219,31 @@ export const translations = {
             github: "https://github.com/Jirayuko1/aura_mobile_app_prototype",
             images: [
               {
-                url: "/images/projects/aura/aura-overview.jpg",
+                url: "/images/projects/aura/aura-overview.webp",
                 caption: "Aura Staff Mobile App — Complete Multi-Screen UI & Workflow Overview",
               },
               {
-                url: "/images/projects/aura/aura-login.png",
+                url: "/images/projects/aura/aura-login.webp",
                 caption: "Aura Voice AI Concierge Staff Authentication & Role Verification",
               },
               {
-                url: "/images/projects/aura/aura-tasks-all.png",
+                url: "/images/projects/aura/aura-tasks-all.webp",
                 caption: "Real-Time Task Dispatch Board with On-Duty Toggle and Status Tabs",
               },
               {
-                url: "/images/projects/aura/aura-tasks-maintenance.png",
+                url: "/images/projects/aura/aura-tasks-maintenance.webp",
                 caption: "Maintenance Department Ticket View with Action Buttons & Room Alerts",
               },
               {
-                url: "/images/projects/aura/aura-tasks-roomservice.png",
+                url: "/images/projects/aura/aura-tasks-roomservice.webp",
                 caption: "Room Service Department Order Tracking Extracted from Guest Chat",
               },
               {
-                url: "/images/projects/aura/aura-task-detail.png",
+                url: "/images/projects/aura/aura-task-detail.webp",
                 caption: "Guest Request Bottom-Sheet Modal Parsed by Botnoi Webhook",
               },
               {
-                url: "/images/projects/aura/aura-staff-report.png",
+                url: "/images/projects/aura/aura-staff-report.webp",
                 caption: "Staff Performance Analytics, Aura Points, and Daily Work History",
               },
             ],
@@ -281,19 +281,19 @@ export const translations = {
             github: "https://github.com/Jirayuko1/pobsuk",
             images: [
               {
-                url: "/images/projects/pobsuk/pobsuk-richmenu.jpg",
+                url: "/images/projects/pobsuk/pobsuk-richmenu.webp",
                 caption: "Pobsuk LINE Official Account with Custom Rich Menu & Quick Senior Actions",
               },
               {
-                url: "/images/projects/pobsuk/pobsuk-line-chat.jpg",
+                url: "/images/projects/pobsuk/pobsuk-line-chat.webp",
                 caption: "Natural Language Conversational Booking with Gemini AI & Digital Ticket Link",
               },
               {
-                url: "/images/projects/pobsuk/pobsuk-liff-home.jpg",
+                url: "/images/projects/pobsuk/pobsuk-liff-home.webp",
                 caption: "LINE LIFF Web App Home Screen — Activity Categories & Ticket Wallet",
               },
               {
-                url: "/images/projects/pobsuk/pobsuk-liff-profile.jpg",
+                url: "/images/projects/pobsuk/pobsuk-liff-profile.webp",
                 caption: "LINE LIFF Profile Integration with Senior Health & Event Schedule",
               },
             ],
@@ -331,27 +331,27 @@ export const translations = {
             github: "https://github.com/Jirayuko1/Voice-Bot-Bella",
             images: [
               {
-                url: "/images/projects/bella/bella-home-dashboard.jpg",
+                url: "/images/projects/bella/bella-home-dashboard.webp",
                 caption: "Bella Digital Bank Home Dashboard with WebAvatar 3D AI Assistant",
               },
               {
-                url: "/images/projects/bella/bella-financial-health.jpg",
+                url: "/images/projects/bella/bella-financial-health.webp",
                 caption: "3-Step Financial Health Assessment & Cashflow Diagnostic",
               },
               {
-                url: "/images/projects/bella/bella-savings-simulator.jpg",
+                url: "/images/projects/bella/bella-savings-simulator.webp",
                 caption: "Goal-Based Savings Planning Calculator & Timeline Estimator",
               },
               {
-                url: "/images/projects/bella/bella-loan-calculator.jpg",
+                url: "/images/projects/bella/bella-loan-calculator.webp",
                 caption: "Mortgage & Loan Installment Calculator with Interactive Sliders",
               },
               {
-                url: "/images/projects/bella/bella-investment-knowledge.jpg",
+                url: "/images/projects/bella/bella-investment-knowledge.webp",
                 caption: "Investment Knowledge Hub & Regulatory Suitability Guidelines",
               },
               {
-                url: "/images/projects/bella/bella-fund-recommendation.jpg",
+                url: "/images/projects/bella/bella-fund-recommendation.webp",
                 caption: "Mutual Fund Risk-Tier Filtering & Curated Portfolio Recommendations",
               },
             ],
@@ -653,7 +653,7 @@ export const translations = {
             demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
             images: [
               {
-                url: "/images/projects/arena-live/arena-live-gameplay.jpg",
+                url: "/images/projects/arena-live/arena-live-gameplay.webp",
                 caption: "หน้าจอจำลองการต่อสู้ ARENA LIVE: FIGHTER BLAZE พร้อมระบบ OBS Overlay 9:16 และแผงควบคุมแอดมิน",
               },
             ],
@@ -690,31 +690,31 @@ export const translations = {
             github: "https://github.com/Jirayuko1/aura_mobile_app_prototype",
             images: [
               {
-                url: "/images/projects/aura/aura-overview.jpg",
+                url: "/images/projects/aura/aura-overview.webp",
                 caption: "ภาพรวมหน้าจอทั้งหมดของแอปพลิเคชัน Aura Staff (Login, Task Dashboard, Filter, Details, Report)",
               },
               {
-                url: "/images/projects/aura/aura-login.png",
+                url: "/images/projects/aura/aura-login.webp",
                 caption: "หน้าเข้าสู่ระบบพนักงาน Aura Voice AI Concierge พร้อมระบบตรวจสอบสิทธิ์",
               },
               {
-                url: "/images/projects/aura/aura-tasks-all.png",
+                url: "/images/projects/aura/aura-tasks-all.webp",
                 caption: "หน้ารวมตั๋วงานแบบเรียลไทม์ แสดงสถานะ On Duty, สถิติงานประจำวัน และรายการตั๋วงาน",
               },
               {
-                url: "/images/projects/aura/aura-tasks-maintenance.png",
+                url: "/images/projects/aura/aura-tasks-maintenance.webp",
                 caption: "ตัวกรองแผนกช่างซ่อมบำรุง (Maintenance) แยกหมวดหมู่งานซ่อมน้ำรั่วและอุปกรณ์ไฟฟ้า",
               },
               {
-                url: "/images/projects/aura/aura-tasks-roomservice.png",
+                url: "/images/projects/aura/aura-tasks-roomservice.webp",
                 caption: "ตัวกรองแผนกรูมเซอร์วิส (Room Service) แสดงรายการอาหาร/เครื่องดื่มที่แขกสั่ง",
               },
               {
-                url: "/images/projects/aura/aura-task-detail.png",
+                url: "/images/projects/aura/aura-task-detail.webp",
                 caption: "หน้าต่างรายละเอียดคำขอ สกัดข้อมูลห้องพักและ Intent จาก Botnoi Webhook Smart Parser",
               },
               {
-                url: "/images/projects/aura/aura-staff-report.png",
+                url: "/images/projects/aura/aura-staff-report.webp",
                 caption: "หน้าสรุปผลงาน Aura Points คะแนนสะสม จำนวนงานที่ปิดสำเร็จ และประวัติงานล่าสุด",
               },
             ],
@@ -752,19 +752,19 @@ export const translations = {
             github: "https://github.com/Jirayuko1/pobsuk",
             images: [
               {
-                url: "/images/projects/pobsuk/pobsuk-richmenu.jpg",
+                url: "/images/projects/pobsuk/pobsuk-richmenu.webp",
                 caption: "LINE Official Account โครงการพบสุข พร้อม Rich Menu เมนูด่วนสำหรับผู้สูงอายุ",
               },
               {
-                url: "/images/projects/pobsuk/pobsuk-line-chat.jpg",
+                url: "/images/projects/pobsuk/pobsuk-line-chat.webp",
                 caption: "บทสนทนาจองกิจกรรมด้วยภาษาธรรมชาติผ่าน Gemini AI พร้อมลิงก์ตั๋วดิจิทัล LIFF",
               },
               {
-                url: "/images/projects/pobsuk/pobsuk-liff-home.jpg",
+                url: "/images/projects/pobsuk/pobsuk-liff-home.webp",
                 caption: "หน้าแรกเว็บแอปพลิเคชัน LINE LIFF หมวดหมู่กิจกรรมสุขภาพและตั๋วของฉัน",
               },
               {
-                url: "/images/projects/pobsuk/pobsuk-liff-profile.jpg",
+                url: "/images/projects/pobsuk/pobsuk-liff-profile.webp",
                 caption: "ระบบ LINE LIFF เชื่อมโยงโปรไฟล์ผู้ใช้และข้อมูลกิจกรรมชุมชน",
               },
             ],
@@ -802,27 +802,27 @@ export const translations = {
             github: "https://github.com/Jirayuko1/Voice-Bot-Bella",
             images: [
               {
-                url: "/images/projects/bella/bella-home-dashboard.jpg",
+                url: "/images/projects/bella/bella-home-dashboard.webp",
                 caption: "หน้าแรกธนาคารดิจิทัล Bella Bank พร้อมตัวละครเสมือนจริง WebAvatar น้องเบลล่า",
               },
               {
-                url: "/images/projects/bella/bella-financial-health.jpg",
+                url: "/images/projects/bella/bella-financial-health.webp",
                 caption: "แบบประเมินสุขภาพการเงิน 3 ขั้นตอน วิเคราะห์รายรับ-รายจ่าย และภาระหนี้ DSR",
               },
               {
-                url: "/images/projects/bella/bella-savings-simulator.jpg",
+                url: "/images/projects/bella/bella-savings-simulator.webp",
                 caption: "เครื่องมือจำลองการออมเงินตามเป้าหมาย คำนวณระยะเวลาออมเงินสุทธิ",
               },
               {
-                url: "/images/projects/bella/bella-loan-calculator.jpg",
+                url: "/images/projects/bella/bella-loan-calculator.webp",
                 caption: "เครื่องคำนวณค่างวดสินเชื่อและแผนการผ่อนชำระ พร้อมสไลเดอร์วงเงินกู้",
               },
               {
-                url: "/images/projects/bella/bella-investment-knowledge.jpg",
+                url: "/images/projects/bella/bella-investment-knowledge.webp",
                 caption: "คลังความรู้พื้นฐานสำหรับการลงทุนและคู่มือประเมินความเสี่ยง Suitability Test",
               },
               {
-                url: "/images/projects/bella/bella-fund-recommendation.jpg",
+                url: "/images/projects/bella/bella-fund-recommendation.webp",
                 caption: "ระบบค้นหาและกรองตัวอย่างกองทุนรวมตามระดับความเสี่ยง (BELLA-MMF, FIXED, BALANCE)",
               },
             ],
