@@ -1437,7 +1437,7 @@ export default function OfficeModals({
                       )}
 
                       {/* Bottom Sticky Action Bar */}
-                      <div className="sticky bottom-0 -mx-4 -mb-4 sm:-mx-8 sm:-mb-8 p-3 sm:p-4 bg-[#1a120c]/95 backdrop-blur-md border-t border-[#d4af37]/30 flex flex-wrap items-center justify-between gap-2 z-10">
+                      <div className="pt-4 mt-6 border-t border-[#d4af37]/30 flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
@@ -1621,7 +1621,7 @@ export default function OfficeModals({
                                 </p>
 
                                 {/* Key Highlights Snippet */}
-                                <div className="p-2.5 rounded-xl bg-[#1a110c] border border-[#a3e635]/20 text-[11px] text-[#a3e635] font-mono line-clamp-2 leading-relaxed mb-3">
+                                <div className="p-2.5 rounded-xl bg-[#1a110c] border border-[#a3e635]/20 text-[11px] text-[#a3e635] font-mono leading-relaxed mb-3 break-words">
                                   ✓ {proj.solved}
                                 </div>
 
