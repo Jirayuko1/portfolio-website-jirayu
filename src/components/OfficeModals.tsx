@@ -168,6 +168,39 @@ export default function OfficeModals({
 
   const dialogRef = useRef<HTMLDivElement>(null);
 
+  // Scroll modal back to top whenever switching modals or selecting a project
+  const scrollToTop = () => {
+    if (dialogRef.current) {
+      dialogRef.current.scrollTop = 0;
+      requestAnimationFrame(() => {
+        if (dialogRef.current) {
+          dialogRef.current.scrollTop = 0;
+        }
+      });
+      setTimeout(() => {
+        if (dialogRef.current) {
+          dialogRef.current.scrollTop = 0;
+        }
+      }, 30);
+    }
+  };
+
+  useEffect(() => {
+    scrollToTop();
+  }, [activeModal, selectedProjectIndex]);
+
+  const handleOpenProject = (pIdx: number) => {
+    sound.playClick();
+    setSelectedProjectIndex(pIdx);
+    scrollToTop();
+  };
+
+  const handleBackToList = () => {
+    sound.playClick();
+    setSelectedProjectIndex(null);
+    scrollToTop();
+  };
+
   const email = "jirayukokhoon@gmail.com";
   const rawPhone = "+66 81 234 5678";
   const lineId = "@jirayu.dev";
@@ -1093,7 +1126,7 @@ export default function OfficeModals({
                   const arch = "architecture" in proj ? proj.architecture : null;
 
                   return (
-                    <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                    <div key={`project-detail-${selectedProjectIndex}`} className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-200">
                       {/* Top Header Row: Case Study Number + Gold Divider + Gold-ring (X) */}
                       <div className="flex items-center justify-between gap-3 border-b border-[#d4af37]/30 pb-3">
                         <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -1113,10 +1146,7 @@ export default function OfficeModals({
                         {/* Gold-Ring Close Button (X) -> returns to Featured Works Main View */}
                         <button
                           type="button"
-                          onClick={() => {
-                            sound.playClick();
-                            setSelectedProjectIndex(null);
-                          }}
+                          onClick={handleBackToList}
                           aria-label={language === "th" ? "ย้อนกลับไปรายการผลงาน" : "Back to case studies list"}
                           className="w-9 h-9 rounded-full border border-[#d4af37]/60 flex items-center justify-center text-white/90 hover:text-white hover:bg-white/10 active:scale-95 transition-all cursor-pointer shrink-0"
                         >
@@ -1441,10 +1471,7 @@ export default function OfficeModals({
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={() => {
-                              sound.playClick();
-                              setSelectedProjectIndex(null);
-                            }}
+                            onClick={handleBackToList}
                             className="px-3.5 py-2 rounded-xl bg-[#2a1d17] hover:bg-[#38271f] text-[#f5d070] text-xs font-mono font-bold flex items-center gap-1.5 border border-[#d4af37]/30 transition-all active:scale-95 cursor-pointer"
                           >
                             <FileText className="w-3.5 h-3.5" />
@@ -1554,10 +1581,7 @@ export default function OfficeModals({
                               <div>
                                 {/* Project Thumbnail Preview (Clean: No LIVE, No 16 👁, No Play Overlay) */}
                                 <div
-                                  onClick={() => {
-                                    sound.playClick();
-                                    setSelectedProjectIndex(pIdx);
-                                  }}
+                                  onClick={() => handleOpenProject(pIdx)}
                                   className="relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-black/40 border border-white/5 cursor-pointer mb-3"
                                 >
                                   <img
@@ -1602,10 +1626,7 @@ export default function OfficeModals({
                                 {/* Project Title & Year */}
                                 <div className="flex items-start justify-between gap-1 mb-1">
                                   <h3
-                                    onClick={() => {
-                                      sound.playClick();
-                                      setSelectedProjectIndex(pIdx);
-                                    }}
+                                    onClick={() => handleOpenProject(pIdx)}
                                     className="font-playfair text-base sm:text-lg font-bold text-white group-hover:text-[#e5be7a] transition-colors leading-snug line-clamp-2 cursor-pointer"
                                   >
                                     {proj.title.split(" — ")[0]}
@@ -1647,10 +1668,7 @@ export default function OfficeModals({
                               <div className="pt-2 border-t border-[#f4ebdc]/10 space-y-2">
                                 <button
                                   type="button"
-                                  onClick={() => {
-                                    sound.playClick();
-                                    setSelectedProjectIndex(pIdx);
-                                  }}
+                                  onClick={() => handleOpenProject(pIdx)}
                                   className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#d4a359] via-[#e5be7a] to-[#d4a359] hover:brightness-110 text-[#1a120c] font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all active:scale-95 cursor-pointer"
                                 >
                                   <span>{language === "th" ? "ดูรายละเอียดโปรเจกต์" : "View Project Details"}</span>

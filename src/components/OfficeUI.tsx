@@ -147,7 +147,7 @@ export default function OfficeUI({
   return (
     <>
       {/* 1. TOP RIGHT: Night Mode + Rain Ambience + Sound + Lang + Resume + Menu */}
-      <div className="fixed top-3 right-3 sm:top-8 sm:right-8 z-40 flex items-center gap-1.5 sm:gap-2.5">
+      <div className="fixed top-3 right-3 sm:top-8 sm:right-8 z-40 flex items-center gap-1 sm:gap-2.5 max-w-[calc(100vw-1.5rem)]">
         {/* Day / Night Mode Toggle */}
         <button
           onClick={onToggleNightMode}
@@ -208,9 +208,9 @@ export default function OfficeUI({
           onClick={() => sound.playClick()}
           aria-label="View and Download Resume (PDF)"
           title="View and Download Resume (PDF)"
-          className="hidden md:flex items-center gap-1.5 px-3.5 h-10 sm:h-11 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] hover:text-[#f2b705] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl text-xs font-mono font-bold tracking-wider transition-all hover:scale-105 active:scale-95"
+          className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 h-9 sm:h-11 rounded-full bg-[#1e1713]/85 hover:bg-[#342720] text-[#f4ebdc] hover:text-[#f2b705] border border-[#f4ebdc]/15 backdrop-blur-md shadow-xl text-[10px] sm:text-xs font-mono font-bold tracking-wider transition-all hover:scale-105 active:scale-95 shrink-0"
         >
-          <FileText className="w-3.5 h-3.5 text-[#f2b705]" />
+          <FileText className="w-3.5 h-3.5 text-[#f2b705] shrink-0" />
           <span>{t.ui.resumeBtn || "Resume CV"}</span>
         </a>
 
