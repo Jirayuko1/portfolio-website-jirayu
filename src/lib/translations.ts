@@ -172,44 +172,6 @@ export const translations = {
         gallerySubtitle: "Click any image to enlarge in full-screen lightbox",
         projects: [
           {
-            title: "ARENA LIVE: FIGHTER BLAZE — TikTok Live Interactive Game (16-Bit Cyber City)",
-            type: "16-Bit Pixel Battle Royale · Full-Stack Web & Real-Time Backend",
-            year: "2025",
-            desc: "Cyberpunk 16-bit pixel battle royale game built for TikTok Live streams. Connects live viewer comments, likes, and gifts to real-time fighter physics, special attacks, and ring-out mechanics.",
-            solved: "Engineered real-time WebSocket bridge between Python stream listeners and Next.js/React frontend; handled high-frequency burst gift events with zero dropped frames.",
-            stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
-            github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
-            demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
-            images: [
-              {
-                url: "/images/projects/arena-live/arena-live-gameplay.webp",
-                caption: "ARENA LIVE: FIGHTER BLAZE — Live Battle Royale with 9:16 stream overlay and real-time simulator",
-              },
-            ],
-            architecture: {
-              overview: "Cyberpunk 16-bit battle royale streaming ecosystem designed for TikTok Live. Connects real-time live events (chat, likes, shares, gifts) directly to 2D circular arena physics, fighter spawning, attacks, and ring-out mechanics rendered on OBS Studio.",
-              problemStatement: "Most live game streams suffer from low audience retention because viewers have no immediate tangible impact on gameplay. Furthermore, rapid burst gifting during high-viewer broadcasts causes frame drops, event loss, and severe websocket connection lag.",
-              solutionApproach: "Engineered an event-driven architecture using a high-throughput Python stream listener connected via low-latency WebSocket bridge to a Next.js/React game canvas. Added an event queue buffer that digests bursts smoothly without dropped packets, plus a dual-view system separating the 9:16 OBS overlay from the admin control cockpit.",
-              techRoles: [
-                { name: "Next.js & React", role: "Render 16-bit canvas arena, real-time leaderboard, and responsive OBS overlay & Admin control panel" },
-                { name: "Node.js & WebSockets", role: "High-frequency bi-directional bridge broadcasting stream events to the client with <50ms latency" },
-                { name: "Python", role: "TikTok Live listener handling stream scraping, event authentication, and normalization" },
-                { name: "Tailwind CSS", role: "Cyberpunk neon aesthetic styling, 16-bit retro typography, and 1080x1920 portrait layouts" },
-              ],
-              keyHighlights: [
-                { title: "Burst Event Queue", desc: "Buffers high-frequency viewer gift bursts with zero frame drops or UI stuttering." },
-                { title: "OBS Transparent Chroma", desc: "Native browser source integration supporting transparent background keying at 60fps." },
-                { title: "Built-in Battle Simulator", desc: "Interactive bot simulation tools allowing streamers to test events and mechanics offline." },
-              ],
-              workflowSteps: [
-                { step: "01", title: "Viewer Action", desc: "Audience sends comments, likes, or gifts inside TikTok Live." },
-                { step: "02", title: "Stream Ingestion", desc: "Python listener captures raw events and formats payload into standardized JSON." },
-                { step: "03", title: "WebSocket Dispatch", desc: "Node.js server pushes real-time event packets to browser client with sub-50ms latency." },
-                { step: "04", title: "Physics & Ring-Out", desc: "Browser engine spawns fighter, calculates combat knockbacks, and updates live leaderboard." },
-              ],
-            },
-          },
-          {
             title: "Aura Mobile App — Smart Hotel Operations & Task Dispatch",
             type: "Mobile App (iOS & Android) & Cloud Backend",
             year: "2025",
@@ -272,56 +234,6 @@ export const translations = {
             },
           },
           {
-            title: "Pobsuk (พบสุข) — AI Senior Activity Booking on LINE OA & LIFF",
-            type: "AI & Full-Stack Web Platform · LINE Official Account",
-            year: "2025",
-            desc: "AI assistant and digital booking platform for senior community activities. Integrates LINE Messaging API with Google Gemini AI to analyze intents naturally and issues digital tickets via LINE LIFF web app.",
-            solved: "Designed automated fallback between Gemini 3.1 & 3.5 Flash Lite, built atomic concurrency locks in PostgreSQL/PostGIS to prevent overbooking, and implemented real-time LINE typing animations.",
-            stack: ["LINE OA", "LINE LIFF", "Gemini AI", "React", "Node.js", "Express", "Supabase", "PostgreSQL", "PostGIS"],
-            github: "https://github.com/Jirayuko1/pobsuk",
-            images: [
-              {
-                url: "/images/projects/pobsuk/pobsuk-richmenu.webp",
-                caption: "Pobsuk LINE Official Account with Custom Rich Menu & Quick Senior Actions",
-              },
-              {
-                url: "/images/projects/pobsuk/pobsuk-line-chat.webp",
-                caption: "Natural Language Conversational Booking with Gemini AI & Digital Ticket Link",
-              },
-              {
-                url: "/images/projects/pobsuk/pobsuk-liff-home.webp",
-                caption: "LINE LIFF Web App Home Screen — Activity Categories & Ticket Wallet",
-              },
-              {
-                url: "/images/projects/pobsuk/pobsuk-liff-profile.webp",
-                caption: "LINE LIFF Profile Integration with Senior Health & Event Schedule",
-              },
-            ],
-            architecture: {
-              overview: "Empathetic conversational AI booking platform and digital ticket system designed specifically for senior citizens and caregivers. Integrates LINE Messaging API with Google Gemini AI to analyze booking requests naturally, issuing verified tickets via LINE LIFF web app.",
-              problemStatement: "Elderly citizens struggle with standard mobile apps requiring complex navigation, app-store downloads, and tedious form fills. Moreover, senior events require physical accommodation tracking (e.g., wheelchair access, chronic conditions), and multiple simultaneous bookings can cause catastrophic overbooking.",
-              solutionApproach: "Engineered a zero-barrier LINE Official Account workflow utilizing Gemini 3.1 & 3.5 Flash Lite with automated fallback for natural conversational booking. Implemented atomic transaction triggers in PostgreSQL/PostGIS to guarantee zero overbooking and dynamic typing animations to create a welcoming conversational feel.",
-              techRoles: [
-                { name: "LINE OA & Messaging API", role: "Zero-barrier communication channel allowing seniors to book using conversational text" },
-                { name: "LINE LIFF (React + Vite)", role: "Lightweight in-app web application rendering digital event tickets and QR codes" },
-                { name: "Google Gemini AI", role: "Dual-model natural language intent analysis (3.1 & 3.5 Flash Lite) with automated fallback" },
-                { name: "Node.js & Express", role: "Backend webhook processor managing event lifecycle, typing animations, and API bridge" },
-                { name: "Supabase & PostgreSQL", role: "Relational database with PostGIS geographic coordinates and atomic booking triggers" },
-              ],
-              keyHighlights: [
-                { title: "Atomic Trigger Locks", desc: "Database-level stored procedure handles concurrent bookings with zero overbooking risk." },
-                { title: "Senior Physical Profiling", desc: "Tracks wheelchair requirements, standing limitations, and emergency caregiver contacts." },
-                { title: "LINE Typing Animation", desc: "Displays real-time typing indicators while AI generates thoughtful, senior-friendly replies." },
-              ],
-              workflowSteps: [
-                { step: "01", title: "LINE Chat Message", desc: "Senior citizen or caregiver texts intent to book an activity in LINE OA." },
-                { step: "02", title: "Gemini NLU Analysis", desc: "Gemini evaluates message against current active database events to detect intent." },
-                { step: "03", title: "Atomic DB Booking", desc: "PostgreSQL function validates remaining capacity and atomically commits ticket." },
-                { step: "04", title: "Digital LIFF Ticket", desc: "LINE sends confirmation message with one-tap link to view digital ticket in LIFF." },
-              ],
-            },
-          },
-          {
             title: "Voice-Bot-Bella — Bella Digital Bank & WebAvatar Voice Assistant",
             type: "FinTech Web App · Multimodal AI Voice & Financial Advisory Engine",
             year: "2025",
@@ -376,6 +288,94 @@ export const translations = {
                 { step: "02", title: "Intent Routing & Handoff", desc: "Master Router analyzes topic and hands off state to relevant advisory module." },
                 { step: "03", title: "Diagnostic Calculation", desc: "Math engine calculates DSR, net surplus, and required emergency runway months." },
                 { step: "04", title: "Actionable Advisory", desc: "Bella provides voice feedback, personalized charts, and tailored savings goals." },
+              ],
+            },
+          },
+          {
+            title: "Pobsuk (พบสุข) — AI Senior Activity Booking on LINE OA & LIFF",
+            type: "AI & Full-Stack Web Platform · LINE Official Account",
+            year: "2025",
+            desc: "AI assistant and digital booking platform for senior community activities. Integrates LINE Messaging API with Google Gemini AI to analyze intents naturally and issues digital tickets via LINE LIFF web app.",
+            solved: "Designed automated fallback between Gemini 3.1 & 3.5 Flash Lite, built atomic concurrency locks in PostgreSQL/PostGIS to prevent overbooking, and implemented real-time LINE typing animations.",
+            stack: ["LINE OA", "LINE LIFF", "Gemini AI", "React", "Node.js", "Express", "Supabase", "PostgreSQL", "PostGIS"],
+            github: "https://github.com/Jirayuko1/pobsuk",
+            images: [
+              {
+                url: "/images/projects/pobsuk/pobsuk-richmenu.webp",
+                caption: "Pobsuk LINE Official Account with Custom Rich Menu & Quick Senior Actions",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-line-chat.webp",
+                caption: "Natural Language Conversational Booking with Gemini AI & Digital Ticket Link",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-liff-home.webp",
+                caption: "LINE LIFF Web App Home Screen — Activity Categories & Ticket Wallet",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-liff-profile.webp",
+                caption: "LINE LIFF Profile Integration with Senior Health & Event Schedule",
+              },
+            ],
+            architecture: {
+              overview: "Empathetic conversational AI booking platform and digital ticket system designed specifically for senior citizens and caregivers. Integrates LINE Messaging API with Google Gemini AI to analyze booking requests naturally, issuing verified tickets via LINE LIFF web app.",
+              problemStatement: "Elderly citizens struggle with standard mobile apps requiring complex navigation, app-store downloads, and tedious form fills. Moreover, senior events require physical accommodation tracking (e.g., wheelchair access, chronic conditions), and multiple simultaneous bookings can cause catastrophic overbooking.",
+              solutionApproach: "Engineered a zero-barrier LINE Official Account workflow utilizing Gemini 3.1 & 3.5 Flash Lite with automated fallback for natural conversational booking. Implemented atomic transaction triggers in PostgreSQL/PostGIS to guarantee zero overbooking and dynamic typing animations to create a welcoming conversational feel.",
+              techRoles: [
+                { name: "LINE OA & Messaging API", role: "Zero-barrier communication channel allowing seniors to book using conversational text" },
+                { name: "LINE LIFF (React + Vite)", role: "Lightweight in-app web application rendering digital event tickets and QR codes" },
+                { name: "Google Gemini AI", role: "Dual-model natural language intent analysis (3.1 & 3.5 Flash Lite) with automated fallback" },
+                { name: "Node.js & Express", role: "Backend webhook processor managing event lifecycle, typing animations, and API bridge" },
+                { name: "Supabase & PostgreSQL", role: "Relational database with PostGIS geographic coordinates and atomic booking triggers" },
+              ],
+              keyHighlights: [
+                { title: "Atomic Trigger Locks", desc: "Database-level stored procedure handles concurrent bookings with zero overbooking risk." },
+                { title: "Senior Physical Profiling", desc: "Tracks wheelchair requirements, standing limitations, and emergency caregiver contacts." },
+                { title: "LINE Typing Animation", desc: "Displays real-time typing indicators while AI generates thoughtful, senior-friendly replies." },
+              ],
+              workflowSteps: [
+                { step: "01", title: "LINE Chat Message", desc: "Senior citizen or caregiver texts intent to book an activity in LINE OA." },
+                { step: "02", title: "Gemini NLU Analysis", desc: "Gemini evaluates message against current active database events to detect intent." },
+                { step: "03", title: "Atomic DB Booking", desc: "PostgreSQL function validates remaining capacity and atomically commits ticket." },
+                { step: "04", title: "Digital LIFF Ticket", desc: "LINE sends confirmation message with one-tap link to view digital ticket in LIFF." },
+              ],
+            },
+          },
+          {
+            title: "ARENA LIVE: FIGHTER BLAZE — TikTok Live Interactive Game (16-Bit Cyber City)",
+            type: "16-Bit Pixel Battle Royale · Full-Stack Web & Real-Time Backend",
+            year: "2025",
+            desc: "Cyberpunk 16-bit pixel battle royale game built for TikTok Live streams. Connects live viewer comments, likes, and gifts to real-time fighter physics, special attacks, and ring-out mechanics.",
+            solved: "Engineered real-time WebSocket bridge between Python stream listeners and Next.js/React frontend; handled high-frequency burst gift events with zero dropped frames.",
+            stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
+            github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
+            demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
+            images: [
+              {
+                url: "/images/projects/arena-live/arena-live-gameplay.webp",
+                caption: "ARENA LIVE: FIGHTER BLAZE — Live Battle Royale with 9:16 stream overlay and real-time simulator",
+              },
+            ],
+            architecture: {
+              overview: "Cyberpunk 16-bit battle royale streaming ecosystem designed for TikTok Live. Connects real-time live events (chat, likes, shares, gifts) directly to 2D circular arena physics, fighter spawning, attacks, and ring-out mechanics rendered on OBS Studio.",
+              problemStatement: "Most live game streams suffer from low audience retention because viewers have no immediate tangible impact on gameplay. Furthermore, rapid burst gifting during high-viewer broadcasts causes frame drops, event loss, and severe websocket connection lag.",
+              solutionApproach: "Engineered an event-driven architecture using a high-throughput Python stream listener connected via low-latency WebSocket bridge to a Next.js/React game canvas. Added an event queue buffer that digests bursts smoothly without dropped packets, plus a dual-view system separating the 9:16 OBS overlay from the admin control cockpit.",
+              techRoles: [
+                { name: "Next.js & React", role: "Render 16-bit canvas arena, real-time leaderboard, and responsive OBS overlay & Admin control panel" },
+                { name: "Node.js & WebSockets", role: "High-frequency bi-directional bridge broadcasting stream events to the client with <50ms latency" },
+                { name: "Python", role: "TikTok Live listener handling stream scraping, event authentication, and normalization" },
+                { name: "Tailwind CSS", role: "Cyberpunk neon aesthetic styling, 16-bit retro typography, and 1080x1920 portrait layouts" },
+              ],
+              keyHighlights: [
+                { title: "Burst Event Queue", desc: "Buffers high-frequency viewer gift bursts with zero frame drops or UI stuttering." },
+                { title: "OBS Transparent Chroma", desc: "Native browser source integration supporting transparent background keying at 60fps." },
+                { title: "Built-in Battle Simulator", desc: "Interactive bot simulation tools allowing streamers to test events and mechanics offline." },
+              ],
+              workflowSteps: [
+                { step: "01", title: "Viewer Action", desc: "Audience sends comments, likes, or gifts inside TikTok Live." },
+                { step: "02", title: "Stream Ingestion", desc: "Python listener captures raw events and formats payload into standardized JSON." },
+                { step: "03", title: "WebSocket Dispatch", desc: "Node.js server pushes real-time event packets to browser client with sub-50ms latency." },
+                { step: "04", title: "Physics & Ring-Out", desc: "Browser engine spawns fighter, calculates combat knockbacks, and updates live leaderboard." },
               ],
             },
           },
@@ -643,44 +643,6 @@ export const translations = {
         gallerySubtitle: "แตะหรือคลิกที่รูปภาพเพื่อเปิดดูขนาดใหญ่ (Full-Screen Lightbox)",
         projects: [
           {
-            title: "ARENA LIVE: FIGHTER BLAZE — สังเวียนดาดฟ้าไซเบอร์พังก์ TikTok Live 16-Bit Cyber City",
-            type: "16-Bit Pixel Battle Royale · Full-Stack Web & ระบบแบ็กเอนด์แบบเรียลไทม์",
-            year: "2025",
-            desc: "เกมต่อสู้แบทเทิลรอยัลสไตล์ Cyberpunk 16-Bit Pixel บนสตรีมสด TikTok Live ที่เชื่อมโยงคอมเมนต์ กดไลก์ และของขวัญจากผู้ชม เข้ากับสังเวียนวงกลมเรืองแสง ชก ต่อย ฟัน ผลักตกเวทีด้วย WebSocket ความหน่วงต่ำระดับเสี้ยววินาที",
-            solved: "ออกแบบระบบเชื่อมต่อ Event Stream แบบ High-Throughput ด้วย Python และ Node.js WebSocket Bridge พร้อม Simulator จำลองการต่อสู้และระบบ OBS Overlay ในตัว",
-            stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
-            github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
-            demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
-            images: [
-              {
-                url: "/images/projects/arena-live/arena-live-gameplay.webp",
-                caption: "หน้าจอจำลองการต่อสู้ ARENA LIVE: FIGHTER BLAZE พร้อมระบบ OBS Overlay 9:16 และแผงควบคุมแอดมิน",
-              },
-            ],
-            architecture: {
-              overview: "ระบบนิเวศเกมต่อสู้แบทเทิลรอยัลมวยวัดสไตล์ Cyberpunk 16-Bit สำหรับสตรีมเมอร์ TikTok Live เชื่อมต่ออีเวนต์สดจากผู้ชม (คอมเมนต์, กดไลก์, ส่งของขวัญ) เข้ากับระบบฟิสิกส์สังเวียนวงกลมเรืองแสง ชก ต่อย ฟัน และผลักตกเวทีแบบเรียลไทม์บน OBS Studio",
-              problemStatement: "การสตรีมเกมส่วนใหญ่มักประสบปัญหาผู้ชมไม่มีส่วนร่วม (Audience Retention ต่ำ) ผู้ชมส่งของขวัญแต่ไม่มีการตอบสนองทันทีในเกม และเมื่อมีของขวัญรัวเป็นจำนวนมาก (Burst Traffic) ระบบมักกระตุก เกิด Frame Drop หรือข้อความตกหล่น",
-              solutionApproach: "ออกแบบสถาปัตยกรรม Event-Driven Bridge ด้วย Python Listener ดักจับอีเวนต์จากสตรีม แล้วส่งผ่าน WebSocket Bridge ความเร็วสูงเข้าสู่ Next.js/React Game Engine พร้อมระบบบัฟเฟอร์คิวจัดการของขวัญ และหน้าจอคู่แยกอิสระระหว่าง 9:16 OBS Overlay กับแผงควบคุมแอดมิน",
-              techRoles: [
-                { name: "Next.js & React", role: "เรนเดอร์สังเวียนมวย 16-Bit แสดงสถานะนักสู้ กระดานผู้นำ และแผงควบคุมแอดมิน" },
-                { name: "Node.js & WebSockets", role: "ช่องสัญญาณความเร็วสูง รับ-ส่ง Event ของขวัญและคอมเมนต์แบบเรียลไทม์ Sub-second Latency" },
-                { name: "Python", role: "ดักจับ Event สตรีมสด (Chat, Like, Share, Gift) จาก TikTok Live API" },
-                { name: "Tailwind CSS", role: "ดีไซน์สไตล์ Cyberpunk 16-Bit และควบคุม Layout อัตราส่วน 9:16 สำหรับมือถือและ OBS" },
-              ],
-              keyHighlights: [
-                { title: "ระบบคิวรองรับของขวัญรัว (Burst Queue)", desc: "จัดการ Event ของขวัญที่ส่งมารัวๆ ได้อย่างลื่นไหล ไม่มีแพ็กเก็ตสูญหาย (Zero Dropped Packets)" },
-                { title: "รองรับ OBS Browser Source", desc: "หน้าจอ Overlay โปร่งใส พร้อมนำ URL ไปวางใน OBS Studio ได้ทันทีด้วยเฟรมเรต 60fps" },
-                { title: "มี Simulator จำลองในตัว", desc: "สามารถทดสอบการต่อสู้ เสกบอท และจำลองของขวัญได้โดยไม่ต้องเปิดไลฟ์จริง" },
-              ],
-              workflowSteps: [
-                { step: "01", title: "ผู้ชมส่งคำสั่ง", desc: "ผู้ชมพิมพ์คอมเมนต์ เคาะใจ หรือส่งของขวัญใน TikTok Live" },
-                { step: "02", title: "ดักจับข้อมูล", desc: "Python Listener ตรวจจับและแปลง Event เป็นโครงสร้างข้อมูล JSON มาตรฐาน" },
-                { step: "03", title: "ส่งผ่าน WebSocket", desc: "Node.js Server ยิงข้อมูลเข้าสู่หน้าเว็บเกมด้วยความหน่วงต่ำกว่า 50 มิลลิวินาที" },
-                { step: "04", title: "คำนวณและแสดงผล", desc: "เอนจินเกมคำนวณการตกเวที พลังชีวิต และอัปเดตสถิติแชมเปียนแบบเรียลไทม์" },
-              ],
-            },
-          },
-          {
             title: "Aura Mobile App — ระบบจัดการงานโรงแรมอัจฉริยะ (Aura Staff)",
             type: "Mobile App (iOS & Android) & ระบบคลาวด์แบ็กเอนด์",
             year: "2025",
@@ -743,56 +705,6 @@ export const translations = {
             },
           },
           {
-            title: "Pobsuk (พบสุข) — แพลตฟอร์ม AI ผู้ช่วยจองกิจกรรมผู้สูงอายุบน LINE OA & LIFF",
-            type: "AI & เว็บแอปพลิเคชัน Full-Stack · LINE Official Account",
-            year: "2025",
-            desc: "ระบบ AI ผู้ช่วยและบริการจองกิจกรรมส่งเสริมสุขภาพสำหรับผู้สูงอายุ ใช้งานง่ายผ่าน LINE OA ผสานพลัง Google Gemini AI ในการวิเคราะห์เจตนาอย่างเป็นมิตร พร้อมออกตั๋วดิจิทัลผ่าน LINE LIFF",
-            solved: "พัฒนาระบบ AI Fallback เชื่อมโยง Gemini 3.1 และ 3.5 Flash Lite อัตโนมัติ, สร้าง Atomic Trigger ใน PostgreSQL/PostGIS ป้องกันการจองเกินจำนวน และแสดง Loading Animation ระหว่างรอคำตอบ",
-            stack: ["LINE OA", "LINE LIFF", "Gemini AI", "React", "Node.js", "Express", "Supabase", "PostgreSQL", "PostGIS"],
-            github: "https://github.com/Jirayuko1/pobsuk",
-            images: [
-              {
-                url: "/images/projects/pobsuk/pobsuk-richmenu.webp",
-                caption: "LINE Official Account โครงการพบสุข พร้อม Rich Menu เมนูด่วนสำหรับผู้สูงอายุ",
-              },
-              {
-                url: "/images/projects/pobsuk/pobsuk-line-chat.webp",
-                caption: "บทสนทนาจองกิจกรรมด้วยภาษาธรรมชาติผ่าน Gemini AI พร้อมลิงก์ตั๋วดิจิทัล LIFF",
-              },
-              {
-                url: "/images/projects/pobsuk/pobsuk-liff-home.webp",
-                caption: "หน้าแรกเว็บแอปพลิเคชัน LINE LIFF หมวดหมู่กิจกรรมสุขภาพและตั๋วของฉัน",
-              },
-              {
-                url: "/images/projects/pobsuk/pobsuk-liff-profile.webp",
-                caption: "ระบบ LINE LIFF เชื่อมโยงโปรไฟล์ผู้ใช้และข้อมูลกิจกรรมชุมชน",
-              },
-            ],
-            architecture: {
-              overview: "แพลตฟอร์ม AI ผู้ช่วยและบริการจองกิจกรรมส่งเสริมสุขภาพสำหรับผู้สูงอายุ ใช้งานง่ายผ่าน LINE Official Account ผสานพลัง Google Gemini AI ในการวิเคราะห์เจตนาอย่างเป็นมิตร พร้อมออกตั๋วดิจิทัลผ่าน LINE LIFF โดยไม่ต้องติดตั้งแอปพลิเคชันเพิ่มเติม",
-              problemStatement: "ผู้สูงอายุเผชิญอุปสรรคทางเทคโนโลยี (Digital Divide) ไม่คุ้นชินกับการดาวน์โหลดและลงทะเบียนแอปพลิเคชันทั่วไปที่ซับซ้อน นอกจากนี้กิจกรรมผู้สูงอายุต้องการข้อมูลด้านสุขภาพเฉพาะ (เช่น ใช้วีลแชร์, โรคประจำตัว, เบอร์ติดต่อฉุกเฉิน) และมักเจอปัญหาการจองเกินโควตา (Overbooking)",
-              solutionApproach: "ออกแบบระบบผู้ช่วยจองผ่าน LINE OA ที่ผู้สูงอายุคุ้นเคย ผสาน Google Gemini AI (3.1 & 3.5 Flash Lite) พร้อมระบบ Fallback อัตโนมัติ สร้าง Atomic Trigger ในฐานข้อมูล PostgreSQL/PostGIS ป้องกันการจองเกินจำนวน และเชื่อมต่อเว็บแอปพลิเคชัน LINE LIFF สำหรับออกตั๋วดิจิทัล",
-              techRoles: [
-                { name: "LINE OA & Messaging API", role: "ช่องทางหลักที่ผู้สูงอายุเข้าถึงง่าย แชทพูดคุยได้โดยไม่ต้องดาวน์โหลดแอปใหม่" },
-                { name: "LINE LIFF (React + Vite)", role: "เว็บแอปพลิเคชันฝังใน LINE สำหรับแสดงบัตรเข้าร่วมกิจกรรมและ QR Code ตั๋วดิจิทัล" },
-                { name: "Google Gemini AI", role: "วิเคราะห์ข้อความธรรมชาติ (NLU) สกัด Intent และชื่อกิจกรรมด้วยภาษาที่สุภาพและเป็นมิตร" },
-                { name: "Node.js & Express", role: "เว็บเซิร์ฟเวอร์ Webhook เชื่อมต่อระหว่าง LINE, Gemini และ Supabase" },
-                { name: "Supabase (PostgreSQL & PostGIS)", role: "ฐานข้อมูลจัดเก็บพิกัด GPS สถานที่จัดกิจกรรม และฟังก์ชัน Atomic Concurrency Lock" },
-              ],
-              keyHighlights: [
-                { title: "ระบบล็อกที่นั่ง Atomic Trigger", desc: "ฟังก์ชัน `handle_new_booking()` ในฐานข้อมูล ป้องกัน Overbooking ระดับ Transaction" },
-                { title: "บันทึกข้อมูลสุขภาพผู้สูงอายุ", desc: "รองรับการระบุความต้องการพิเศษ เช่น การนั่งวีลแชร์, ข้อจำกัดในการยืน และโรคประจำตัว" },
-                { title: "แสดงอนิเมชันจุดกำลังพิมพ์", desc: "แสดง Loading Animation ใน LINE ระหว่างรอ AI เพื่อความรู้สึกอบอุ่นและไม่ทำให้คิดว่าระบบค้าง" },
-              ],
-              workflowSteps: [
-                { step: "01", title: "แชทใน LINE", desc: "ผู้สูงอายุหรือผู้ดูแลพิมพ์ถามหรือแจ้งความต้องการจองกิจกรรมผ่าน LINE OA" },
-                { step: "02", title: "AI วิเคราะห์เจตนา", desc: "Gemini AI ดึงข้อมูลกิจกรรมจากฐานข้อมูลและวิเคราะห์เจตนาการจอง" },
-                { step: "03", title: "ล็อกที่นั่ง Atomic Lock", desc: "PostgreSQL ตรวจสอบที่นั่งว่างและบันทึกข้อมูลตั๋วโดยไม่มีปัญหาจองซ้ำ" },
-                { step: "04", title: "รับตั๋วดิจิทัล LIFF", desc: "ระบบส่งข้อความยืนยันพร้อมลิงก์ LIFF เปิดดูตั๋วและรายละเอียดกิจกรรมทันที" },
-              ],
-            },
-          },
-          {
             title: "Voice-Bot-Bella — น้องเบลล่า ผู้ช่วยเสียง AI และธนาคารดิจิทัล",
             type: "FinTech เว็บแอปพลิเคชัน · ผู้ช่วยเสียง AI & สถาปัตยกรรมวางแผนการเงิน",
             year: "2025",
@@ -847,6 +759,94 @@ export const translations = {
                 { step: "02", title: "คัดแยกเจตนา & ส่งต่อ State", desc: "AI_Greeting วิเคราะห์ความต้องการและส่งต่อ State เข้าสู่โมดูลการเงินที่ถูกต้อง" },
                 { step: "03", title: "คำนวณสุขภาพการเงิน", desc: "เอนจินการเงินคำนวณ DSR, เงินเหลือสุทธิ และระยะเวลาเงินสำรองฉุกเฉิน" },
                 { step: "04", title: "ให้คำแนะนำและแผนปฏิบัติ", desc: "น้องเบลล่าสรุปผลด้วยเสียง พร้อมแสดงแผนการออมและสินเชื่อที่เหมาะสมบนหน้าจอ" },
+              ],
+            },
+          },
+          {
+            title: "Pobsuk (พบสุข) — แพลตฟอร์ม AI ผู้ช่วยจองกิจกรรมผู้สูงอายุบน LINE OA & LIFF",
+            type: "AI & เว็บแอปพลิเคชัน Full-Stack · LINE Official Account",
+            year: "2025",
+            desc: "ระบบ AI ผู้ช่วยและบริการจองกิจกรรมส่งเสริมสุขภาพสำหรับผู้สูงอายุ ใช้งานง่ายผ่าน LINE OA ผสานพลัง Google Gemini AI ในการวิเคราะห์เจตนาอย่างเป็นมิตร พร้อมออกตั๋วดิจิทัลผ่าน LINE LIFF",
+            solved: "พัฒนาระบบ AI Fallback เชื่อมโยง Gemini 3.1 และ 3.5 Flash Lite อัตโนมัติ, สร้าง Atomic Trigger ใน PostgreSQL/PostGIS ป้องกันการจองเกินจำนวน และแสดง Loading Animation ระหว่างรอคำตอบ",
+            stack: ["LINE OA", "LINE LIFF", "Gemini AI", "React", "Node.js", "Express", "Supabase", "PostgreSQL", "PostGIS"],
+            github: "https://github.com/Jirayuko1/pobsuk",
+            images: [
+              {
+                url: "/images/projects/pobsuk/pobsuk-richmenu.webp",
+                caption: "LINE Official Account โครงการพบสุข พร้อม Rich Menu เมนูด่วนสำหรับผู้สูงอายุ",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-line-chat.webp",
+                caption: "บทสนทนาจองกิจกรรมด้วยภาษาธรรมชาติผ่าน Gemini AI พร้อมลิงก์ตั๋วดิจิทัล LIFF",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-liff-home.webp",
+                caption: "หน้าแรกเว็บแอปพลิเคชัน LINE LIFF หมวดหมู่กิจกรรมสุขภาพและตั๋วของฉัน",
+              },
+              {
+                url: "/images/projects/pobsuk/pobsuk-liff-profile.webp",
+                caption: "ระบบ LINE LIFF เชื่อมโยงโปรไฟล์ผู้ใช้และข้อมูลกิจกรรมชุมชน",
+              },
+            ],
+            architecture: {
+              overview: "แพลตฟอร์ม AI ผู้ช่วยและบริการจองกิจกรรมส่งเสริมสุขภาพสำหรับผู้สูงอายุ ใช้งานง่ายผ่าน LINE Official Account ผสานพลัง Google Gemini AI ในการวิเคราะห์เจตนาอย่างเป็นมิตร พร้อมออกตั๋วดิจิทัลผ่าน LINE LIFF โดยไม่ต้องติดตั้งแอปพลิเคชันเพิ่มเติม",
+              problemStatement: "ผู้สูงอายุเผชิญอุปสรรคทางเทคโนโลยี (Digital Divide) ไม่คุ้นชินกับการดาวน์โหลดและลงทะเบียนแอปพลิเคชันทั่วไปที่ซับซ้อน นอกจากนี้กิจกรรมผู้สูงอายุต้องการข้อมูลด้านสุขภาพเฉพาะ (เช่น ใช้วีลแชร์, โรคประจำตัว, เบอร์ติดต่อฉุกเฉิน) และมักเจอปัญหาการจองเกินโควตา (Overbooking)",
+              solutionApproach: "ออกแบบระบบผู้ช่วยจองผ่าน LINE OA ที่ผู้สูงอายุคุ้นเคย ผสาน Google Gemini AI (3.1 & 3.5 Flash Lite) พร้อมระบบ Fallback อัตโนมัติ สร้าง Atomic Trigger ในฐานข้อมูล PostgreSQL/PostGIS ป้องกันการจองเกินจำนวน และเชื่อมต่อเว็บแอปพลิเคชัน LINE LIFF สำหรับออกตั๋วดิจิทัล",
+              techRoles: [
+                { name: "LINE OA & Messaging API", role: "ช่องทางหลักที่ผู้สูงอายุเข้าถึงง่าย แชทพูดคุยได้โดยไม่ต้องดาวน์โหลดแอปใหม่" },
+                { name: "LINE LIFF (React + Vite)", role: "เว็บแอปพลิเคชันฝังใน LINE สำหรับแสดงบัตรเข้าร่วมกิจกรรมและ QR Code ตั๋วดิจิทัล" },
+                { name: "Google Gemini AI", role: "วิเคราะห์ข้อความธรรมชาติ (NLU) สกัด Intent และชื่อกิจกรรมด้วยภาษาที่สุภาพและเป็นมิตร" },
+                { name: "Node.js & Express", role: "เว็บเซิร์ฟเวอร์ Webhook เชื่อมต่อระหว่าง LINE, Gemini และ Supabase" },
+                { name: "Supabase (PostgreSQL & PostGIS)", role: "ฐานข้อมูลจัดเก็บพิกัด GPS สถานที่จัดกิจกรรม และฟังก์ชัน Atomic Concurrency Lock" },
+              ],
+              keyHighlights: [
+                { title: "ระบบล็อกที่นั่ง Atomic Trigger", desc: "ฟังก์ชัน `handle_new_booking()` ในฐานข้อมูล ป้องกัน Overbooking ระดับ Transaction" },
+                { title: "บันทึกข้อมูลสุขภาพผู้สูงอายุ", desc: "รองรับการระบุความต้องการพิเศษ เช่น การนั่งวีลแชร์, ข้อจำกัดในการยืน และโรคประจำตัว" },
+                { title: "แสดงอนิเมชันจุดกำลังพิมพ์", desc: "แสดง Loading Animation ใน LINE ระหว่างรอ AI เพื่อความรู้สึกอบอุ่นและไม่ทำให้คิดว่าระบบค้าง" },
+              ],
+              workflowSteps: [
+                { step: "01", title: "แชทใน LINE", desc: "ผู้สูงอายุหรือผู้ดูแลพิมพ์ถามหรือแจ้งความต้องการจองกิจกรรมผ่าน LINE OA" },
+                { step: "02", title: "AI วิเคราะห์เจตนา", desc: "Gemini AI ดึงข้อมูลกิจกรรมจากฐานข้อมูลและวิเคราะห์เจตนาการจอง" },
+                { step: "03", title: "ล็อกที่นั่ง Atomic Lock", desc: "PostgreSQL ตรวจสอบที่นั่งว่างและบันทึกข้อมูลตั๋วโดยไม่มีปัญหาจองซ้ำ" },
+                { step: "04", title: "รับตั๋วดิจิทัล LIFF", desc: "ระบบส่งข้อความยืนยันพร้อมลิงก์ LIFF เปิดดูตั๋วและรายละเอียดกิจกรรมทันที" },
+              ],
+            },
+          },
+          {
+            title: "ARENA LIVE: FIGHTER BLAZE — สังเวียนดาดฟ้าไซเบอร์พังก์ TikTok Live 16-Bit Cyber City",
+            type: "16-Bit Pixel Battle Royale · Full-Stack Web & ระบบแบ็กเอนด์แบบเรียลไทม์",
+            year: "2025",
+            desc: "เกมต่อสู้แบทเทิลรอยัลสไตล์ Cyberpunk 16-Bit Pixel บนสตรีมสด TikTok Live ที่เชื่อมโยงคอมเมนต์ กดไลก์ และของขวัญจากผู้ชม เข้ากับสังเวียนวงกลมเรืองแสง ชก ต่อย ฟัน ผลักตกเวทีด้วย WebSocket ความหน่วงต่ำระดับเสี้ยววินาที",
+            solved: "ออกแบบระบบเชื่อมต่อ Event Stream แบบ High-Throughput ด้วย Python และ Node.js WebSocket Bridge พร้อม Simulator จำลองการต่อสู้และระบบ OBS Overlay ในตัว",
+            stack: ["React", "Next.js", "Node.js", "Python", "WebSockets"],
+            github: "https://github.com/Jirayuko1/TikTok-Live-Interactive-Game",
+            demoUrl: "https://tik-tok-live-interactive-game.vercel.app/",
+            images: [
+              {
+                url: "/images/projects/arena-live/arena-live-gameplay.webp",
+                caption: "หน้าจอจำลองการต่อสู้ ARENA LIVE: FIGHTER BLAZE พร้อมระบบ OBS Overlay 9:16 และแผงควบคุมแอดมิน",
+              },
+            ],
+            architecture: {
+              overview: "ระบบนิเวศเกมต่อสู้แบทเทิลรอยัลมวยวัดสไตล์ Cyberpunk 16-Bit สำหรับสตรีมเมอร์ TikTok Live เชื่อมต่ออีเวนต์สดจากผู้ชม (คอมเมนต์, กดไลก์, ส่งของขวัญ) เข้ากับระบบฟิสิกส์สังเวียนวงกลมเรืองแสง ชก ต่อย ฟัน และผลักตกเวทีแบบเรียลไทม์บน OBS Studio",
+              problemStatement: "การสตรีมเกมส่วนใหญ่มักประสบปัญหาผู้ชมไม่มีส่วนร่วม (Audience Retention ต่ำ) ผู้ชมส่งของขวัญแต่ไม่มีการตอบสนองทันทีในเกม และเมื่อมีของขวัญรัวเป็นจำนวนมาก (Burst Traffic) ระบบมักกระตุก เกิด Frame Drop หรือข้อความตกหล่น",
+              solutionApproach: "ออกแบบสถาปัตยกรรม Event-Driven Bridge ด้วย Python Listener ดักจับอีเวนต์จากสตรีม แล้วส่งผ่าน WebSocket Bridge ความเร็วสูงเข้าสู่ Next.js/React Game Engine พร้อมระบบบัฟเฟอร์คิวจัดการของขวัญ และหน้าจอคู่แยกอิสระระหว่าง 9:16 OBS Overlay กับแผงควบคุมแอดมิน",
+              techRoles: [
+                { name: "Next.js & React", role: "เรนเดอร์สังเวียนมวย 16-Bit แสดงสถานะนักสู้ กระดานผู้นำ และแผงควบคุมแอดมิน" },
+                { name: "Node.js & WebSockets", role: "ช่องสัญญาณความเร็วสูง รับ-ส่ง Event ของขวัญและคอมเมนต์แบบเรียลไทม์ Sub-second Latency" },
+                { name: "Python", role: "ดักจับ Event สตรีมสด (Chat, Like, Share, Gift) จาก TikTok Live API" },
+                { name: "Tailwind CSS", role: "ดีไซน์สไตล์ Cyberpunk 16-Bit และควบคุม Layout อัตราส่วน 9:16 สำหรับมือถือและ OBS" },
+              ],
+              keyHighlights: [
+                { title: "ระบบคิวรองรับของขวัญรัว (Burst Queue)", desc: "จัดการ Event ของขวัญที่ส่งมารัวๆ ได้อย่างลื่นไหล ไม่มีแพ็กเก็ตสูญหาย (Zero Dropped Packets)" },
+                { title: "รองรับ OBS Browser Source", desc: "หน้าจอ Overlay โปร่งใส พร้อมนำ URL ไปวางใน OBS Studio ได้ทันทีด้วยเฟรมเรต 60fps" },
+                { title: "มี Simulator จำลองในตัว", desc: "สามารถทดสอบการต่อสู้ เสกบอท และจำลองของขวัญได้โดยไม่ต้องเปิดไลฟ์จริง" },
+              ],
+              workflowSteps: [
+                { step: "01", title: "ผู้ชมส่งคำสั่ง", desc: "ผู้ชมพิมพ์คอมเมนต์ เคาะใจ หรือส่งของขวัญใน TikTok Live" },
+                { step: "02", title: "ดักจับข้อมูล", desc: "Python Listener ตรวจจับและแปลง Event เป็นโครงสร้างข้อมูล JSON มาตรฐาน" },
+                { step: "03", title: "ส่งผ่าน WebSocket", desc: "Node.js Server ยิงข้อมูลเข้าสู่หน้าเว็บเกมด้วยความหน่วงต่ำกว่า 50 มิลลิวินาที" },
+                { step: "04", title: "คำนวณและแสดงผล", desc: "เอนจินเกมคำนวณการตกเวที พลังชีวิต และอัปเดตสถิติแชมเปียนแบบเรียลไทม์" },
               ],
             },
           },

@@ -387,7 +387,13 @@ export default function OfficeModals({
                         1: "https://github.com/Jirayuko1/pobsuk",
                         2: "https://github.com/Jirayuko1/Voice-Bot-Bella",
                       };
-                      const targetProjIndex = idx + 1; // 0->Aura (1), 1->Pobsuk (2), 2->Bella (3)
+                      // Project order: 0: Aura, 1: Bella, 2: Pobsuk, 3: Arena Live
+                      const appTargetProjectMap: Record<number, number> = {
+                        0: 0, // Aura Staff -> Project 0 (Aura)
+                        1: 2, // Pobsuk -> Project 2 (Pobsuk)
+                        2: 1, // Bella -> Project 1 (Bella)
+                      };
+                      const targetProjIndex = appTargetProjectMap[idx] ?? 0;
 
                       return (
                         <div
@@ -1537,6 +1543,8 @@ export default function OfficeModals({
                           const projectNumber = `0${pIdx + 1}`;
                           const isMobile = proj.type.toLowerCase().includes("mobile") || proj.type.toLowerCase().includes("มือถือ");
                           const isGame = proj.type.toLowerCase().includes("game");
+                          const isVoiceBella = proj.title.toLowerCase().includes("bella") || proj.type.toLowerCase().includes("voice") || proj.type.toLowerCase().includes("fintech");
+                          const isPobsuk = proj.title.toLowerCase().includes("pobsuk") || proj.title.includes("พบสุข");
 
                           return (
                             <div
@@ -1566,17 +1574,19 @@ export default function OfficeModals({
                                         <Gamepad2 className="w-3 h-3 text-[#e5be7a]" />
                                       ) : isMobile ? (
                                         <Smartphone className="w-3 h-3 text-[#e5be7a]" />
+                                      ) : isVoiceBella ? (
+                                        <Sparkles className="w-3 h-3 text-[#e5be7a]" />
                                       ) : (
                                         <Globe className="w-3 h-3 text-[#e5be7a]" />
                                       )}
                                       <span>
                                         {isMobile
                                           ? "Mobile App"
-                                          : isGame
-                                          ? "16-Bit Game"
-                                          : pIdx === 2
+                                          : isVoiceBella
+                                          ? "FinTech & Voice AI"
+                                          : isPobsuk
                                           ? "AI & LINE LIFF"
-                                          : "FinTech & Voice AI"}
+                                          : "16-Bit Game"}
                                       </span>
                                     </span>
                                   </div>
